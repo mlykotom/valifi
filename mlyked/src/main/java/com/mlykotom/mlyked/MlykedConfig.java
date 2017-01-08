@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.regex.Pattern;
 
 
-public class ValidationConfig {
+public class MlykedConfig {
 	// ----- Error Resources
 	public static final int ERROR_RES_NOT_EMPTY = 0;
 	public static final int ERROR_RES_LENGTH_MIN = 1;
@@ -33,7 +33,7 @@ public class ValidationConfig {
 	public static final int PATTERN_COUNT = PATTERN_USERNAME + 1;
 
 	@SuppressLint("StaticFieldLeak")
-	private static ValidationConfig ourInstance;
+	private static MlykedConfig ourInstance;
 	private final Context mAppContext;
 	private final ValidationParams mParameters;
 
@@ -64,7 +64,7 @@ public class ValidationConfig {
 	@interface ValidationPattern {}
 
 
-	private ValidationConfig(Context appContext, @NonNull ValidationParams parameters) {
+	private MlykedConfig(Context appContext, @NonNull ValidationParams parameters) {
 		mAppContext = appContext;
 		mParameters = parameters;
 	}
@@ -78,7 +78,7 @@ public class ValidationConfig {
 	 * @param parameters overriden settings for validation
 	 */
 	public static void install(Application appContext, ValidationParams parameters) {
-		ourInstance = new ValidationConfig(appContext, parameters);
+		ourInstance = new MlykedConfig(appContext, parameters);
 	}
 
 
@@ -99,8 +99,8 @@ public class ValidationConfig {
 	 * @return builder with fluent api to override settings
 	 */
 	@NonNull
-	public static ValidationConfigBuilder newConfigBuilder() {
-		return new ValidationConfigBuilder();
+	public static MlykedConfigBuilder newConfigBuilder() {
+		return new MlykedConfigBuilder();
 	}
 
 
@@ -122,9 +122,9 @@ public class ValidationConfig {
 	}
 
 
-	private static ValidationConfig getInstance() {
+	private static MlykedConfig getInstance() {
 		if(ourInstance == null) {
-			throw new RuntimeException("ValidationConfig must be installed in Application.onCreate()!");
+			throw new RuntimeException("MlykedConfig must be installed in Application.onCreate()!");
 		}
 
 		return ourInstance;

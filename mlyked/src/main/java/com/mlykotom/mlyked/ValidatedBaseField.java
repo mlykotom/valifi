@@ -255,7 +255,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 * @see #addVerifyFieldValidator(String, ValidatedBaseField)
 	 */
 	public ValidatedBaseField<ValueType> addVerifyFieldValidator(@StringRes int errorResource, final ValidatedBaseField<ValueType> targetField) {
-		String errorMessage = ValidationConfig.getContext().getString(errorResource);
+		String errorMessage = MlykedConfig.getContext().getString(errorResource);
 		return addVerifyFieldValidator(errorMessage, targetField);
 	}
 
@@ -297,7 +297,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 
 
 	public ValidatedBaseField<ValueType> addCustomValidator(@StringRes int errorResource, PropertyValidator<ValueType> validator) {
-		String errorMessage = ValidationConfig.getContext().getString(errorResource);
+		String errorMessage = MlykedConfig.getContext().getString(errorResource);
 		return addCustomValidator(errorMessage, validator);
 	}
 

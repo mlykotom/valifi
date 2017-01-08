@@ -4,31 +4,31 @@ import android.support.annotation.StringRes;
 
 import java.util.regex.Pattern;
 
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_COUNT;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_EMAIL;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_LENGTH_EXACT;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_LENGTH_MAX;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_LENGTH_MIN;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_LENGTH_RANGE;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_NOT_EMPTY;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_PASSWORD;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_PHONE;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_USERNAME;
-import static com.mlykotom.mlyked.ValidationConfig.ERROR_RES_YEARS_OLDER_THAN;
-import static com.mlykotom.mlyked.ValidationConfig.PATTERN_COUNT;
-import static com.mlykotom.mlyked.ValidationConfig.PATTERN_EMAIL;
-import static com.mlykotom.mlyked.ValidationConfig.PATTERN_PASSWORD;
-import static com.mlykotom.mlyked.ValidationConfig.PATTERN_PHONE;
-import static com.mlykotom.mlyked.ValidationConfig.PATTERN_USERNAME;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_COUNT;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_EMAIL;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_LENGTH_EXACT;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_LENGTH_MAX;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_LENGTH_MIN;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_LENGTH_RANGE;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_NOT_EMPTY;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_PASSWORD;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_PHONE;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_USERNAME;
+import static com.mlykotom.mlyked.MlykedConfig.ERROR_RES_YEARS_OLDER_THAN;
+import static com.mlykotom.mlyked.MlykedConfig.PATTERN_COUNT;
+import static com.mlykotom.mlyked.MlykedConfig.PATTERN_EMAIL;
+import static com.mlykotom.mlyked.MlykedConfig.PATTERN_PASSWORD;
+import static com.mlykotom.mlyked.MlykedConfig.PATTERN_PHONE;
+import static com.mlykotom.mlyked.MlykedConfig.PATTERN_USERNAME;
 
 
-public class ValidationConfigBuilder
+public class MlykedConfigBuilder
 {
 	private Pattern[] mPatterns;
 	private int[] mErrorResources;
 
 
-	ValidationConfigBuilder()
+	MlykedConfigBuilder()
 	{
 		mPatterns = new Pattern[PATTERN_COUNT];
 		mErrorResources = new int[ERROR_RES_COUNT];
@@ -45,7 +45,7 @@ public class ValidationConfigBuilder
 	 * @param value
 	 * @return
 	 */
-	public ValidationConfigBuilder setErrorResource(@ValidationConfig.ValidationErrorResource int field, @StringRes int value)
+	public MlykedConfigBuilder setErrorResource(@MlykedConfig.ValidationErrorResource int field, @StringRes int value)
 	{
 		mErrorResources[field] = value;
 		return this;
@@ -59,7 +59,7 @@ public class ValidationConfigBuilder
 	 * @param value
 	 * @return
 	 */
-	public ValidationConfigBuilder setPattern(@ValidationConfig.ValidationPattern int field, Pattern value)
+	public MlykedConfigBuilder setPattern(@MlykedConfig.ValidationPattern int field, Pattern value)
 	{
 		mPatterns[field] = value;
 		return this;
