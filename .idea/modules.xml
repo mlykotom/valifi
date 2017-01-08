@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/MlykoTom.iml" filepath="$PROJECT_DIR$/MlykoTom.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
       <module fileurl="file://$PROJECT_DIR$/example-viewmodel/example-viewmodel.iml" filepath="$PROJECT_DIR$/example-viewmodel/example-viewmodel.iml" />
-      <module fileurl="file://$PROJECT_DIR$/validation/validation.iml" filepath="$PROJECT_DIR$/validation/validation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mlyked/mlyked.iml" filepath="$PROJECT_DIR$/mlyked/mlyked.iml" />
     </modules>
   </component>
 </project>
