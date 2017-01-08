@@ -9,8 +9,6 @@ public class ExampleViewModelApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
-		Mlyked.install(this, new Mlyked.Builder()
-				.build());
+		Mlyked.install(this);
 	}
 }

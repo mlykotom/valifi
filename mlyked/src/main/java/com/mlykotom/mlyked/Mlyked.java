@@ -47,7 +47,7 @@ public class Mlyked {
 	}
 
 
-	// ------ Might be used for ValidatedField
+	// ------ Might be used for ValidatedTextField
 
 
 	static int getErrorRes(@Builder.ValidationErrorResource int field) {

@@ -3,7 +3,7 @@ package com.mlykotom.mlyked;
 import android.support.annotation.StringRes;
 
 
-public class ValidatedPasswordField extends ValidatedField {
+public class ValidatedPasswordField extends ValidatedTextField {
 	public ValidatedPasswordField() {
 		super();
 		super.addPasswordValidator();

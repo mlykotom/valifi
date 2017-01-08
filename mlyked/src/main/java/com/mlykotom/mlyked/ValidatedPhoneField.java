@@ -3,7 +3,7 @@ package com.mlykotom.mlyked;
 import android.support.annotation.StringRes;
 
 
-public class ValidatedPhoneField extends ValidatedField
+public class ValidatedPhoneField extends ValidatedTextField
 {
 	public ValidatedPhoneField()
 	{

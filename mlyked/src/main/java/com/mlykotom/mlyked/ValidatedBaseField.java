@@ -117,8 +117,8 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 *
 	 * @param fields to be cleansed
 	 */
-	public static void destroyAll(ValidatedField... fields) {
-		for(ValidatedField field : fields) {
+	public static void destroyAll(ValidatedTextField... fields) {
+		for(ValidatedTextField field : fields) {
 			field.destroy();
 		}
 	}
