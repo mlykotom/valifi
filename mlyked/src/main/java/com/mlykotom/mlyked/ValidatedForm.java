@@ -1,4 +1,4 @@
-package com.mlykotom.validation;
+package com.mlykotom.mlyked;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -66,6 +66,6 @@ public class ValidatedForm extends BaseObservable {
 	 * @param field which was changed
 	 */
 	void fieldValidationChanged(ValidatedBaseField field) {
-		notifyPropertyChanged(com.mlykotom.validation.BR.isFormValid);
+		notifyPropertyChanged(com.mlykotom.mlyked.BR.isFormValid);
 	}
 }

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.mlykotom.example.databinding.ActivityExampleBinding;
-import com.mlykotom.validation.ValidatedEmailField;
+import com.mlykotom.mlyked.ValidatedEmailField;
 
 
 public class ExampleActivity extends AppCompatActivity {

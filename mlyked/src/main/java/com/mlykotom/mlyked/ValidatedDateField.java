@@ -1,4 +1,4 @@
-package com.mlykotom.validation;
+package com.mlykotom.mlyked;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

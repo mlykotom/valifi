@@ -1,4 +1,4 @@
-package com.mlykotom.validation;
+package com.mlykotom.mlyked;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -38,12 +38,12 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	protected OnPropertyChangedCallback mCallback = new OnPropertyChangedCallback() {
 		@Override
 		public void onPropertyChanged(Observable observable, int brId) {
-			if(brId != com.mlykotom.validation.BR.value) return;
+			if(brId != com.mlykotom.mlyked.BR.value) return;
 
 			if(mBoundFields != null) {
 				for(ValidatedBaseField field : mBoundFields) {
 					if(!field.mIsChanged) continue;    // notifies only changed items
-					field.notifyPropertyChanged(com.mlykotom.validation.BR.value);
+					field.notifyPropertyChanged(com.mlykotom.mlyked.BR.value);
 				}
 			}
 
@@ -173,7 +173,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 		if((value == mValue) || (value != null && value.equals(mValue))) return;
 
 		mValue = value;
-		notifyPropertyChanged(com.mlykotom.validation.BR.value);
+		notifyPropertyChanged(com.mlykotom.mlyked.BR.value);
 	}
 
 
@@ -318,9 +318,9 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 		mIsChanged = true;
 		mIsError = isError;
 		mError = errorMessage;
-		notifyPropertyChanged(com.mlykotom.validation.BR.isError);
-		notifyPropertyChanged(com.mlykotom.validation.BR.isValid);
-		notifyPropertyChanged(com.mlykotom.validation.BR.error);
+		notifyPropertyChanged(com.mlykotom.mlyked.BR.isError);
+		notifyPropertyChanged(com.mlykotom.mlyked.BR.isValid);
+		notifyPropertyChanged(com.mlykotom.mlyked.BR.error);
 		if(mParentForm != null) {
 			mParentForm.fieldValidationChanged(this);
 		}

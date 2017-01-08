@@ -2,7 +2,7 @@ package com.mlykotom.exampleviewmodel;
 
 import android.app.Application;
 
-import com.mlykotom.validation.ValidationConfig;
+import com.mlykotom.mlyked.ValidationConfig;
 
 
 public class ExampleViewModelApplication extends Application {

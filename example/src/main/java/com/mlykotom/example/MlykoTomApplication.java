@@ -2,7 +2,7 @@ package com.mlykotom.example;
 
 import android.app.Application;
 
-import com.mlykotom.validation.ValidationConfig;
+import com.mlykotom.mlyked.ValidationConfig;
 
 
 public class MlykoTomApplication extends Application {
