@@ -24,6 +24,20 @@ public class ExampleActivity extends AppCompatActivity {
 
 
 	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		email.set(savedInstanceState.getString("EMAIL"));
+	}
+
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("EMAIL", email.getValue());
+	}
+
+
+	@Override
 	protected void onDestroy() {
 		email.destroy();
 		super.onDestroy();
@@ -31,6 +45,6 @@ public class ExampleActivity extends AppCompatActivity {
 
 
 	public void onSubmitClicked() {
-		Toast.makeText(this, "Submit enabled and clicked", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Submit clicked and got " + email.getValue(), Toast.LENGTH_LONG).show();
 	}
 }
