@@ -6,7 +6,7 @@
 	<data>
 		<variable
 			name="viewModel"
-			type="com.mlykotom.mlykotom.ExampleActivity" />
+			type="com.mlykotom.example.ExampleActivity" />
 	</data>
 
 	<LinearLayout

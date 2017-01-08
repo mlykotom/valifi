@@ -1,4 +1,4 @@
-package com.mlykotom.mlykotom;
+package com.mlykotom.example;
 
 import android.app.Application;
 
