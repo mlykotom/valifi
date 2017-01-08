@@ -1,1 +1,1 @@
-include ':example', ':validation'
+include ':example', ':validation', ':example-viewmodel'

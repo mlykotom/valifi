@@ -16,6 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * TODO weak reference for callback
+ * TODO validators through annotations
+ *
+ * @param <ValueType>
+ */
 @SuppressWarnings("unused")
 public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	protected ValueType mValue;
@@ -78,7 +84,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 
 	public ValidatedBaseField(ValueType defaultValue) {
 		this();
-		setValue(defaultValue);
+		set(defaultValue);
 	}
 
 
@@ -163,8 +169,11 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 *
 	 * @param value to be set and notified about change
 	 */
-	public void set(ValueType value) {
-		setValue(value);
+	public void set(@Nullable ValueType value) {
+		if((value == mValue) || (value != null && value.equals(mValue))) return;
+
+		mValue = value;
+		notifyPropertyChanged(com.mlykotom.validation.BR.value);
 	}
 
 
@@ -180,15 +189,12 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 
 
 	/**
-	 * Sets new value (even from binding)
+	 * Sets new value (from binding)
 	 *
 	 * @param value to be set, if the same as older, skips
 	 */
-	public void setValue(@Nullable ValueType value) {
-		if((value == mValue) || (value != null && value.equals(mValue))) return;
-
-		mValue = value;
-		notifyPropertyChanged(com.mlykotom.validation.BR.value);
+	public void setValue(@Nullable String value) {
+		set((ValueType) value); // TODO convert value (is it possible?)
 	}
 
 

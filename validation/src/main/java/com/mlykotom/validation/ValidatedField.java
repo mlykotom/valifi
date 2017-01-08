@@ -10,9 +10,6 @@ import java.util.regex.Pattern;
 
 /**
  * Handles validating on simple string fields
- * Might be used for binding
- * TODO weak reference for callback
- * TODO validators through annotations
  */
 @SuppressWarnings("unused")
 public class ValidatedField extends ValidatedBaseField<String> {

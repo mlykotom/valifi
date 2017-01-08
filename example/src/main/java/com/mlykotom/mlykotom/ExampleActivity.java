@@ -12,6 +12,7 @@ import com.mlykotom.validation.ValidatedEmailField;
 
 public class ExampleActivity extends AppCompatActivity {
 	public final ValidatedEmailField email = new ValidatedEmailField();
+
 	private ActivityExampleBinding mBinding;
 
 
@@ -26,7 +27,7 @@ public class ExampleActivity extends AppCompatActivity {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-		email.set(savedInstanceState.getString("EMAIL"));
+		email.setValue(savedInstanceState.getString("EMAIL"));
 	}
 
 

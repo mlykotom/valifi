@@ -1,0 +1,9 @@
+<fragment
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/content_fragment"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_margin="8dp"
+	tools:layout="@layout/fragment_example"
+	class="com.mlykotom.exampleviewmodel.ExampleFragment" />
