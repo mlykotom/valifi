@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+		<variable
+			name="viewModel"
+			type="com.mlykotom.mlykotom.ExampleActivity" />
+	</data>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_margin="8dp"
+		android:orientation="vertical">
+
+		<android.support.design.widget.TextInputLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			app:error="@{viewModel.email.error}">
+
+			<android.support.design.widget.TextInputEditText
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="textEmailAddress"
+				android:text="@={viewModel.email.value}"
+				android:hint="E-mail address" />
+		</android.support.design.widget.TextInputLayout>
+
+		<Button
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:enabled="@{viewModel.email.isValid}"
+			android:onClick="@{() -> viewModel.onSubmitClicked()}"
+			android:text="Submit" />
+
+	</LinearLayout>
+</layout>
