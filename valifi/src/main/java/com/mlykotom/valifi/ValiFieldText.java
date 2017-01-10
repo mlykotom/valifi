@@ -12,13 +12,13 @@ import java.util.regex.Pattern;
  * Handles validating on simple string fields
  */
 @SuppressWarnings("unused")
-public class ValidatedTextField extends ValidatedBaseField<String> {
-	public ValidatedTextField() {
+public class ValiFieldText extends ValiFieldBase<String> {
+	public ValiFieldText() {
 		super();
 	}
 
 
-	public ValidatedTextField(String defaultValue) {
+	public ValiFieldText(String defaultValue) {
 		super(defaultValue);
 	}
 
@@ -55,7 +55,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	/**
 	 * @see #addPatternValidator(String, Pattern)
 	 */
-	public ValidatedTextField addPatternValidator(@StringRes int errorResource, final Pattern pattern) {
+	public ValiFieldText addPatternValidator(@StringRes int errorResource, final Pattern pattern) {
 		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addPatternValidator(errorMessage, pattern);
 	}
@@ -68,7 +68,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @param pattern      validates this pattern
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addPatternValidator(String errorMessage, final Pattern pattern) {
+	public ValiFieldText addPatternValidator(String errorMessage, final Pattern pattern) {
 		addCustomValidator(errorMessage, new PropertyValidator<String>() {
 			@Override
 			public boolean isValid(@Nullable String value) {
@@ -87,12 +87,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 *
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addNotEmptyValidator() {
+	public ValiFieldText addNotEmptyValidator() {
 		return addNotEmptyValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_NOT_EMPTY));
 	}
 
 
-	public ValidatedTextField addNotEmptyValidator(@StringRes int errorResource) {
+	public ValiFieldText addNotEmptyValidator(@StringRes int errorResource) {
 		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addNotEmptyValidator(errorMessage);
 	}
@@ -102,7 +102,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @param errorMessage specifies error message to be shown
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addNotEmptyValidator(String errorMessage) {
+	public ValiFieldText addNotEmptyValidator(String errorMessage) {
 		return addMinLengthValidator(errorMessage, 1);
 	}
 
@@ -116,12 +116,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @param minLength must be larger or equal
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addMinLengthValidator(int minLength) {
+	public ValiFieldText addMinLengthValidator(int minLength) {
 		return addMinLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MIN), minLength);
 	}
 
 
-	public ValidatedTextField addMinLengthValidator(@StringRes int errorResource, int minLength) {
+	public ValiFieldText addMinLengthValidator(@StringRes int errorResource, int minLength) {
 		String errorMessage = ValiFi.getContext().getString(errorResource, minLength);
 		return addMinLengthValidator(errorMessage, minLength);
 	}
@@ -132,7 +132,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @param minLength    must be larger or equal
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addMinLengthValidator(String errorMessage, final int minLength) {
+	public ValiFieldText addMinLengthValidator(String errorMessage, final int minLength) {
 		return addRangeLengthValidator(errorMessage, minLength, Integer.MAX_VALUE);
 	}
 
@@ -140,12 +140,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	// ------------------ EXACT LENGTH VALIDATOR ------------------ //
 
 
-	public ValidatedTextField addExactLengthValidator(int exactLength) {
+	public ValiFieldText addExactLengthValidator(int exactLength) {
 		return addExactLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_EXACT), exactLength);
 	}
 
 
-	public ValidatedTextField addExactLengthValidator(@StringRes int errorResource, int exactLength) {
+	public ValiFieldText addExactLengthValidator(@StringRes int errorResource, int exactLength) {
 		String errorMessage = ValiFi.getContext().getString(errorResource, exactLength);
 		return addExactLengthValidator(errorMessage, exactLength);
 	}
@@ -154,23 +154,23 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	// ------------------ MAX LENGTH VALIDATOR ------------------ //
 
 
-	public ValidatedTextField addExactLengthValidator(String errorMessage, final int exactLength) {
+	public ValiFieldText addExactLengthValidator(String errorMessage, final int exactLength) {
 		return addRangeLengthValidator(errorMessage, exactLength, exactLength);
 	}
 
 
-	public ValidatedTextField addMaxLengthValidator(int maxLength) {
+	public ValiFieldText addMaxLengthValidator(int maxLength) {
 		return addMaxLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MAX), maxLength);
 	}
 
 
-	public ValidatedTextField addMaxLengthValidator(@StringRes int errorResource, int maxLength) {
+	public ValiFieldText addMaxLengthValidator(@StringRes int errorResource, int maxLength) {
 		String errorMessage = ValiFi.getContext().getString(errorResource, maxLength);
 		return addMaxLengthValidator(errorMessage, maxLength);
 	}
 
 
-	public ValidatedTextField addMaxLengthValidator(String errorMessage, final int maxLength) {
+	public ValiFieldText addMaxLengthValidator(String errorMessage, final int maxLength) {
 		return addRangeLengthValidator(errorMessage, 0, maxLength);
 	}
 
@@ -178,18 +178,18 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	// ------------------ RANGE VALIDATOR ------------------ //
 
 
-	public ValidatedTextField addRangeLengthValidator(int minLength, int maxLength) {
+	public ValiFieldText addRangeLengthValidator(int minLength, int maxLength) {
 		return addRangeLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_RANGE), minLength, maxLength);
 	}
 
 
-	public ValidatedTextField addRangeLengthValidator(@StringRes int errorResource, int minLength, int maxLength) {
+	public ValiFieldText addRangeLengthValidator(@StringRes int errorResource, int minLength, int maxLength) {
 		String errorMessage = ValiFi.getContext().getString(errorResource, minLength, maxLength);
 		return addRangeLengthValidator(errorMessage, minLength, maxLength);
 	}
 
 
-	public ValidatedTextField addRangeLengthValidator(String errorMessage, final int minLength, final int maxLength) {
+	public ValiFieldText addRangeLengthValidator(String errorMessage, final int minLength, final int maxLength) {
 		if(minLength > 0) {
 			mIsEmptyAllowed = false;
 		}
@@ -214,12 +214,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 *
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addEmailValidator() {
+	public ValiFieldText addEmailValidator() {
 		return addEmailValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_EMAIL));
 	}
 
 
-	public ValidatedTextField addEmailValidator(@StringRes int errorResource) {
+	public ValiFieldText addEmailValidator(@StringRes int errorResource) {
 		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addEmailValidator(errorMessage);
 	}
@@ -231,7 +231,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @param errorMessage specifies error message to be shown
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addEmailValidator(String errorMessage) {
+	public ValiFieldText addEmailValidator(String errorMessage) {
 		addCustomValidator(errorMessage, new PropertyValidator<String>() {
 			@Override
 			public boolean isValid(@Nullable String value) {
@@ -251,12 +251,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 *
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addPhoneValidator() {
+	public ValiFieldText addPhoneValidator() {
 		return addPhoneValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_PHONE));
 	}
 
 
-	public ValidatedTextField addPhoneValidator(@StringRes int errorResource) {
+	public ValiFieldText addPhoneValidator(@StringRes int errorResource) {
 		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addPhoneValidator(errorMessage);
 	}
@@ -268,7 +268,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @param errorMessage specifies error message to be shown
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedTextField addPhoneValidator(String errorMessage) {
+	public ValiFieldText addPhoneValidator(String errorMessage) {
 		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_PHONE));
 		return this;
 	}
@@ -277,18 +277,18 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	// ------------------ PASSWORD VALIDATOR ------------------ //
 
 
-	public ValidatedTextField addPasswordValidator() {
+	public ValiFieldText addPasswordValidator() {
 		return addPasswordValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD));
 	}
 
 
-	public ValidatedTextField addPasswordValidator(@StringRes int errorResource) {
+	public ValiFieldText addPasswordValidator(@StringRes int errorResource) {
 		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addPasswordValidator(errorMessage);
 	}
 
 
-	public ValidatedTextField addPasswordValidator(String errorMessage) {
+	public ValiFieldText addPasswordValidator(String errorMessage) {
 		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_PASSWORD));
 		return this;
 	}
@@ -297,17 +297,17 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	// ------------------ USERNAME VALIDATOR ------------------ //
 
 
-	public ValidatedTextField addUsernameValidator() {
+	public ValiFieldText addUsernameValidator() {
 		return addUsernameValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME));
 	}
 
 
-	public ValidatedTextField addUsernameValidator(@StringRes int errorMessage) {
+	public ValiFieldText addUsernameValidator(@StringRes int errorMessage) {
 		return addUsernameValidator(ValiFi.getContext().getString(errorMessage));
 	}
 
 
-	public ValidatedTextField addUsernameValidator(String errorMessage) {
+	public ValiFieldText addUsernameValidator(String errorMessage) {
 		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_USERNAME));
 		return this;
 	}

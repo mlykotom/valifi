@@ -3,32 +3,32 @@ package com.mlykotom.valifi;
 import android.support.annotation.StringRes;
 
 
-public class ValidatedPasswordField extends ValidatedTextField {
-	public ValidatedPasswordField() {
+public class ValiFieldPassword extends ValiFieldText {
+	public ValiFieldPassword() {
 		super();
 		super.addPasswordValidator();
 	}
 
 
-	public ValidatedPasswordField(String defaultValue) {
+	public ValiFieldPassword(String defaultValue) {
 		super(defaultValue);
 		super.addPasswordValidator();
 	}
 
 
-	public ValidatedPasswordField(@StringRes int errorResource) {
+	public ValiFieldPassword(@StringRes int errorResource) {
 		super();
 		super.addPasswordValidator(errorResource);
 	}
 
 
-	public ValidatedPasswordField(@StringRes int errorResource, String defaultValue) {
+	public ValiFieldPassword(@StringRes int errorResource, String defaultValue) {
 		super(defaultValue);
 		super.addPasswordValidator(errorResource);
 	}
 
 
-	public ValidatedPasswordField(String errorMessage, String defaultValue) {
+	public ValiFieldPassword(String errorMessage, String defaultValue) {
 		super(defaultValue);
 		super.addPasswordValidator(errorMessage);
 	}

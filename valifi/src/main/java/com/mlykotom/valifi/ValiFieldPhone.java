@@ -3,37 +3,37 @@ package com.mlykotom.valifi;
 import android.support.annotation.StringRes;
 
 
-public class ValidatedPhoneField extends ValidatedTextField
+public class ValiFieldPhone extends ValiFieldText
 {
-	public ValidatedPhoneField()
+	public ValiFieldPhone()
 	{
 		super();
 		super.addPhoneValidator();
 	}
 
 
-	public ValidatedPhoneField(String defaultValue)
+	public ValiFieldPhone(String defaultValue)
 	{
 		super(defaultValue);
 		super.addPhoneValidator();
 	}
 
 
-	public ValidatedPhoneField(@StringRes int errorResource)
+	public ValiFieldPhone(@StringRes int errorResource)
 	{
 		super();
 		super.addPhoneValidator(errorResource);
 	}
 
 
-	public ValidatedPhoneField(@StringRes int errorResource, String defaultValue)
+	public ValiFieldPhone(@StringRes int errorResource, String defaultValue)
 	{
 		super(defaultValue);
 		super.addPhoneValidator(errorResource);
 	}
 
 
-	public ValidatedPhoneField(String errorMessage, String defaultValue)
+	public ValiFieldPhone(String errorMessage, String defaultValue)
 	{
 		super(defaultValue);
 		super.addPhoneValidator(errorMessage);

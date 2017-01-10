@@ -47,7 +47,7 @@ public class ValiFi {
 	}
 
 
-	// ------ Might be used for ValidatedTextField
+	// ------ Might be used for ValiFieldText
 
 
 	static int getErrorRes(@Builder.ValidationErrorResource int field) {

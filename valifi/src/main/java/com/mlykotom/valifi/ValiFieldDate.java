@@ -8,8 +8,8 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 
-public class ValidatedDateField extends ValidatedBaseField<Calendar> {
-	public ValidatedDateField() {
+public class ValiFieldDate extends ValiFieldBase<Calendar> {
+	public ValiFieldDate() {
 		super();
 	}
 
@@ -37,18 +37,18 @@ public class ValidatedDateField extends ValidatedBaseField<Calendar> {
 	// ------------------ OLDER THAN VALIDATOR ------------------ //
 
 
-	public ValidatedDateField addOlderThanYearsValidator(int amount) {
+	public ValiFieldDate addOlderThanYearsValidator(int amount) {
 		return addOlderThanValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_YEARS_OLDER_THAN), Calendar.YEAR, amount);
 	}
 
 
-	public ValidatedDateField addOlderThanValidator(@StringRes int errorResource, int calendarField, int amount) {
+	public ValiFieldDate addOlderThanValidator(@StringRes int errorResource, int calendarField, int amount) {
 		String errorMessage = ValiFi.getContext().getString(errorResource, amount);
 		return addOlderThanValidator(errorMessage, calendarField, amount);
 	}
 
 
-	public ValidatedDateField addOlderThanValidator(String errorMessage, int calendarField, int amount) {
+	public ValiFieldDate addOlderThanValidator(String errorMessage, int calendarField, int amount) {
 		final Calendar wantedDate = Calendar.getInstance();
 		wantedDate.add(calendarField, -amount);
 

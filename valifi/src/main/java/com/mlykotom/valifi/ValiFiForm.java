@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * Bundles more fields together and provides validation for all of them + destroying
  */
-public class ValidatedForm extends BaseObservable {
-	private List<ValidatedBaseField> mFields = new ArrayList<>();
+public class ValiFiForm extends BaseObservable {
+	private List<ValiFieldBase> mFields = new ArrayList<>();
 
 
-	public ValidatedForm(ValidatedBaseField... fields) {
-		for(ValidatedBaseField field : fields) {
+	public ValiFiForm(ValiFieldBase... fields) {
+		for(ValiFieldBase field : fields) {
 			addField(field);
 		}
 	}
@@ -28,7 +28,7 @@ public class ValidatedForm extends BaseObservable {
 	 */
 	@Bindable
 	public boolean getIsFormValid() {
-		for(ValidatedBaseField field : mFields) {
+		for(ValiFieldBase field : mFields) {
 			if(!field.getIsValid()) return false;
 		}
 
@@ -41,7 +41,7 @@ public class ValidatedForm extends BaseObservable {
 	 *
 	 * @param field to be validated through this form
 	 */
-	public void addField(ValidatedBaseField field) {
+	public void addField(ValiFieldBase field) {
 		field.setFormValidation(this);
 		mFields.add(field);
 	}
@@ -52,7 +52,7 @@ public class ValidatedForm extends BaseObservable {
 	 * Should be called after done working with form and fields
 	 */
 	public void destroy() {
-		for(ValidatedBaseField field : mFields) {
+		for(ValiFieldBase field : mFields) {
 			field.destroy();
 		}
 
@@ -65,7 +65,7 @@ public class ValidatedForm extends BaseObservable {
 	 *
 	 * @param field which was changed
 	 */
-	void fieldValidationChanged(ValidatedBaseField field) {
+	void fieldValidationChanged(ValiFieldBase field) {
 		notifyPropertyChanged(com.mlykotom.valifi.BR.isFormValid);
 	}
 }
