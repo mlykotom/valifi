@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MlykoTom.iml" filepath="$PROJECT_DIR$/MlykoTom.iml" />
       <module fileurl="file://$PROJECT_DIR$/ValiFi.iml" filepath="$PROJECT_DIR$/ValiFi.iml" />
       <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
-      <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
       <module fileurl="file://$PROJECT_DIR$/example-viewmodel/example-viewmodel.iml" filepath="$PROJECT_DIR$/example-viewmodel/example-viewmodel.iml" />
-      <module fileurl="file://$PROJECT_DIR$/example-viewmodel/example-viewmodel.iml" filepath="$PROJECT_DIR$/example-viewmodel/example-viewmodel.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mlyked/mlyked.iml" filepath="$PROJECT_DIR$/mlyked/mlyked.iml" />
       <module fileurl="file://$PROJECT_DIR$/valifi/valifi.iml" filepath="$PROJECT_DIR$/valifi/valifi.iml" />
     </modules>
   </component>
