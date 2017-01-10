@@ -1,4 +1,4 @@
-package com.mlykotom.mlyked;
+package com.mlykotom.valifi;
 
 import android.support.annotation.StringRes;
 

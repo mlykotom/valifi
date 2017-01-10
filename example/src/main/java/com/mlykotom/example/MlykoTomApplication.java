@@ -2,7 +2,7 @@ package com.mlykotom.example;
 
 import android.app.Application;
 
-import com.mlykotom.mlyked.Mlyked;
+import com.mlykotom.valifi.Mlyked;
 
 
 public class MlykoTomApplication extends Application {

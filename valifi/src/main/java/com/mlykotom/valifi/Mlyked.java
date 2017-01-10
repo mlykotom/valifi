@@ -1,4 +1,4 @@
-package com.mlykotom.mlyked;
+package com.mlykotom.valifi;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
