@@ -1,9 +1,12 @@
-package com.mlykotom.valifi;
+package com.mlykotom.valifi.fields;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.Patterns;
+
+import com.mlykotom.valifi.ValiFi;
+import com.mlykotom.valifi.ValiFieldBase;
 
 import java.util.regex.Pattern;
 

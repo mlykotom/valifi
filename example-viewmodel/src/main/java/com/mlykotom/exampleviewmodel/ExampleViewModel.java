@@ -3,7 +3,7 @@ package com.mlykotom.exampleviewmodel;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.mlykotom.valifi.ValiFieldEmail;
+import com.mlykotom.valifi.fields.ValiFieldEmail;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 

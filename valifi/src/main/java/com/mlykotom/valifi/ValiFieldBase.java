@@ -11,6 +11,8 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
 
+import com.mlykotom.valifi.fields.ValiFieldText;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
