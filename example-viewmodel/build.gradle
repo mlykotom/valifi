@@ -36,6 +36,6 @@ dependencies {
 
 	testCompile 'junit:junit:4.12'
 	compile 'eu.inloop:androidviewmodel:1.2.3'
-	compile project(':mlyked')
+	compile project(':valifi')
 
 }

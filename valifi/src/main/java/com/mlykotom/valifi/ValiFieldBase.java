@@ -1,4 +1,4 @@
-package com.mlykotom.mlyked;
+package com.mlykotom.valifi;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -23,27 +23,27 @@ import java.util.Map;
  * @param <ValueType>
  */
 @SuppressWarnings("unused")
-public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
+public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	protected ValueType mValue;
 	protected LinkedHashMap<PropertyValidator<ValueType>, String> mPropertyValidators = new LinkedHashMap<>();
 	protected boolean mIsEmptyAllowed = false;
-	@Nullable protected List<ValidatedBaseField> mBoundFields;
+	@Nullable protected List<ValiFieldBase> mBoundFields;
 	boolean mIsChanged = false;
 	private boolean mIsError = false;
 	private String mError;
-	@Nullable private ValidatedForm mParentForm;
+	@Nullable private ValiFiForm mParentForm;
 	/**
 	 * Callback for handling all validators in one place
 	 */
 	protected OnPropertyChangedCallback mCallback = new OnPropertyChangedCallback() {
 		@Override
 		public void onPropertyChanged(Observable observable, int brId) {
-			if(brId != com.mlykotom.mlyked.BR.value) return;
+			if(brId != com.mlykotom.valifi.BR.value) return;
 
 			if(mBoundFields != null) {
-				for(ValidatedBaseField field : mBoundFields) {
+				for(ValiFieldBase field : mBoundFields) {
 					if(!field.mIsChanged) continue;    // notifies only changed items
-					field.notifyPropertyChanged(com.mlykotom.mlyked.BR.value);
+					field.notifyPropertyChanged(com.mlykotom.valifi.BR.value);
 				}
 			}
 
@@ -77,12 +77,12 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	}
 
 
-	public ValidatedBaseField() {
+	public ValiFieldBase() {
 		addOnPropertyChangedCallback(mCallback);
 	}
 
 
-	public ValidatedBaseField(ValueType defaultValue) {
+	public ValiFieldBase(ValueType defaultValue) {
 		this();
 		set(defaultValue);
 	}
@@ -117,8 +117,8 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 *
 	 * @param fields to be cleansed
 	 */
-	public static void destroyAll(ValidatedTextField... fields) {
-		for(ValidatedTextField field : fields) {
+	public static void destroyAll(ValiFieldText... fields) {
+		for(ValiFieldText field : fields) {
 			field.destroy();
 		}
 	}
@@ -150,7 +150,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 *
 	 * @return this, co validators can be chained
 	 */
-	public ValidatedBaseField<ValueType> setEmptyAllowed(boolean isEmptyAllowed) {
+	public ValiFieldBase<ValueType> setEmptyAllowed(boolean isEmptyAllowed) {
 		mIsEmptyAllowed = isEmptyAllowed;
 		return this;
 	}
@@ -173,7 +173,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 		if((value == mValue) || (value != null && value.equals(mValue))) return;
 
 		mValue = value;
-		notifyPropertyChanged(com.mlykotom.mlyked.BR.value);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.value);
 	}
 
 
@@ -226,7 +226,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 *
 	 * @param form which validates all bundled fields
 	 */
-	public void setFormValidation(@Nullable ValidatedForm form) {
+	public void setFormValidation(@Nullable ValiFiForm form) {
 		mParentForm = form;
 	}
 
@@ -252,10 +252,10 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 
 
 	/**
-	 * @see #addVerifyFieldValidator(String, ValidatedBaseField)
+	 * @see #addVerifyFieldValidator(String, ValiFieldBase)
 	 */
-	public ValidatedBaseField<ValueType> addVerifyFieldValidator(@StringRes int errorResource, final ValidatedBaseField<ValueType> targetField) {
-		String errorMessage = Mlyked.getContext().getString(errorResource);
+	public ValiFieldBase<ValueType> addVerifyFieldValidator(@StringRes int errorResource, final ValiFieldBase<ValueType> targetField) {
+		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addVerifyFieldValidator(errorMessage, targetField);
 	}
 
@@ -268,7 +268,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 * @param targetField  validates with this field
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedBaseField<ValueType> addVerifyFieldValidator(String errorMessage, final ValidatedBaseField<ValueType> targetField) {
+	public ValiFieldBase<ValueType> addVerifyFieldValidator(String errorMessage, final ValiFieldBase<ValueType> targetField) {
 		addCustomValidator(errorMessage, new PropertyValidator<ValueType>() {
 			@Override
 			public boolean isValid(@Nullable ValueType value) {
@@ -290,19 +290,19 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 * @param validator which has value inside
 	 * @return this, so validators can be chained
 	 */
-	public ValidatedBaseField<ValueType> addCustomValidator(PropertyValidator<ValueType> validator) {
+	public ValiFieldBase<ValueType> addCustomValidator(PropertyValidator<ValueType> validator) {
 		mPropertyValidators.put(validator, null);
 		return this;
 	}
 
 
-	public ValidatedBaseField<ValueType> addCustomValidator(@StringRes int errorResource, PropertyValidator<ValueType> validator) {
-		String errorMessage = Mlyked.getContext().getString(errorResource);
+	public ValiFieldBase<ValueType> addCustomValidator(@StringRes int errorResource, PropertyValidator<ValueType> validator) {
+		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addCustomValidator(errorMessage, validator);
 	}
 
 
-	public ValidatedBaseField<ValueType> addCustomValidator(String errorMessage, PropertyValidator<ValueType> validator) {
+	public ValiFieldBase<ValueType> addCustomValidator(String errorMessage, PropertyValidator<ValueType> validator) {
 		mPropertyValidators.put(validator, errorMessage);
 		return this;
 	}
@@ -318,9 +318,9 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 		mIsChanged = true;
 		mIsError = isError;
 		mError = errorMessage;
-		notifyPropertyChanged(com.mlykotom.mlyked.BR.isError);
-		notifyPropertyChanged(com.mlykotom.mlyked.BR.isValid);
-		notifyPropertyChanged(com.mlykotom.mlyked.BR.error);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.isError);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.error);
 		if(mParentForm != null) {
 			mParentForm.fieldValidationChanged(this);
 		}
@@ -332,7 +332,7 @@ public abstract class ValidatedBaseField<ValueType> extends BaseObservable {
 	 *
 	 * @param field to be notified when this field changed
 	 */
-	protected void addBoundField(ValidatedBaseField field) {
+	protected void addBoundField(ValiFieldBase field) {
 		if(mBoundFields == null) {
 			mBoundFields = new ArrayList<>();
 		}

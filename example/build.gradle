@@ -35,5 +35,5 @@ dependencies {
 
 	testCompile 'junit:junit:4.12'
 
-	compile project(':mlyked')
+	compile project(':valifi')
 }

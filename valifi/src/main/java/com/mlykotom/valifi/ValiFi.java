@@ -1,4 +1,4 @@
-package com.mlykotom.mlyked;
+package com.mlykotom.valifi;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -11,14 +11,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.regex.Pattern;
 
 
-public class Mlyked {
+public class ValiFi {
 	@SuppressLint("StaticFieldLeak")
-	private static Mlyked ourInstance;
+	private static ValiFi ourInstance;
 	private final Context mAppContext;
-	private final MlykedConfig mParameters;
+	private final ValiFiConfig mParameters;
 
 
-	private Mlyked(Context appContext, MlykedConfig config) {
+	private ValiFi(Context appContext, ValiFiConfig config) {
 		mAppContext = appContext;
 		mParameters = config;
 	}
@@ -31,8 +31,8 @@ public class Mlyked {
 	 * @param appContext for requesting resources, etc.
 	 * @param config     overriden parameters, built by {@link Builder}
 	 */
-	public static void install(Application appContext, MlykedConfig config) {
-		ourInstance = new Mlyked(appContext, config);
+	public static void install(Application appContext, ValiFiConfig config) {
+		ourInstance = new ValiFi(appContext, config);
 	}
 
 
@@ -47,15 +47,15 @@ public class Mlyked {
 	}
 
 
-	// ------ Might be used for ValidatedTextField
+	// ------ Might be used for ValiFieldText
 
 
-	static int getErrorRes(@Builder.ValidationErrorResource int field) {
+	static int getErrorRes(@Builder.ValiFiErrorResource int field) {
 		return getInstance().mParameters.mErrorResources[field];
 	}
 
 
-	static Pattern getPattern(@Builder.ValidationPattern int field) {
+	static Pattern getPattern(@Builder.ValiFiPattern int field) {
 		return getInstance().mParameters.mPatterns[field];
 	}
 
@@ -65,9 +65,9 @@ public class Mlyked {
 	}
 
 
-	private static Mlyked getInstance() {
+	private static ValiFi getInstance() {
 		if(ourInstance == null) {
-			throw new RuntimeException("Mlyked must be installed in Application.onCreate()!");
+			throw new RuntimeException("ValiFi must be installed in Application.onCreate()!");
 		}
 
 		return ourInstance;
@@ -78,12 +78,12 @@ public class Mlyked {
 	 * Configuration for validation library.
 	 * Should be built by {@link Builder}
 	 */
-	public static class MlykedConfig {
+	public static class ValiFiConfig {
 		@StringRes final int[] mErrorResources;
 		final Pattern mPatterns[];
 
 
-		MlykedConfig(Pattern[] patterns, @StringRes int[] errorResources) {
+		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources) {
 			mPatterns = patterns;
 			mErrorResources = errorResources;
 		}
@@ -133,7 +133,7 @@ public class Mlyked {
 				ERROR_RES_YEARS_OLDER_THAN,
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface ValidationErrorResource {}
+		@interface ValiFiErrorResource {}
 
 
 		@IntDef({
@@ -143,7 +143,7 @@ public class Mlyked {
 				PATTERN_USERNAME
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface ValidationPattern {}
+		@interface ValiFiPattern {}
 
 
 		public Builder() {
@@ -158,12 +158,12 @@ public class Mlyked {
 		/**
 		 * You may override any resource when specifying string resource for it
 		 *
-		 * @param field one of error resources in library {@link ValidationErrorResource}
+		 * @param field one of error resources in library {@link ValiFiErrorResource}
 		 * @param value string resource used as default.
 		 *              Some errors may require parameters in string)
 		 * @return this
 		 */
-		public Builder setErrorResource(@ValidationErrorResource int field, @StringRes int value) {
+		public Builder setErrorResource(@ValiFiErrorResource int field, @StringRes int value) {
 			mErrorResources[field] = value;
 			return this;
 		}
@@ -172,18 +172,18 @@ public class Mlyked {
 		/**
 		 * You may override any pattern when specifying pattern for it
 		 *
-		 * @param field one of patterns in library {@link ValidationPattern}
+		 * @param field one of patterns in library {@link ValiFiPattern}
 		 * @param value compiled pattern used as default
 		 * @return this
 		 */
-		public Builder setPattern(@ValidationPattern int field, Pattern value) {
+		public Builder setPattern(@ValiFiPattern int field, Pattern value) {
 			mPatterns[field] = value;
 			return this;
 		}
 
 
-		public MlykedConfig build() {
-			return new MlykedConfig(mPatterns, mErrorResources);
+		public ValiFiConfig build() {
+			return new ValiFiConfig(mPatterns, mErrorResources);
 		}
 
 

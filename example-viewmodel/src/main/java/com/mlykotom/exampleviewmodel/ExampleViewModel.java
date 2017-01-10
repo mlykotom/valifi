@@ -3,17 +3,24 @@ package com.mlykotom.exampleviewmodel;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.mlykotom.mlyked.ValidatedEmailField;
+import com.mlykotom.valifi.ValiFieldEmail;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 
 
 public class ExampleViewModel extends AbstractViewModel<ExampleView> {
-	public final ValidatedEmailField email = new ValidatedEmailField();
+	public final ValiFieldEmail email = new ValiFieldEmail();
 
 
 	@Override
 	public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
 		super.onCreate(arguments, savedInstanceState);
+	}
+
+
+	@Override
+	public void onDestroy() {
+		email.destroy();
+		super.onDestroy();
 	}
 }
