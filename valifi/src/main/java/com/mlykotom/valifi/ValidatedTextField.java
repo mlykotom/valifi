@@ -56,7 +56,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @see #addPatternValidator(String, Pattern)
 	 */
 	public ValidatedTextField addPatternValidator(@StringRes int errorResource, final Pattern pattern) {
-		String errorMessage = Mlyked.getContext().getString(errorResource);
+		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addPatternValidator(errorMessage, pattern);
 	}
 
@@ -88,12 +88,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValidatedTextField addNotEmptyValidator() {
-		return addNotEmptyValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_NOT_EMPTY));
+		return addNotEmptyValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_NOT_EMPTY));
 	}
 
 
 	public ValidatedTextField addNotEmptyValidator(@StringRes int errorResource) {
-		String errorMessage = Mlyked.getContext().getString(errorResource);
+		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addNotEmptyValidator(errorMessage);
 	}
 
@@ -117,12 +117,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValidatedTextField addMinLengthValidator(int minLength) {
-		return addMinLengthValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_LENGTH_MIN), minLength);
+		return addMinLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MIN), minLength);
 	}
 
 
 	public ValidatedTextField addMinLengthValidator(@StringRes int errorResource, int minLength) {
-		String errorMessage = Mlyked.getContext().getString(errorResource, minLength);
+		String errorMessage = ValiFi.getContext().getString(errorResource, minLength);
 		return addMinLengthValidator(errorMessage, minLength);
 	}
 
@@ -141,12 +141,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 
 
 	public ValidatedTextField addExactLengthValidator(int exactLength) {
-		return addExactLengthValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_LENGTH_EXACT), exactLength);
+		return addExactLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_EXACT), exactLength);
 	}
 
 
 	public ValidatedTextField addExactLengthValidator(@StringRes int errorResource, int exactLength) {
-		String errorMessage = Mlyked.getContext().getString(errorResource, exactLength);
+		String errorMessage = ValiFi.getContext().getString(errorResource, exactLength);
 		return addExactLengthValidator(errorMessage, exactLength);
 	}
 
@@ -160,12 +160,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 
 
 	public ValidatedTextField addMaxLengthValidator(int maxLength) {
-		return addMaxLengthValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_LENGTH_MAX), maxLength);
+		return addMaxLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MAX), maxLength);
 	}
 
 
 	public ValidatedTextField addMaxLengthValidator(@StringRes int errorResource, int maxLength) {
-		String errorMessage = Mlyked.getContext().getString(errorResource, maxLength);
+		String errorMessage = ValiFi.getContext().getString(errorResource, maxLength);
 		return addMaxLengthValidator(errorMessage, maxLength);
 	}
 
@@ -179,12 +179,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 
 
 	public ValidatedTextField addRangeLengthValidator(int minLength, int maxLength) {
-		return addRangeLengthValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_LENGTH_RANGE), minLength, maxLength);
+		return addRangeLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_RANGE), minLength, maxLength);
 	}
 
 
 	public ValidatedTextField addRangeLengthValidator(@StringRes int errorResource, int minLength, int maxLength) {
-		String errorMessage = Mlyked.getContext().getString(errorResource, minLength, maxLength);
+		String errorMessage = ValiFi.getContext().getString(errorResource, minLength, maxLength);
 		return addRangeLengthValidator(errorMessage, minLength, maxLength);
 	}
 
@@ -215,12 +215,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValidatedTextField addEmailValidator() {
-		return addEmailValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_EMAIL));
+		return addEmailValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_EMAIL));
 	}
 
 
 	public ValidatedTextField addEmailValidator(@StringRes int errorResource) {
-		String errorMessage = Mlyked.getContext().getString(errorResource);
+		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addEmailValidator(errorMessage);
 	}
 
@@ -235,7 +235,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 		addCustomValidator(errorMessage, new PropertyValidator<String>() {
 			@Override
 			public boolean isValid(@Nullable String value) {
-				return value != null && Mlyked.getPattern(Mlyked.Builder.PATTERN_EMAIL).matcher(value).matches();
+				return value != null && ValiFi.getPattern(ValiFi.Builder.PATTERN_EMAIL).matcher(value).matches();
 			}
 		});
 		return this;
@@ -252,12 +252,12 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValidatedTextField addPhoneValidator() {
-		return addPhoneValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_PHONE));
+		return addPhoneValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_PHONE));
 	}
 
 
 	public ValidatedTextField addPhoneValidator(@StringRes int errorResource) {
-		String errorMessage = Mlyked.getContext().getString(errorResource);
+		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addPhoneValidator(errorMessage);
 	}
 
@@ -269,7 +269,7 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValidatedTextField addPhoneValidator(String errorMessage) {
-		addPatternValidator(errorMessage, Mlyked.getPattern(Mlyked.Builder.PATTERN_PHONE));
+		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_PHONE));
 		return this;
 	}
 
@@ -278,18 +278,18 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 
 
 	public ValidatedTextField addPasswordValidator() {
-		return addPasswordValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_PASSWORD));
+		return addPasswordValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD));
 	}
 
 
 	public ValidatedTextField addPasswordValidator(@StringRes int errorResource) {
-		String errorMessage = Mlyked.getContext().getString(errorResource);
+		String errorMessage = ValiFi.getContext().getString(errorResource);
 		return addPasswordValidator(errorMessage);
 	}
 
 
 	public ValidatedTextField addPasswordValidator(String errorMessage) {
-		addPatternValidator(errorMessage, Mlyked.getPattern(Mlyked.Builder.PATTERN_PASSWORD));
+		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_PASSWORD));
 		return this;
 	}
 
@@ -298,17 +298,17 @@ public class ValidatedTextField extends ValidatedBaseField<String> {
 
 
 	public ValidatedTextField addUsernameValidator() {
-		return addUsernameValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_USERNAME));
+		return addUsernameValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME));
 	}
 
 
 	public ValidatedTextField addUsernameValidator(@StringRes int errorMessage) {
-		return addUsernameValidator(Mlyked.getContext().getString(errorMessage));
+		return addUsernameValidator(ValiFi.getContext().getString(errorMessage));
 	}
 
 
 	public ValidatedTextField addUsernameValidator(String errorMessage) {
-		addPatternValidator(errorMessage, Mlyked.getPattern(Mlyked.Builder.PATTERN_USERNAME));
+		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_USERNAME));
 		return this;
 	}
 }

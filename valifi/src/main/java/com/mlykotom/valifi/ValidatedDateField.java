@@ -38,12 +38,12 @@ public class ValidatedDateField extends ValidatedBaseField<Calendar> {
 
 
 	public ValidatedDateField addOlderThanYearsValidator(int amount) {
-		return addOlderThanValidator(Mlyked.getErrorRes(Mlyked.Builder.ERROR_RES_YEARS_OLDER_THAN), Calendar.YEAR, amount);
+		return addOlderThanValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_YEARS_OLDER_THAN), Calendar.YEAR, amount);
 	}
 
 
 	public ValidatedDateField addOlderThanValidator(@StringRes int errorResource, int calendarField, int amount) {
-		String errorMessage = Mlyked.getContext().getString(errorResource, amount);
+		String errorMessage = ValiFi.getContext().getString(errorResource, amount);
 		return addOlderThanValidator(errorMessage, calendarField, amount);
 	}
 

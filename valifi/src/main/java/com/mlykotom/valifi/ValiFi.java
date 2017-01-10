@@ -11,14 +11,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.regex.Pattern;
 
 
-public class Mlyked {
+public class ValiFi {
 	@SuppressLint("StaticFieldLeak")
-	private static Mlyked ourInstance;
+	private static ValiFi ourInstance;
 	private final Context mAppContext;
-	private final MlykedConfig mParameters;
+	private final ValiFiConfig mParameters;
 
 
-	private Mlyked(Context appContext, MlykedConfig config) {
+	private ValiFi(Context appContext, ValiFiConfig config) {
 		mAppContext = appContext;
 		mParameters = config;
 	}
@@ -31,8 +31,8 @@ public class Mlyked {
 	 * @param appContext for requesting resources, etc.
 	 * @param config     overriden parameters, built by {@link Builder}
 	 */
-	public static void install(Application appContext, MlykedConfig config) {
-		ourInstance = new Mlyked(appContext, config);
+	public static void install(Application appContext, ValiFiConfig config) {
+		ourInstance = new ValiFi(appContext, config);
 	}
 
 
@@ -65,9 +65,9 @@ public class Mlyked {
 	}
 
 
-	private static Mlyked getInstance() {
+	private static ValiFi getInstance() {
 		if(ourInstance == null) {
-			throw new RuntimeException("Mlyked must be installed in Application.onCreate()!");
+			throw new RuntimeException("ValiFi must be installed in Application.onCreate()!");
 		}
 
 		return ourInstance;
@@ -78,12 +78,12 @@ public class Mlyked {
 	 * Configuration for validation library.
 	 * Should be built by {@link Builder}
 	 */
-	public static class MlykedConfig {
+	public static class ValiFiConfig {
 		@StringRes final int[] mErrorResources;
 		final Pattern mPatterns[];
 
 
-		MlykedConfig(Pattern[] patterns, @StringRes int[] errorResources) {
+		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources) {
 			mPatterns = patterns;
 			mErrorResources = errorResources;
 		}
@@ -182,8 +182,8 @@ public class Mlyked {
 		}
 
 
-		public MlykedConfig build() {
-			return new MlykedConfig(mPatterns, mErrorResources);
+		public ValiFiConfig build() {
+			return new ValiFiConfig(mPatterns, mErrorResources);
 		}
 
 
