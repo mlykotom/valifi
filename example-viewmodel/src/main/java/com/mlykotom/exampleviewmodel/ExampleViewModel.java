@@ -16,4 +16,11 @@ public class ExampleViewModel extends AbstractViewModel<ExampleView> {
 	public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
 		super.onCreate(arguments, savedInstanceState);
 	}
+
+
+	@Override
+	public void onDestroy() {
+		email.destroy();
+		super.onDestroy();
+	}
 }
