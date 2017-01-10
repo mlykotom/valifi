@@ -50,12 +50,12 @@ public class ValiFi {
 	// ------ Might be used for ValiFieldText
 
 
-	static int getErrorRes(@Builder.ValidationErrorResource int field) {
+	static int getErrorRes(@Builder.ValiFiErrorResource int field) {
 		return getInstance().mParameters.mErrorResources[field];
 	}
 
 
-	static Pattern getPattern(@Builder.ValidationPattern int field) {
+	static Pattern getPattern(@Builder.ValiFiPattern int field) {
 		return getInstance().mParameters.mPatterns[field];
 	}
 
@@ -133,7 +133,7 @@ public class ValiFi {
 				ERROR_RES_YEARS_OLDER_THAN,
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface ValidationErrorResource {}
+		@interface ValiFiErrorResource {}
 
 
 		@IntDef({
@@ -143,7 +143,7 @@ public class ValiFi {
 				PATTERN_USERNAME
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface ValidationPattern {}
+		@interface ValiFiPattern {}
 
 
 		public Builder() {
@@ -158,12 +158,12 @@ public class ValiFi {
 		/**
 		 * You may override any resource when specifying string resource for it
 		 *
-		 * @param field one of error resources in library {@link ValidationErrorResource}
+		 * @param field one of error resources in library {@link ValiFiErrorResource}
 		 * @param value string resource used as default.
 		 *              Some errors may require parameters in string)
 		 * @return this
 		 */
-		public Builder setErrorResource(@ValidationErrorResource int field, @StringRes int value) {
+		public Builder setErrorResource(@ValiFiErrorResource int field, @StringRes int value) {
 			mErrorResources[field] = value;
 			return this;
 		}
@@ -172,11 +172,11 @@ public class ValiFi {
 		/**
 		 * You may override any pattern when specifying pattern for it
 		 *
-		 * @param field one of patterns in library {@link ValidationPattern}
+		 * @param field one of patterns in library {@link ValiFiPattern}
 		 * @param value compiled pattern used as default
 		 * @return this
 		 */
-		public Builder setPattern(@ValidationPattern int field, Pattern value) {
+		public Builder setPattern(@ValiFiPattern int field, Pattern value) {
 			mPatterns[field] = value;
 			return this;
 		}
