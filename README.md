@@ -1,2 +1,4 @@
-# mlyked
-Android validation library
+# ValiFi
+Android validation library for data binding.
+
+# Coming Soon...
