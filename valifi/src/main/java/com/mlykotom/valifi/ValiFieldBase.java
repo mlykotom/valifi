@@ -1,5 +1,6 @@
 package com.mlykotom.valifi;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 /**
@@ -248,14 +250,11 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	}
 
 
-	// ------------------ VERIFY OTHER FIELD VALIDATOR ------------------ //
-
-
 	/**
 	 * @see #addVerifyFieldValidator(String, ValiFieldBase)
 	 */
 	public ValiFieldBase<ValueType> addVerifyFieldValidator(@StringRes int errorResource, final ValiFieldBase<ValueType> targetField) {
-		String errorMessage = ValiFi.getContext().getString(errorResource);
+		String errorMessage = getAppContext().getString(errorResource);
 		return addVerifyFieldValidator(errorMessage, targetField);
 	}
 
@@ -281,7 +280,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 		return this;
 	}
 
-	// ------------------ CUSTOM VALIDATOR ------------------ //
+
+	// ------------------ VERIFY OTHER FIELD VALIDATOR ------------------ //
 
 
 	/**
@@ -297,14 +297,31 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	public ValiFieldBase<ValueType> addCustomValidator(@StringRes int errorResource, PropertyValidator<ValueType> validator) {
-		String errorMessage = ValiFi.getContext().getString(errorResource);
+		String errorMessage = getAppContext().getString(errorResource);
 		return addCustomValidator(errorMessage, validator);
 	}
+
+	// ------------------ CUSTOM VALIDATOR ------------------ //
 
 
 	public ValiFieldBase<ValueType> addCustomValidator(String errorMessage, PropertyValidator<ValueType> validator) {
 		mPropertyValidators.put(validator, errorMessage);
 		return this;
+	}
+
+
+	protected int getErrorRes(@ValiFi.Builder.ValiFiErrorResource int field) {
+		return ValiFi.getErrorRes(field);
+	}
+
+
+	protected Pattern getPattern(@ValiFi.Builder.ValiFiPattern int field) {
+		return ValiFi.getPattern(field);
+	}
+
+
+	protected Context getAppContext() {
+		return ValiFi.getContext();
 	}
 
 
