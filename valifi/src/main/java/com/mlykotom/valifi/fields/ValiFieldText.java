@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.Patterns;
 
+import com.mlykotom.valifi.ValiFiValidatorException;
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFieldBase;
 
@@ -16,6 +17,9 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings("unused")
 public class ValiFieldText extends ValiFieldBase<String> {
+	private boolean mHasNotEmptyValidator = false;
+
+
 	public ValiFieldText() {
 		super();
 	}
@@ -52,7 +56,15 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
-	// ------------------ PATTERN VALIDATOR ------------------ //
+	@Override
+	public ValiFieldBase<String> setEmptyAllowed(boolean isEmptyAllowed) {
+		if(mHasNotEmptyValidator) {
+			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
+		}
+		return super.setEmptyAllowed(isEmptyAllowed);
+	}
+
+// ------------------ PATTERN VALIDATOR ------------------ //
 
 
 	/**
@@ -106,6 +118,10 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addNotEmptyValidator(String errorMessage) {
+		if(mIsEmptyAllowed) {
+			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
+		}
+		mHasNotEmptyValidator = true;
 		return addMinLengthValidator(errorMessage, 1);
 	}
 
