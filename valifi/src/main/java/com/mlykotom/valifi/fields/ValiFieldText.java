@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.Patterns;
 
-import com.mlykotom.valifi.ValiFiValidatorException;
+import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFieldBase;
 

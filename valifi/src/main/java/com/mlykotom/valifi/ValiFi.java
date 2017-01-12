@@ -6,6 +6,8 @@ import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 
+import com.mlykotom.valifi.exceptions.ValiFiException;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.regex.Pattern;
@@ -67,7 +69,7 @@ public class ValiFi {
 
 	private static ValiFi getInstance() {
 		if(ourInstance == null) {
-			throw new RuntimeException("ValiFi must be installed in Application.onCreate()!");
+			throw new ValiFiException("ValiFi must be installed in Application.onCreate()!");
 		}
 
 		return ourInstance;

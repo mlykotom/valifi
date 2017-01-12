@@ -1,6 +1,6 @@
-package com.mlykotom.valifi;
+package com.mlykotom.valifi.exceptions;
 
-public class ValiFiValidatorException extends RuntimeException {
+public class ValiFiValidatorException extends ValiFiException {
 	public ValiFiValidatorException() {}
 
 
