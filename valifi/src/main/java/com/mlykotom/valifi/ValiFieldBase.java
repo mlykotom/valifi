@@ -209,7 +209,14 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 		removeOnPropertyChangedCallback(mCallback);
 		mPropertyValidators.clear();
 		mPropertyValidators = null;
+		if(mBoundFields != null) {
+			mBoundFields.clear();
+			mBoundFields = null;
+		}
 		mParentForm = null;
+		mIsChanged = false;
+		mIsError = false;
+		mIsEmptyAllowed = false;
 	}
 
 
@@ -232,6 +239,12 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 */
 	public void setFormValidation(@Nullable ValiFiForm form) {
 		mParentForm = form;
+	}
+
+
+	@Nullable
+	public ValiFiForm getBoundForm() {
+		return mParentForm;
 	}
 
 
