@@ -6,19 +6,29 @@ import com.mlykotom.valifi.exceptions.ValiFiException;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 import com.mlykotom.valifi.fields.ValiFieldText;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class ValiFieldTextTest {
+	private static final String VALIDATOR_EMPTY_MESSAGE = "field can't be empty";
 	private ValiFieldText mField;
 
 
 	@Before
 	public void prepareField() {
 		mField = new ValiFieldText();
+	}
+
+
+	@After
+	public void cleanField() {
+		mField.destroy();
 	}
 
 
@@ -44,19 +54,37 @@ public class ValiFieldTextTest {
 	public void setGetIsCorrect() {
 		mField.set("test_value");
 		assertEquals("test_value", mField.get());
+		assertTrue(mField.getIsValid());
 	}
 
 
 	@Test(expected = ValiFiValidatorException.class)
 	public void checkEmptyOrNotEmpty() {
 		mField.setEmptyAllowed(true);
-		mField.addNotEmptyValidator("field can't be empty");
+		mField.addNotEmptyValidator(VALIDATOR_EMPTY_MESSAGE);
 	}
 
 
 	@Test(expected = ValiFiValidatorException.class)
 	public void checkEmptyOrNotEmptyInverse() {
-		mField.addNotEmptyValidator("field can't be empty");
+		mField.addNotEmptyValidator(VALIDATOR_EMPTY_MESSAGE);
 		mField.setEmptyAllowed(true);
 	}
+
+
+	@Test
+	public void checkNotEmptyWhenNull() {
+		mField.addNotEmptyValidator(VALIDATOR_EMPTY_MESSAGE);
+		mField.set(null);
+		assertFalse(mField.getIsValid());
+	}
+
+
+	@Test
+	public void checkNotEmpty() {
+		mField.addNotEmptyValidator(VALIDATOR_EMPTY_MESSAGE);
+		mField.set("");
+		assertFalse(mField.getIsValid());
+	}
+
 }

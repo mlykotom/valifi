@@ -118,10 +118,6 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addNotEmptyValidator(String errorMessage) {
-		if(mIsEmptyAllowed) {
-			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
-		}
-		mHasNotEmptyValidator = true;
 		return addMinLengthValidator(errorMessage, 1);
 	}
 
@@ -152,7 +148,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addMinLengthValidator(String errorMessage, final int minLength) {
-		return addRangeLengthValidator(errorMessage, minLength, Integer.MAX_VALUE);
+		return addRangeLengthValidator(errorMessage, minLength, -1);
 	}
 
 
@@ -210,14 +206,23 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 	public ValiFieldText addRangeLengthValidator(String errorMessage, final int minLength, final int maxLength) {
 		if(minLength > 0) {
-			mIsEmptyAllowed = false;
+			// checking empty or not empty
+			if(mIsEmptyAllowed) {
+				throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
+			}
+			mHasNotEmptyValidator = true;
 		}
 
 		addCustomValidator(errorMessage, new PropertyValidator<String>() {
 			@Override
 			public boolean isValid(@Nullable String value) {
 				int length = value != null ? value.trim().length() : 0;
-				return length >= minLength && length <= maxLength;
+
+				if(maxLength == -1) {
+					return length >= minLength && length <= maxLength;
+				} else {
+					return length >= minLength;
+				}
 			}
 		});
 		return this;
