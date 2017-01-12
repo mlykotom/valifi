@@ -1,9 +1,13 @@
-package com.mlykotom.valifi;
+package com.mlykotom.valifi.fields;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.Patterns;
+
+import com.mlykotom.valifi.ValiFiValidatorException;
+import com.mlykotom.valifi.ValiFi;
+import com.mlykotom.valifi.ValiFieldBase;
 
 import java.util.regex.Pattern;
 
@@ -13,6 +17,9 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings("unused")
 public class ValiFieldText extends ValiFieldBase<String> {
+	private boolean mHasNotEmptyValidator = false;
+
+
 	public ValiFieldText() {
 		super();
 	}
@@ -49,14 +56,22 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
-	// ------------------ PATTERN VALIDATOR ------------------ //
+	@Override
+	public ValiFieldBase<String> setEmptyAllowed(boolean isEmptyAllowed) {
+		if(mHasNotEmptyValidator) {
+			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
+		}
+		return super.setEmptyAllowed(isEmptyAllowed);
+	}
+
+// ------------------ PATTERN VALIDATOR ------------------ //
 
 
 	/**
 	 * @see #addPatternValidator(String, Pattern)
 	 */
 	public ValiFieldText addPatternValidator(@StringRes int errorResource, final Pattern pattern) {
-		String errorMessage = ValiFi.getContext().getString(errorResource);
+		String errorMessage = getAppContext().getString(errorResource);
 		return addPatternValidator(errorMessage, pattern);
 	}
 
@@ -88,12 +103,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addNotEmptyValidator() {
-		return addNotEmptyValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_NOT_EMPTY));
+		return addNotEmptyValidator(getErrorRes(ValiFi.Builder.ERROR_RES_NOT_EMPTY));
 	}
 
 
 	public ValiFieldText addNotEmptyValidator(@StringRes int errorResource) {
-		String errorMessage = ValiFi.getContext().getString(errorResource);
+		String errorMessage = getAppContext().getString(errorResource);
 		return addNotEmptyValidator(errorMessage);
 	}
 
@@ -103,6 +118,10 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addNotEmptyValidator(String errorMessage) {
+		if(mIsEmptyAllowed) {
+			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
+		}
+		mHasNotEmptyValidator = true;
 		return addMinLengthValidator(errorMessage, 1);
 	}
 
@@ -117,12 +136,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addMinLengthValidator(int minLength) {
-		return addMinLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MIN), minLength);
+		return addMinLengthValidator(getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MIN), minLength);
 	}
 
 
 	public ValiFieldText addMinLengthValidator(@StringRes int errorResource, int minLength) {
-		String errorMessage = ValiFi.getContext().getString(errorResource, minLength);
+		String errorMessage = getAppContext().getString(errorResource, minLength);
 		return addMinLengthValidator(errorMessage, minLength);
 	}
 
@@ -141,12 +160,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addExactLengthValidator(int exactLength) {
-		return addExactLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_EXACT), exactLength);
+		return addExactLengthValidator(getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_EXACT), exactLength);
 	}
 
 
 	public ValiFieldText addExactLengthValidator(@StringRes int errorResource, int exactLength) {
-		String errorMessage = ValiFi.getContext().getString(errorResource, exactLength);
+		String errorMessage = getAppContext().getString(errorResource, exactLength);
 		return addExactLengthValidator(errorMessage, exactLength);
 	}
 
@@ -160,12 +179,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addMaxLengthValidator(int maxLength) {
-		return addMaxLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MAX), maxLength);
+		return addMaxLengthValidator(getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MAX), maxLength);
 	}
 
 
 	public ValiFieldText addMaxLengthValidator(@StringRes int errorResource, int maxLength) {
-		String errorMessage = ValiFi.getContext().getString(errorResource, maxLength);
+		String errorMessage = getAppContext().getString(errorResource, maxLength);
 		return addMaxLengthValidator(errorMessage, maxLength);
 	}
 
@@ -179,12 +198,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addRangeLengthValidator(int minLength, int maxLength) {
-		return addRangeLengthValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_RANGE), minLength, maxLength);
+		return addRangeLengthValidator(getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_RANGE), minLength, maxLength);
 	}
 
 
 	public ValiFieldText addRangeLengthValidator(@StringRes int errorResource, int minLength, int maxLength) {
-		String errorMessage = ValiFi.getContext().getString(errorResource, minLength, maxLength);
+		String errorMessage = getAppContext().getString(errorResource, minLength, maxLength);
 		return addRangeLengthValidator(errorMessage, minLength, maxLength);
 	}
 
@@ -215,12 +234,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addEmailValidator() {
-		return addEmailValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_EMAIL));
+		return addEmailValidator(getErrorRes(ValiFi.Builder.ERROR_RES_EMAIL));
 	}
 
 
 	public ValiFieldText addEmailValidator(@StringRes int errorResource) {
-		String errorMessage = ValiFi.getContext().getString(errorResource);
+		String errorMessage = getAppContext().getString(errorResource);
 		return addEmailValidator(errorMessage);
 	}
 
@@ -235,7 +254,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 		addCustomValidator(errorMessage, new PropertyValidator<String>() {
 			@Override
 			public boolean isValid(@Nullable String value) {
-				return value != null && ValiFi.getPattern(ValiFi.Builder.PATTERN_EMAIL).matcher(value).matches();
+				return value != null && getPattern(ValiFi.Builder.PATTERN_EMAIL).matcher(value).matches();
 			}
 		});
 		return this;
@@ -252,12 +271,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addPhoneValidator() {
-		return addPhoneValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_PHONE));
+		return addPhoneValidator(getErrorRes(ValiFi.Builder.ERROR_RES_PHONE));
 	}
 
 
 	public ValiFieldText addPhoneValidator(@StringRes int errorResource) {
-		String errorMessage = ValiFi.getContext().getString(errorResource);
+		String errorMessage = getAppContext().getString(errorResource);
 		return addPhoneValidator(errorMessage);
 	}
 
@@ -269,7 +288,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addPhoneValidator(String errorMessage) {
-		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_PHONE));
+		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PHONE));
 		return this;
 	}
 
@@ -278,18 +297,18 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addPasswordValidator() {
-		return addPasswordValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD));
+		return addPasswordValidator(getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD));
 	}
 
 
 	public ValiFieldText addPasswordValidator(@StringRes int errorResource) {
-		String errorMessage = ValiFi.getContext().getString(errorResource);
+		String errorMessage = getAppContext().getString(errorResource);
 		return addPasswordValidator(errorMessage);
 	}
 
 
 	public ValiFieldText addPasswordValidator(String errorMessage) {
-		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_PASSWORD));
+		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PASSWORD));
 		return this;
 	}
 
@@ -298,17 +317,17 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addUsernameValidator() {
-		return addUsernameValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME));
+		return addUsernameValidator(getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME));
 	}
 
 
 	public ValiFieldText addUsernameValidator(@StringRes int errorMessage) {
-		return addUsernameValidator(ValiFi.getContext().getString(errorMessage));
+		return addUsernameValidator(getAppContext().getString(errorMessage));
 	}
 
 
 	public ValiFieldText addUsernameValidator(String errorMessage) {
-		addPatternValidator(errorMessage, ValiFi.getPattern(ValiFi.Builder.PATTERN_USERNAME));
+		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_USERNAME));
 		return this;
 	}
 }

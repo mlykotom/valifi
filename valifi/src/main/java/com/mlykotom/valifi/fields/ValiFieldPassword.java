@@ -1,4 +1,4 @@
-package com.mlykotom.valifi;
+package com.mlykotom.valifi.fields;
 
 import android.support.annotation.StringRes;
 

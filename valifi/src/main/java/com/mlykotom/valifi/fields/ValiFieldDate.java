@@ -1,8 +1,11 @@
-package com.mlykotom.valifi;
+package com.mlykotom.valifi.fields;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+
+import com.mlykotom.valifi.ValiFi;
+import com.mlykotom.valifi.ValiFieldBase;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -38,12 +41,12 @@ public class ValiFieldDate extends ValiFieldBase<Calendar> {
 
 
 	public ValiFieldDate addOlderThanYearsValidator(int amount) {
-		return addOlderThanValidator(ValiFi.getErrorRes(ValiFi.Builder.ERROR_RES_YEARS_OLDER_THAN), Calendar.YEAR, amount);
+		return addOlderThanValidator(getErrorRes(ValiFi.Builder.ERROR_RES_YEARS_OLDER_THAN), Calendar.YEAR, amount);
 	}
 
 
 	public ValiFieldDate addOlderThanValidator(@StringRes int errorResource, int calendarField, int amount) {
-		String errorMessage = ValiFi.getContext().getString(errorResource, amount);
+		String errorMessage = getAppContext().getString(errorResource, amount);
 		return addOlderThanValidator(errorMessage, calendarField, amount);
 	}
 
