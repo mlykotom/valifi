@@ -3,38 +3,32 @@ package com.mlykotom.valifi.fields;
 import android.support.annotation.StringRes;
 
 
-public class ValiFieldUsername extends ValiFieldText
-{
-	public ValiFieldUsername()
-	{
+public class ValiFieldUsername extends ValiFieldText {
+	public ValiFieldUsername() {
 		super();
 		super.addUsernameValidator();
 	}
 
 
-	public ValiFieldUsername(String defaultValue)
-	{
+	public ValiFieldUsername(String defaultValue) {
 		super(defaultValue);
 		super.addUsernameValidator();
 	}
 
 
-	public ValiFieldUsername(@StringRes int errorResource)
-	{
+	public ValiFieldUsername(@StringRes int errorResource) {
 		super();
 		super.addUsernameValidator(errorResource);
 	}
 
 
-	public ValiFieldUsername(@StringRes int errorResource, String defaultValue)
-	{
+	public ValiFieldUsername(@StringRes int errorResource, String defaultValue) {
 		super(defaultValue);
 		super.addUsernameValidator(errorResource);
 	}
 
 
-	public ValiFieldUsername(String errorMessage, String defaultValue)
-	{
+	public ValiFieldUsername(String errorMessage, String defaultValue) {
 		super(defaultValue);
 		super.addUsernameValidator(errorMessage);
 	}

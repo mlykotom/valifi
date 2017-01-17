@@ -3,38 +3,32 @@ package com.mlykotom.valifi.fields;
 import android.support.annotation.StringRes;
 
 
-public class ValiFieldEmail extends ValiFieldText
-{
-	public ValiFieldEmail()
-	{
+public class ValiFieldEmail extends ValiFieldText {
+	public ValiFieldEmail() {
 		super();
 		super.addEmailValidator();
 	}
 
 
-	public ValiFieldEmail(String defaultValue)
-	{
+	public ValiFieldEmail(String defaultValue) {
 		super(defaultValue);
 		super.addEmailValidator();
 	}
 
 
-	public ValiFieldEmail(@StringRes int errorResource)
-	{
+	public ValiFieldEmail(@StringRes int errorResource) {
 		super();
 		super.addEmailValidator(errorResource);
 	}
 
 
-	public ValiFieldEmail(@StringRes int errorResource, String defaultValue)
-	{
+	public ValiFieldEmail(@StringRes int errorResource, String defaultValue) {
 		super(defaultValue);
 		super.addEmailValidator(errorResource);
 	}
 
 
-	public ValiFieldEmail(String errorMessage, String defaultValue)
-	{
+	public ValiFieldEmail(String errorMessage, String defaultValue) {
 		super(defaultValue);
 		super.addEmailValidator(errorMessage);
 	}
