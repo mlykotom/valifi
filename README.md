@@ -4,8 +4,6 @@ Android validation library for data binding.
 # Coming Soon...
 
 # License
-=======
-
     Copyright 2016 Tomas Mlynaric
 
     Licensed under the Apache License, Version 2.0 (the "License");
