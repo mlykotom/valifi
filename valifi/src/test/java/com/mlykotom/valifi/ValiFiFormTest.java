@@ -36,6 +36,6 @@ public class ValiFiFormTest {
 		field2.addEmailValidator("email not valid");
 		mForm.addField(field1);
 
-		assertThat(mForm.getIsFormValid(), is(true));
+		assertThat(mForm.getIsValid(), is(true));
 	}
 }

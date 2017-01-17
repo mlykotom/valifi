@@ -27,7 +27,7 @@ public class ValiFiForm extends BaseObservable {
 	 * @return If any field is not valid -> false
 	 */
 	@Bindable
-	public boolean getIsFormValid() {
+	public boolean getIsValid() {
 		for(ValiFieldBase field : mFields) {
 			if(!field.getIsValid()) return false;
 		}
@@ -66,6 +66,6 @@ public class ValiFiForm extends BaseObservable {
 	 * @param field which was changed
 	 */
 	void fieldValidationChanged(ValiFieldBase field) {
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isFormValid);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
 	}
 }
