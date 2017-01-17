@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.mlykotom.valifi.ValiFiForm;
-import com.mlykotom.valifi.fields.ValiFieldDate;
 import com.mlykotom.valifi.fields.ValiFieldEmail;
 import com.mlykotom.valifi.fields.ValiFieldPassword;
+import com.mlykotom.valifi.fields.ValiFieldPhone;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 
@@ -14,13 +14,16 @@ import eu.inloop.viewmodel.AbstractViewModel;
 public class ExampleViewModel extends AbstractViewModel<ExampleView> {
 	public final ValiFieldEmail email = new ValiFieldEmail();
 	public final ValiFieldPassword password = new ValiFieldPassword();
-	public final ValiFieldDate dateOfBirth = new ValiFieldDate();
-	public final ValiFiForm form = new ValiFiForm(email, password);
+	public final ValiFieldPassword password2 = new ValiFieldPassword();
+	public final ValiFieldPhone phone = new ValiFieldPhone();
+	public final ValiFiForm form = new ValiFiForm(email, password, password2, phone);
 
 
 	@Override
 	public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {
 		super.onCreate(arguments, savedInstanceState);
+		password2.addVerifyFieldValidator("Passwords must be the same", password);
+		phone.setEmptyAllowed(true);
 	}
 
 

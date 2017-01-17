@@ -11,6 +11,9 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 
+/**
+ * // TODO BETA!!
+ */
 public class ValiFieldDate extends ValiFieldBase<Calendar> {
 	public ValiFieldDate() {
 		super();
