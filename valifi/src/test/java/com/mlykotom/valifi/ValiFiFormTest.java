@@ -1,5 +1,7 @@
 package com.mlykotom.valifi;
 
+import com.mlykotom.valifi.fields.ValiFieldEmail;
+import com.mlykotom.valifi.fields.ValiFieldEmailTest;
 import com.mlykotom.valifi.fields.ValiFieldText;
 
 import org.junit.After;
@@ -32,9 +34,9 @@ public class ValiFiFormTest {
 		field1.setEmptyAllowed(true);
 		mForm.addField(field1);
 
-		ValiFieldText field2 = new ValiFieldText("email@email.email");
-		field2.addEmailValidator("email not valid");
-		mForm.addField(field1);
+		// TODO update, correct
+		ValiFieldEmail field2 = new ValiFieldEmail(ValiFieldEmailTest.EMAIL_ADDRESS_VALID, ValiFieldEmailTest.EMAIL_ERROR_MSG);
+		mForm.addField(field2);
 
 		assertThat(mForm.getIsValid(), is(true));
 	}
