@@ -228,38 +228,6 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
-	// ------------------ PHONE VALIDATOR ------------------ //
-
-
-	/**
-	 * Validates US or Czech phone numbers
-	 * Has default error message
-	 *
-	 * @return this, so validators can be chained
-	 */
-	public ValiFieldText addPhoneValidator() {
-		return addPhoneValidator(getErrorRes(ValiFi.Builder.ERROR_RES_PHONE));
-	}
-
-
-	public ValiFieldText addPhoneValidator(@StringRes int errorResource) {
-		String errorMessage = getAppContext().getString(errorResource);
-		return addPhoneValidator(errorMessage);
-	}
-
-
-	/**
-	 * Validates US or Czech phone numbers
-	 *
-	 * @param errorMessage specifies error message to be shown
-	 * @return this, so validators can be chained
-	 */
-	public ValiFieldText addPhoneValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PHONE));
-		return this;
-	}
-
-
 	// ------------------ PASSWORD VALIDATOR ------------------ //
 
 
