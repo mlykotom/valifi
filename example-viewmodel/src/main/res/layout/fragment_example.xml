@@ -94,6 +94,19 @@
 					android:hint="Phone (not mandatory)" />
 			</android.support.design.widget.TextInputLayout>
 
+			<android.support.design.widget.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:errorEnabled="true"
+				app:error="@{viewModel.captcha.error}">
+
+				<android.support.design.widget.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@={viewModel.captcha.value}"
+					android:hint="Captcha (extended validator)" />
+			</android.support.design.widget.TextInputLayout>
+
 			<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"

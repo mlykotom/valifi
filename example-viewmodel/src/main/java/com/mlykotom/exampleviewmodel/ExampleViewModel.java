@@ -18,6 +18,7 @@ public class ExampleViewModel extends AbstractViewModel<ExampleView> {
 	public final ValiFieldPassword password = new ValiFieldPassword();
 	public final ValiFieldPassword password2 = new ValiFieldPassword();
 	public final ValiFieldPhone phone = new ValiFieldPhone();
+	public final MyValiFieldCaptcha captcha = new MyValiFieldCaptcha();
 	public final ValiFiForm form = new ValiFiForm(email, username, password, password2, phone);
 
 
