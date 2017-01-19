@@ -45,8 +45,9 @@ public class MyApplication extends Application {
 
 
 #### 0. Bind your ViewModel/Fragment/etc to layout (you may already have this)
-(examples uses inloop's library https://github.com/inloop/AndroidViewModel)
 You may refer to Android's reference for data binding: https://developer.android.com/topic/libraries/data-binding/index.html
+
+(examples uses inloop's library https://github.com/inloop/AndroidViewModel)
 
 #### 1. Create field you want to validate
 ```java
