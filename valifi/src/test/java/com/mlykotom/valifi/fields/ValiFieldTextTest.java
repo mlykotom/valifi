@@ -88,6 +88,8 @@ public class ValiFieldTextTest {
 		assertThat(mField.getIsValid(), is(false));
 	}
 
+	// ------------------ MIN LENGTH VALIDATOR ------------------ //
+
 
 	@Test
 	public void checkMinLengthInvalid() {
@@ -103,6 +105,31 @@ public class ValiFieldTextTest {
 		mField.addMinLengthValidator("must be longer than 4 characters", 4);
 		assertThat(mField.getIsValid(), is(true));
 	}
+
+	// ------------------ EXACT LENGTH VALIDATOR ------------------ //
+
+
+	@Test
+	public void checkExactLength5Invalid() {
+		mField.setValue("1234");
+		mField.addExactLengthValidator("must be exactly 5 characters long", 5);
+		assertThat(mField.getIsValid(), is(false));
+	}
+
+
+	@Test
+	public void checkExactLength5Valid() {
+		mField.setValue("12345");
+		mField.addExactLengthValidator("must be exactly 5 characters long", 5);
+		assertThat(mField.getIsValid(), is(true));
+	}
+
+
+	// ------------------ MAX LENGTH VALIDATOR ------------------ //
+
+// TODO
+
+	// ------------------ RANGE VALIDATOR ------------------ //
 
 
 	@Test

@@ -203,6 +203,14 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
+	/**
+	 * Adds validator which checks length of value.
+	 *
+	 * @param errorMessage shown when not valid
+	 * @param minLength    value's length must be greater or equal
+	 * @param maxLength    value's length must be lower or equal
+	 * @return this, so validators can be chained
+	 */
 	public ValiFieldText addRangeLengthValidator(String errorMessage, final int minLength, final int maxLength) {
 		if(minLength > 0) {
 			// checking empty or not empty
