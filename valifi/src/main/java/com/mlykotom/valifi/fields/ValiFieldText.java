@@ -226,43 +226,4 @@ public class ValiFieldText extends ValiFieldBase<String> {
 		});
 		return this;
 	}
-
-
-	// ------------------ PASSWORD VALIDATOR ------------------ //
-
-
-	public ValiFieldText addPasswordValidator() {
-		return addPasswordValidator(getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD));
-	}
-
-
-	public ValiFieldText addPasswordValidator(@StringRes int errorResource) {
-		String errorMessage = getAppContext().getString(errorResource);
-		return addPasswordValidator(errorMessage);
-	}
-
-
-	public ValiFieldText addPasswordValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PASSWORD));
-		return this;
-	}
-
-
-	// ------------------ USERNAME VALIDATOR ------------------ //
-
-
-	public ValiFieldText addUsernameValidator() {
-		return addUsernameValidator(getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME));
-	}
-
-
-	public ValiFieldText addUsernameValidator(@StringRes int errorMessage) {
-		return addUsernameValidator(getAppContext().getString(errorMessage));
-	}
-
-
-	public ValiFieldText addUsernameValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_USERNAME));
-		return this;
-	}
 }

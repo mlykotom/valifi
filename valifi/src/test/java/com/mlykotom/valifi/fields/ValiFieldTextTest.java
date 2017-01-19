@@ -1,22 +1,45 @@
 package com.mlykotom.valifi.fields;
 
-import com.mlykotom.valifi.ValiFieldBaseTest;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 
-public class ValiFieldTextTest extends ValiFieldBaseTest {
+public class ValiFieldTextTest {
 	private static final String VALIDATOR_EMPTY_MESSAGE = "field can't be empty";
+	private ValiFieldText mField;
 
 
-	@Override
+	@Before
+	public void prepareField() {
+		mField = new ValiFieldText();
+	}
+
+
+	@After
+	public void destroyField() {
+		mField.destroy();
+		// check if field is still valid
+		assertThat(mField.getIsValid(), is(false));
+		// check bound values
+//		assertThat(mField.mBoundFields, is(nullValue()));	// TODO we'd like to handle that
+		// check if has form
+		assertThat(mField.getBoundForm(), is(nullValue()));
+
+		// TODO check if we can do something with the field (we should not)
+	}
+
+
+	@Test
 	public void setGetIsCorrect() {
 		mField.set("test_value");
 		assertEquals("test_value", mField.get());

@@ -7,16 +7,18 @@ import com.mlykotom.valifi.ValiFiForm;
 import com.mlykotom.valifi.fields.ValiFieldEmail;
 import com.mlykotom.valifi.fields.ValiFieldPassword;
 import com.mlykotom.valifi.fields.ValiFieldPhone;
+import com.mlykotom.valifi.fields.ValiFieldUsername;
 
 import eu.inloop.viewmodel.AbstractViewModel;
 
 
 public class ExampleViewModel extends AbstractViewModel<ExampleView> {
-	public final ValiFieldEmail email = new ValiFieldEmail();
+	public final ValiFieldEmail email = new ValiFieldEmail("this is not email :(");
+	public final ValiFieldUsername username = new ValiFieldUsername();
 	public final ValiFieldPassword password = new ValiFieldPassword();
 	public final ValiFieldPassword password2 = new ValiFieldPassword();
 	public final ValiFieldPhone phone = new ValiFieldPhone();
-	public final ValiFiForm form = new ValiFiForm(email, password, password2, phone);
+	public final ValiFiForm form = new ValiFiForm(email, username, password, password2, phone);
 
 
 	@Override

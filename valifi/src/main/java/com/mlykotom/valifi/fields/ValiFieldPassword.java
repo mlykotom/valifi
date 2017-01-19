@@ -2,36 +2,46 @@ package com.mlykotom.valifi.fields;
 
 import android.support.annotation.StringRes;
 
+import com.mlykotom.valifi.ValiFi;
+
 
 public class ValiFieldPassword extends ValiFieldText {
 	public ValiFieldPassword() {
-		super();
-		super.addPasswordValidator();
+		this(null);
 	}
 
 
 	public ValiFieldPassword(String defaultValue) {
 		super(defaultValue);
-		super.addPasswordValidator();
+		addPasswordValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD)));
 	}
 
 
 	public ValiFieldPassword(@StringRes int errorResource) {
-		super();
-		super.addPasswordValidator(errorResource);
+		this(null, errorResource);
 	}
 
 
-	public ValiFieldPassword(@StringRes int errorResource, String defaultValue) {
+	public ValiFieldPassword(String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
-		super.addPasswordValidator(errorResource);
+		addPasswordValidator(getAppContext().getString(errorResource));
 	}
 
 
-	public ValiFieldPassword(String errorMessage, String defaultValue) {
+	public ValiFieldPassword(String defaultValue, String errorMessage) {
 		super(defaultValue);
-		super.addPasswordValidator(errorMessage);
+		addPasswordValidator(errorMessage);
 	}
 
 
+	/**
+	 * Validates password based on default pattern for password
+	 *
+	 * @param errorMessage to show when field not valid
+	 * @return this, so validators can be chained
+	 */
+	protected ValiFieldPassword addPasswordValidator(String errorMessage) {
+		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PASSWORD));
+		return this;
+	}
 }

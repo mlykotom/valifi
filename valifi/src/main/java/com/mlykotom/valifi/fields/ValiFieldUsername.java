@@ -2,34 +2,46 @@ package com.mlykotom.valifi.fields;
 
 import android.support.annotation.StringRes;
 
+import com.mlykotom.valifi.ValiFi;
+
 
 public class ValiFieldUsername extends ValiFieldText {
 	public ValiFieldUsername() {
-		super();
-		super.addUsernameValidator();
+		this(null);
 	}
 
 
 	public ValiFieldUsername(String defaultValue) {
 		super(defaultValue);
-		super.addUsernameValidator();
+		addUsernameValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME)));
 	}
 
 
 	public ValiFieldUsername(@StringRes int errorResource) {
-		super();
-		super.addUsernameValidator(errorResource);
+		this(null, errorResource);
 	}
 
 
-	public ValiFieldUsername(@StringRes int errorResource, String defaultValue) {
+	public ValiFieldUsername(String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
-		super.addUsernameValidator(errorResource);
+		addUsernameValidator(getAppContext().getString(errorResource));
 	}
 
 
-	public ValiFieldUsername(String errorMessage, String defaultValue) {
+	public ValiFieldUsername(String defaultValue, String errorMessage) {
 		super(defaultValue);
-		super.addUsernameValidator(errorMessage);
+		addUsernameValidator(errorMessage);
+	}
+
+
+	/**
+	 * Validates username based on default pattern for username
+	 *
+	 * @param errorMessage specifies error message to be shown
+	 * @return this, so validators can be chained
+	 */
+	protected ValiFieldText addUsernameValidator(String errorMessage) {
+		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_USERNAME));
+		return this;
 	}
 }

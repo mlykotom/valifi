@@ -1,6 +1,5 @@
 package com.mlykotom.valifi.fields;
 
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.Patterns;
 
@@ -43,12 +42,7 @@ public class ValiFieldEmail extends ValiFieldText {
 	 * @return this, so validators can be chained
 	 */
 	protected ValiFieldText addEmailValidator(String errorMessage) {
-		addCustomValidator(errorMessage, new PropertyValidator<String>() {
-			@Override
-			public boolean isValid(@Nullable String value) {
-				return value != null && getPattern(ValiFi.Builder.PATTERN_EMAIL).matcher(value).matches();
-			}
-		});
+		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_EMAIL));
 		return this;
 	}
 }
