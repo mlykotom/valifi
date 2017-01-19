@@ -85,7 +85,45 @@ When user types his e-mail, it will automatically validates input and enables/di
 # Customizations
 There are plenty of options to customizate ValiFi.
 
-## Coming soon :)
+### Globally (for whole app)
+```java
+public class MyApplication extends Application {
+    @Override
+    public void onCreate() {
+	ValiFi.install(this, 
+		new ValiFi.Builder()
+			.setErrorResource(ValiFi.Builder.ERROR_RES_EMAIL, R.string.my_custom_email_error)
+			.setPattern(ValiFi.Builder.PATTERN_EMAIL, Patterns.EMAIL_ADDRESS)
+			.build()
+	);
+    }
+}
+```
+
+### Locally (for specified field)
+
+```java
+public final ValiFieldEmail email = new ValiFieldEmail("default nullable value", "Custom error message");
+```
+
+### Specify your field by adding validators
+```java
+public final ValiFieldText fieldWithDifferentValidations = new ValiFieldText();
+
+fieldWithDifferentValidations
+	.addRangeLengthValidator(3, 10)
+	.setEmptyAllowed(true)
+	.addPatternValidator("pattern not valid", Patterns.IP_ADDRESS)
+	.addCustomValidator("custom not valid", new ValiFieldBase.PropertyValidator<String>() {
+		@Override
+		public boolean isValid(@Nullable String value) {
+			return whenThisIsValid;
+		}
+	});
+
+```
+
+## More (docs) Coming soon :)
 
 # Examples
 
