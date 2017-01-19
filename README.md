@@ -57,6 +57,7 @@ public final ValiFieldEmail email = new ValiFieldEmail();
 ```
 
 #### 2. Use it from layout
+Library uses two-way data binding so be careful of adding android:text="__@=__{...}"
 
 ```xml
 <android.support.design.widget.TextInputLayout
@@ -123,7 +124,23 @@ fieldWithDifferentValidations
 
 ```
 
-## More (docs) Coming soon :)
+## Forms!
+Want to allow submit after all fields valid?
+
+```java
+public final ValiFieldEmail email = new ValiFieldEmail();
+public final ValiFieldPassword password = new ValiFieldPassword();
+
+public final ValiFiForm form = new ValiFiForm(email, password);
+```
+
+```xml
+<Button
+	...
+	android:enabled="@{viewModel.form.isValid}"
+	...
+	android:text="Submit" />
+```
 
 # Examples
 
