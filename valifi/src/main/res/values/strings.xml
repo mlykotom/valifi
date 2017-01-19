@@ -1,5 +1,5 @@
 <resources>
-	<string name="validation_error_username">Enter your username</string>
+	<string name="validation_error_username">Username must be at least 4 characters long</string>
 	<string name="validation_error_email">Enter valid email</string>
 	<string name="validation_error_phone">Enter valid phone number</string>
 	<string name="validation_error_fullname">Fullname must have at least %d characters</string>

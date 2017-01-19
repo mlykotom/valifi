@@ -3,7 +3,6 @@ package com.mlykotom.valifi.fields;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.util.Patterns;
 
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFieldBase;
@@ -64,7 +63,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 		return super.setEmptyAllowed(isEmptyAllowed);
 	}
 
-// ------------------ PATTERN VALIDATOR ------------------ //
+	// ------------------ PATTERN VALIDATOR ------------------ //
 
 
 	/**
@@ -204,6 +203,14 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
+	/**
+	 * Adds validator which checks length of value.
+	 *
+	 * @param errorMessage shown when not valid
+	 * @param minLength    value's length must be greater or equal
+	 * @param maxLength    value's length must be lower or equal
+	 * @return this, so validators can be chained
+	 */
 	public ValiFieldText addRangeLengthValidator(String errorMessage, final int minLength, final int maxLength) {
 		if(minLength > 0) {
 			// checking empty or not empty
@@ -219,120 +226,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 				int length = value != null ? value.trim().length() : 0;
 
 				if(maxLength == -1) {
-					return length >= minLength && length <= maxLength;
-				} else {
 					return length >= minLength;
+				} else {
+					return length >= minLength && length <= maxLength;
 				}
 			}
 		});
-		return this;
-	}
-
-
-	// ------------------ EMAIL VALIDATOR ------------------ //
-
-
-	/**
-	 * Validates email addresses based on Android's {@link Patterns#EMAIL_ADDRESS}
-	 * Has default error message
-	 *
-	 * @return this, so validators can be chained
-	 */
-	public ValiFieldText addEmailValidator() {
-		return addEmailValidator(getErrorRes(ValiFi.Builder.ERROR_RES_EMAIL));
-	}
-
-
-	public ValiFieldText addEmailValidator(@StringRes int errorResource) {
-		String errorMessage = getAppContext().getString(errorResource);
-		return addEmailValidator(errorMessage);
-	}
-
-
-	/**
-	 * Validates email addresses based on Android's {@link Patterns#EMAIL_ADDRESS}
-	 *
-	 * @param errorMessage specifies error message to be shown
-	 * @return this, so validators can be chained
-	 */
-	public ValiFieldText addEmailValidator(String errorMessage) {
-		addCustomValidator(errorMessage, new PropertyValidator<String>() {
-			@Override
-			public boolean isValid(@Nullable String value) {
-				return value != null && getPattern(ValiFi.Builder.PATTERN_EMAIL).matcher(value).matches();
-			}
-		});
-		return this;
-	}
-
-
-	// ------------------ PHONE VALIDATOR ------------------ //
-
-
-	/**
-	 * Validates US or Czech phone numbers
-	 * Has default error message
-	 *
-	 * @return this, so validators can be chained
-	 */
-	public ValiFieldText addPhoneValidator() {
-		return addPhoneValidator(getErrorRes(ValiFi.Builder.ERROR_RES_PHONE));
-	}
-
-
-	public ValiFieldText addPhoneValidator(@StringRes int errorResource) {
-		String errorMessage = getAppContext().getString(errorResource);
-		return addPhoneValidator(errorMessage);
-	}
-
-
-	/**
-	 * Validates US or Czech phone numbers
-	 *
-	 * @param errorMessage specifies error message to be shown
-	 * @return this, so validators can be chained
-	 */
-	public ValiFieldText addPhoneValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PHONE));
-		return this;
-	}
-
-
-	// ------------------ PASSWORD VALIDATOR ------------------ //
-
-
-	public ValiFieldText addPasswordValidator() {
-		return addPasswordValidator(getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD));
-	}
-
-
-	public ValiFieldText addPasswordValidator(@StringRes int errorResource) {
-		String errorMessage = getAppContext().getString(errorResource);
-		return addPasswordValidator(errorMessage);
-	}
-
-
-	public ValiFieldText addPasswordValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PASSWORD));
-		return this;
-	}
-
-
-	// ------------------ USERNAME VALIDATOR ------------------ //
-
-
-	public ValiFieldText addUsernameValidator() {
-		return addUsernameValidator(getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME));
-	}
-
-
-	public ValiFieldText addUsernameValidator(@StringRes int errorMessage) {
-		return addUsernameValidator(getAppContext().getString(errorMessage));
-	}
-
-
-	public ValiFieldText addUsernameValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_USERNAME));
 		return this;
 	}
 }

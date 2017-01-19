@@ -11,8 +11,6 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
 
-import com.mlykotom.valifi.fields.ValiFieldText;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,7 +19,8 @@ import java.util.regex.Pattern;
 
 
 /**
- * TODO weak reference for callback
+ * TODO main validators to its classes
+ * TODO show error after some latency
  * TODO validators through annotations
  *
  * @param <ValueType>
@@ -86,9 +85,15 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	}
 
 
-	public ValiFieldBase(ValueType defaultValue) {
+	/**
+	 * @param defaultValue if not null, will mark that field is changed
+	 */
+	public ValiFieldBase(@Nullable ValueType defaultValue) {
 		this();
-		set(defaultValue);
+		mValue = defaultValue;
+		if(defaultValue != null) {
+			mIsChanged = true;
+		}
 	}
 
 
@@ -121,8 +126,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 *
 	 * @param fields to be cleansed
 	 */
-	public static void destroyAll(ValiFieldText... fields) {
-		for(ValiFieldText field : fields) {
+	public static void destroyAll(ValiFieldBase... fields) {
+		for(ValiFieldBase field : fields) {
 			field.destroy();
 		}
 	}
@@ -321,6 +326,9 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 	public ValiFieldBase<ValueType> addCustomValidator(String errorMessage, PropertyValidator<ValueType> validator) {
 		mPropertyValidators.put(validator, errorMessage);
+		if(mIsChanged) {
+			notifyPropertyChanged(com.mlykotom.valifi.BR.value);
+		}
 		return this;
 	}
 

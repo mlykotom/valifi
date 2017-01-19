@@ -2,34 +2,46 @@ package com.mlykotom.valifi.fields;
 
 import android.support.annotation.StringRes;
 
+import com.mlykotom.valifi.ValiFi;
+
 
 public class ValiFieldPhone extends ValiFieldText {
 	public ValiFieldPhone() {
-		super();
-		super.addPhoneValidator();
+		this(null);
 	}
 
 
 	public ValiFieldPhone(String defaultValue) {
 		super(defaultValue);
-		super.addPhoneValidator();
+		addPhoneValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_PHONE)));
 	}
 
 
 	public ValiFieldPhone(@StringRes int errorResource) {
-		super();
-		super.addPhoneValidator(errorResource);
+		this(null, errorResource);
 	}
 
 
-	public ValiFieldPhone(@StringRes int errorResource, String defaultValue) {
+	public ValiFieldPhone(String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
-		super.addPhoneValidator(errorResource);
+		addPhoneValidator(getAppContext().getString(errorResource));
 	}
 
 
-	public ValiFieldPhone(String errorMessage, String defaultValue) {
+	public ValiFieldPhone(String defaultValue, String errorMessage) {
 		super(defaultValue);
-		super.addPhoneValidator(errorMessage);
+		addPhoneValidator(errorMessage);
+	}
+
+
+	/**
+	 * Validates US or Czech phone numbers
+	 *
+	 * @param errorMessage specifies error message to be shown
+	 * @return this, so validators can be chained
+	 */
+	protected ValiFieldText addPhoneValidator(String errorMessage) {
+		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PHONE));
+		return this;
 	}
 }
