@@ -15,7 +15,7 @@ android:
     - extra-android-m2repository
 
 script:
-  ./gradlew :valifi:testDebugUnitTest
+  ./gradlew test --info
 
 sudo: false
 
