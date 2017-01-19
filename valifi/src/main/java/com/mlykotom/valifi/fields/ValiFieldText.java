@@ -218,9 +218,9 @@ public class ValiFieldText extends ValiFieldBase<String> {
 				int length = value != null ? value.trim().length() : 0;
 
 				if(maxLength == -1) {
-					return length >= minLength && length <= maxLength;
-				} else {
 					return length >= minLength;
+				} else {
+					return length >= minLength && length <= maxLength;
 				}
 			}
 		});
