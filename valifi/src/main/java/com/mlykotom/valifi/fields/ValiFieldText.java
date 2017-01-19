@@ -56,11 +56,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	@Override
-	public ValiFieldBase<String> setEmptyAllowed(boolean isEmptyAllowed) {
+	public ValiFieldText setEmptyAllowed(boolean isEmptyAllowed) {
 		if(mHasNotEmptyValidator) {
 			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
 		}
-		return super.setEmptyAllowed(isEmptyAllowed);
+		super.setEmptyAllowed(isEmptyAllowed);
+		return this;
 	}
 
 	// ------------------ PATTERN VALIDATOR ------------------ //
