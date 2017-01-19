@@ -63,11 +63,13 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 }
 
-afterEvaluate {
-	javadoc.classpath += files(android.libraryVariants.collect { variant ->
-		variant.javaCompile.classpath.files
-	})
-}
+if(project.file('../local.properties').exists()) {
+	afterEvaluate {
+		javadoc.classpath += files(android.libraryVariants.collect {variant ->
+			variant.javaCompile.classpath.files
+		})
+	}
 
-apply from: "./install.gradle"
-apply from: "./bintray.gradle"
+	apply from: "./install.gradle"
+	apply from: "./bintray.gradle"
+}
