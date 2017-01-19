@@ -148,7 +148,7 @@ public final ValiFiForm form = new ValiFiForm(email, password);
 2. Classic fragment approach [here](https://github.com/mlykotom/valifi/tree/master/example)
 
 # License
-    Copyright 2016 Tomas Mlynaric
+    Copyright 2017 Tomas Mlynaric
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
