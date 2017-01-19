@@ -1,4 +1,33 @@
+final VERSION_MAJOR = 0 // max two digits
+final VERSION_MINOR = 3 // max two digits
+final VERSION_PATCH = 0 // max two digits
+final VERSION_BUILD = 0 // max three digits
+
 apply plugin: 'com.android.library'
+
+ext {
+	bintrayRepo = 'maven'
+	bintrayName = 'valifi'
+
+	publishedGroupId = 'com.mlykotom'
+	libraryName = 'ValiFi'
+	artifact = 'valifi'
+
+	libraryDescription = 'Android validation library for data binding'
+
+	siteUrl = 'https://github.com/mlykotom/valifi'
+	gitUrl = 'https://github.com/mlykotom/valifi.git'
+
+	libraryVersion = "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+
+	developerId = 'mlykotom'
+	developerName = 'Tomas Mlynaric'
+	developerEmail = 'mlynarict@gmail.com'
+
+	licenseName = 'The Apache Software License, Version 2.0'
+	licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+	allLicenses = ["Apache-2.0"]
+}
 
 android {
 	compileSdkVersion 25
@@ -7,8 +36,8 @@ android {
 	defaultConfig {
 		minSdkVersion 9
 		targetSdkVersion 25
-		versionCode 2
-		versionName "0.2"
+		versionCode VERSION_MAJOR * 10000000 + VERSION_MINOR * 100000 + VERSION_PATCH * 1000 + VERSION_BUILD
+		versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
 	}
 	buildTypes {
 		release {
@@ -33,3 +62,6 @@ dependencies {
 	compile 'com.android.support:design:25.1.0'
 	testCompile 'junit:junit:4.12'
 }
+
+apply from: "./install.gradle"
+apply from: "./bintray.gradle"
