@@ -8,7 +8,9 @@
 
 ### ValiFi is for you!
 
-__ValiFi__ is android library for validating fields or whole forms. It's working with data binding and validations are visible immediately when user adds input. It's highly customizable and simple for use.
+* __ValiFi__ is android library for validating fields or whole forms. 
+* It's working with data binding and validations are visible immediately when user adds input. 
+* It's highly customizable and simple for use.
 
 # How to use
 
