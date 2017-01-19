@@ -67,6 +67,9 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	/**
+	 * @param errorResource specified error resource which is got by app context
+	 * @param pattern       validates this pattern
+	 * @return this, so validators can be chained
 	 * @see #addPatternValidator(String, Pattern)
 	 */
 	public ValiFieldText addPatternValidator(@StringRes int errorResource, final Pattern pattern) {

@@ -24,7 +24,7 @@ public class ValiFiForm extends BaseObservable {
 	/**
 	 * Checks whether all bundled fields are valid
 	 *
-	 * @return If any field is not valid -> false
+	 * @return If any field is not valid = false
 	 */
 	@Bindable
 	public boolean getIsValid() {
