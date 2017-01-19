@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * TODO show error after some latency
  * TODO validators through annotations
  *
- * @param <ValueType>
+ * @param <ValueType> of the whole field (for now it's String and beta Calendar)
  */
 @SuppressWarnings("unused")
 public abstract class ValiFieldBase<ValueType> extends BaseObservable {
@@ -148,7 +148,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * Any inherited field must be able to convert to String.
 	 * This is so that it's possible to show it in TextView/EditText
 	 *
-	 * @return converted string (e.g. if Date -> formatted string)
+	 * @return converted string (e.g. for Date = formatted string)
 	 */
 	protected abstract String convertValueToString();
 
@@ -157,6 +157,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * Allows empty field to be valid.
 	 * Useful when some field is not necessary but needs to be in proper format if filled.
 	 *
+	 * @param isEmptyAllowed if true, field may be empty or null to be valid
 	 * @return this, co validators can be chained
 	 */
 	public ValiFieldBase<ValueType> setEmptyAllowed(boolean isEmptyAllowed) {
@@ -229,7 +230,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * <p>Gets actual validation flag which might be used for error messages.</p>
 	 * !!THIS IS FALSE WHEN DATA WERE NOT SET YET!!
 	 *
-	 * @return valid flag -> false is default state
+	 * @return valid flag = false is default state
 	 */
 	@Bindable
 	public boolean getIsError() {
@@ -271,6 +272,9 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
+	 * @param errorResource to be shown (got from app's context)
+	 * @param targetField   validates with this field
+	 * @return this, so validators can be chained
 	 * @see #addVerifyFieldValidator(String, ValiFieldBase)
 	 */
 	public ValiFieldBase<ValueType> addVerifyFieldValidator(@StringRes int errorResource, final ValiFieldBase<ValueType> targetField) {
