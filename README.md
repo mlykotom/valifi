@@ -20,7 +20,7 @@
 
 #### 1. Add gradle dependency
 ```groovy
-compile 'com.mlykotom:valifi:0.3.0'
+compile 'com.mlykotom:valifi:0.3.1'
 ```
 #### 2. Setup project with data binding 
 ``` groovy
