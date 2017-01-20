@@ -18,6 +18,7 @@ public class ValiFiFormTest {
 
 	@Before
 	public void prepare() {
+		ValiFi.install(null);
 		mForm = new ValiFiForm();
 	}
 
