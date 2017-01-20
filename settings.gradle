@@ -1,1 +1,1 @@
-include ':example-android', ':valifi'
+include ':example-android', ':valifi', ':example-viewmodel'
