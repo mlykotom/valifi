@@ -2,7 +2,7 @@ package com.mlykotom.valifi.fields;
 
 import com.mlykotom.valifi.ValiFi;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -15,8 +15,8 @@ public class ValiFieldEmailTest {
 	public static final String EMAIL_ERROR_MSG = "email is not valid";
 
 
-	@BeforeClass
-	public static void installWithoutContext() {
+	@Before
+	public void installWithoutContext() {
 		// WARNING: installing without context will crash when getting string, only for tests!
 		ValiFi.install(null);
 	}
