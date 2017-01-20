@@ -16,4 +16,4 @@ android:
     - extra-android-m2repository
 
 script:
-  ./gradlew :valifi:test --info
+  ./gradlew valifi:test
