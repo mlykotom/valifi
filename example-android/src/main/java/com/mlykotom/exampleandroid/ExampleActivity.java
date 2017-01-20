@@ -1,4 +1,4 @@
-package com.mlykotom.example;
+package com.mlykotom.exampleandroid;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.mlykotom.example.databinding.ActivityExampleBinding;
+import com.mlykotom.exampleandroid.databinding.ActivityExampleBinding;
 import com.mlykotom.valifi.fields.ValiFieldEmail;
 
 
