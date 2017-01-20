@@ -5,7 +5,7 @@ android {
 	buildToolsVersion "25.0.2"
 
 	defaultConfig {
-		applicationId "com.mlykotom.exampleviewmodel"
+		applicationId "com.mlykotom.example-viewmodel"
 		minSdkVersion 15
 		targetSdkVersion 25
 		versionCode 1
