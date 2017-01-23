@@ -56,12 +56,13 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				app:errorEnabled="true"
+				app:passwordToggleEnabled="true"
 				app:error="@{viewModel.password.error}">
 
 				<android.support.design.widget.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:inputType="textEmailAddress"
+					android:inputType="textPassword"
 					android:text="@={viewModel.password.value}"
 					android:hint="Password" />
 			</android.support.design.widget.TextInputLayout>
@@ -70,12 +71,13 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				app:errorEnabled="true"
+				app:passwordToggleEnabled="true"
 				app:error="@{viewModel.password2.error}">
 
 				<android.support.design.widget.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:inputType="textEmailAddress"
+					android:inputType="textPassword"
 					android:text="@={viewModel.password2.value}"
 					android:hint="Verify password" />
 			</android.support.design.widget.TextInputLayout>
