@@ -3,6 +3,10 @@ language: android
 jdk: oraclejdk8
 sudo: false
 
+branches:
+  only:
+    - master
+
 android:
   components:
     - tools # to get the new `repository-11.xml`
