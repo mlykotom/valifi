@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 
 public class ValiFi {
+	static String TAG = ValiFi.class.getSimpleName();
 	@SuppressLint("StaticFieldLeak")
 	private static ValiFi ourInstance;
 	private final Context mAppContext;

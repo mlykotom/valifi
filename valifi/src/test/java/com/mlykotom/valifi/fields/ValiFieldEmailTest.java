@@ -27,7 +27,6 @@ public class ValiFieldEmailTest {
 		ValiFieldEmail field = new ValiFieldEmail(EMAIL_ADDRESS_VALID, EMAIL_ERROR_MSG);
 		assertThat(field.get(), is(EMAIL_ADDRESS_VALID));
 		assertThat(field.getIsValid(), is(true));
-		assertThat(field.getIsError(), is(false));
 	}
 
 
@@ -37,7 +36,6 @@ public class ValiFieldEmailTest {
 		field.set(EMAIL_ADDRESS_VALID);
 		assertThat(field.get(), is(EMAIL_ADDRESS_VALID));
 		assertThat(field.getIsValid(), is(true));
-		assertThat(field.getIsError(), is(false));
 	}
 
 
@@ -47,7 +45,6 @@ public class ValiFieldEmailTest {
 		assertThat(field.get(), is(EMAIL_ADDRESS_INVALID));
 		assertThat(field.getIsValid(), is(false));
 		assertThat(field.getError(), is(EMAIL_ERROR_MSG));
-		assertThat(field.getIsError(), is(true));
 	}
 
 
@@ -58,6 +55,5 @@ public class ValiFieldEmailTest {
 		assertThat(field.get(), is(EMAIL_ADDRESS_INVALID));
 		assertThat(field.getIsValid(), is(false));
 		assertThat(field.getError(), is(EMAIL_ERROR_MSG));
-		assertThat(field.getIsError(), is(true));
 	}
 }

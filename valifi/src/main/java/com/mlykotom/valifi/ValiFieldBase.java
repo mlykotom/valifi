@@ -35,38 +35,42 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	private boolean mIsError = false;
 	private String mError;
 	@Nullable private ValiFiForm mParentForm;
-	/**
-	 * Callback for handling all validators in one place
-	 */
-	protected OnPropertyChangedCallback mCallback = new OnPropertyChangedCallback() {
+	protected ValueChangedListener mValueChangedListener = new ValueChangedListener() {
 		@Override
-		public void onPropertyChanged(Observable observable, int brId) {
-			if(brId != com.mlykotom.valifi.BR.value) return;
+		public void run(boolean isImmediate) {
 
+			// notifying bound fields about change
 			if(mBoundFields != null) {
 				for(ValiFieldBase field : mBoundFields) {
 					if(!field.mIsChanged) continue;    // notifies only changed items
-					field.notifyPropertyChanged(com.mlykotom.valifi.BR.value);
+					field.notifyValueChanged(true);
 				}
 			}
 
+			// checking if value can be empty
 			ValueType actualValue = mValue;
 			if(mIsEmptyAllowed && (actualValue == null || whenThisFieldIsEmpty(actualValue))) {
 				setIsError(false, null);
+				notifyErrorChanged();
 				return;
 			}
 
+			// checking all set validators
 			for(Map.Entry<PropertyValidator<ValueType>, String> entry : mPropertyValidators.entrySet()) {
 				// all of setup validators must be valid, otherwise error
 				if(!entry.getKey().isValid(actualValue)) {
 					setIsError(true, entry.getValue());
+					notifyErrorChanged();
 					return;
 				}
 			}
 
+			// set valid
 			setIsError(false, null);
+			notifyErrorChanged();
 		}
 	};
+	private OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
 
 
 	public interface PropertyValidator<T> {
@@ -183,7 +187,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 		if((value == mValue) || (value != null && value.equals(mValue))) return;
 
 		mValue = value;
-		notifyPropertyChanged(com.mlykotom.valifi.BR.value);
+		notifyValueChanged(false);
 	}
 
 
@@ -223,18 +227,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 		mIsChanged = false;
 		mIsError = false;
 		mIsEmptyAllowed = false;
-	}
-
-
-	/**
-	 * <p>Gets actual validation flag which might be used for error messages.</p>
-	 * !!THIS IS FALSE WHEN DATA WERE NOT SET YET!!
-	 *
-	 * @return valid flag = false is default state
-	 */
-	@Bindable
-	public boolean getIsError() {
-		return mIsError;
 	}
 
 
@@ -305,9 +297,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	}
 
 
-	// ------------------ VERIFY OTHER FIELD VALIDATOR ------------------ //
-
-
 	/**
 	 * Ability to add custom validators
 	 *
@@ -325,15 +314,26 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 		return addCustomValidator(errorMessage, validator);
 	}
 
-	// ------------------ CUSTOM VALIDATOR ------------------ //
-
 
 	public ValiFieldBase<ValueType> addCustomValidator(String errorMessage, PropertyValidator<ValueType> validator) {
 		mPropertyValidators.put(validator, errorMessage);
 		if(mIsChanged) {
-			notifyPropertyChanged(com.mlykotom.valifi.BR.value);
+			notifyValueChanged(true);
 		}
 		return this;
+	}
+
+
+	/**
+	 * Internaly fields can be binded together so that when one changes, it notifies others
+	 *
+	 * @param field to be notified when this field changed
+	 */
+	protected void addBoundField(ValiFieldBase field) {
+		if(mBoundFields == null) {
+			mBoundFields = new ArrayList<>();
+		}
+		mBoundFields.add(field);
 	}
 
 
@@ -362,24 +362,60 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 		mIsChanged = true;
 		mIsError = isError;
 		mError = errorMessage;
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isError);
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
-		notifyPropertyChanged(com.mlykotom.valifi.BR.error);
+		notifyValidationChanged();
 		if(mParentForm != null) {
 			mParentForm.notifyValidationChanged(this);
 		}
+//		else{
+//			// TODO this could be here instead of few lines above and saves some method calls
+//			notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
+//		}
 	}
 
 
 	/**
-	 * Internaly fields can be binded together so that when one changes, it notifies others
+	 * Notifies that value changed (internally)
 	 *
-	 * @param field to be notified when this field changed
+	 * @param isImmediate if true, does not call binding notifier
 	 */
-	protected void addBoundField(ValiFieldBase field) {
-		if(mBoundFields == null) {
-			mBoundFields = new ArrayList<>();
+	protected void notifyValueChanged(boolean isImmediate) {
+		if(isImmediate) {
+			mValueChangedListener.run(true);
+		} else {
+			notifyPropertyChanged(com.mlykotom.valifi.BR.value);
 		}
-		mBoundFields.add(field);
+	}
+
+
+	private void notifyValidationChanged() {
+		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
+	}
+
+
+	private void notifyErrorChanged() {
+		notifyPropertyChanged(com.mlykotom.valifi.BR.error);
+	}
+
+
+	private OnPropertyChangedCallback setupOnPropertyChangedCallback() {
+		return new OnPropertyChangedCallback() {
+			@Override
+			public void onPropertyChanged(Observable observable, int brId) {
+				if(brId != com.mlykotom.valifi.BR.value) return;
+				mValueChangedListener.run(false);
+			}
+		};
+	}
+
+
+	public static abstract class ValueChangedListener implements Runnable {
+
+		public abstract void run(boolean isImmediate);
+
+
+		@Override
+		public final void run() {
+			run(false);
+		}
 	}
 }
