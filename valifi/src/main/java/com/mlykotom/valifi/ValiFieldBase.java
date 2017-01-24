@@ -19,9 +19,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * TODO main validators to its classes
- * TODO show error after some latency
- * TODO validators through annotations
+ * Base class for validation field. Holds value change listener and basic rules for validation.
  *
  * @param <ValueType> of the whole field (for now it's String and beta Calendar)
  */
