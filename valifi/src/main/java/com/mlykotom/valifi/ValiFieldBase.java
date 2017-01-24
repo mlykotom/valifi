@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 
@@ -30,45 +31,13 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	protected boolean mIsEmptyAllowed = false;
 	@Nullable protected List<ValiFieldBase> mBoundFields;
 	boolean mIsChanged = false;
+	private boolean mLastIsError = true;
 	private boolean mIsError = false;
 	private String mError;
 	@Nullable private ValiFiForm mParentForm;
-	protected ValueChangedListener mValueChangedListener = new ValueChangedListener() {
-		@Override
-		public void run(boolean isImmediate) {
-
-			// notifying bound fields about change
-			if(mBoundFields != null) {
-				for(ValiFieldBase field : mBoundFields) {
-					if(!field.mIsChanged) continue;    // notifies only changed items
-					field.notifyValueChanged(true);
-				}
-			}
-
-			// checking if value can be empty
-			ValueType actualValue = mValue;
-			if(mIsEmptyAllowed && (actualValue == null || whenThisFieldIsEmpty(actualValue))) {
-				setIsError(false, null);
-				notifyErrorChanged();
-				return;
-			}
-
-			// checking all set validators
-			for(Map.Entry<PropertyValidator<ValueType>, String> entry : mPropertyValidators.entrySet()) {
-				// all of setup validators must be valid, otherwise error
-				if(!entry.getKey().isValid(actualValue)) {
-					setIsError(true, entry.getValue());
-					notifyErrorChanged();
-					return;
-				}
-			}
-
-			// set valid
-			setIsError(false, null);
-			notifyErrorChanged();
-		}
-	};
-	private OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
+	private long mDueTime;
+	private Runnable mNotifyErrorRunnable = setupNotifyErrorRunnable();
+	protected OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
 
 
 	public interface PropertyValidator<T> {
@@ -378,7 +347,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 */
 	protected void notifyValueChanged(boolean isImmediate) {
 		if(isImmediate) {
-			mValueChangedListener.run(true);
+			mCallback.onPropertyChanged(null, com.mlykotom.valifi.BR.value);
 		} else {
 			notifyPropertyChanged(com.mlykotom.valifi.BR.value);
 		}
@@ -391,7 +360,31 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	private void notifyErrorChanged() {
-		notifyPropertyChanged(com.mlykotom.valifi.BR.error);
+		mDueTime = System.currentTimeMillis() + ValiFi.delayInterval;
+		mNotifyErrorRunnable.run();
+		mLastIsError = mIsError;
+	}
+
+
+	private Runnable setupNotifyErrorRunnable() {
+		return new Runnable() {
+			@Override
+			public void run() {
+//				Log.e(ValiFi.TAG, String.format("%b | %b", mLastIsError, mIsError));
+
+				long remainingDelay = mDueTime - System.currentTimeMillis();
+				// validation changed from valid -> invalid or vice versa
+				if(remainingDelay <= 0 || (!mLastIsError && mIsError)) {
+					mDueTime = -1;
+//					Log.v(ValiFi.TAG, "notifying about error...");
+					notifyPropertyChanged(com.mlykotom.valifi.BR.error);
+				} else {
+//					Log.d(ValiFi.TAG, remainingDelay + " MS remaining");
+					// TODO there are more scheduled tasks than needed
+					ValiFi.scheduler.schedule(mNotifyErrorRunnable, remainingDelay, TimeUnit.MILLISECONDS);
+				}
+			}
+		};
 	}
 
 
@@ -400,20 +393,37 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 			@Override
 			public void onPropertyChanged(Observable observable, int brId) {
 				if(brId != com.mlykotom.valifi.BR.value) return;
-				mValueChangedListener.run(false);
+
+				// notifying bound fields about change
+				if(mBoundFields != null) {
+					for(ValiFieldBase field : mBoundFields) {
+						if(!field.mIsChanged) continue;    // notifies only changed items
+						field.notifyValueChanged(true);
+					}
+				}
+
+				// checking if value can be empty
+				ValueType actualValue = mValue;
+				if(mIsEmptyAllowed && (actualValue == null || whenThisFieldIsEmpty(actualValue))) {
+					setIsError(false, null);
+					notifyErrorChanged();
+					return;
+				}
+
+				// checking all set validators
+				for(Map.Entry<PropertyValidator<ValueType>, String> entry : mPropertyValidators.entrySet()) {
+					// all of setup validators must be valid, otherwise error
+					if(!entry.getKey().isValid(actualValue)) {
+						setIsError(true, entry.getValue());
+						notifyErrorChanged();
+						return;
+					}
+				}
+
+				// set valid
+				setIsError(false, null);
+				notifyErrorChanged();
 			}
 		};
-	}
-
-
-	public static abstract class ValueChangedListener implements Runnable {
-
-		public abstract void run(boolean isImmediate);
-
-
-		@Override
-		public final void run() {
-			run(false);
-		}
 	}
 }

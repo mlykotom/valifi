@@ -5,11 +5,14 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
+import android.text.format.DateUtils;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.regex.Pattern;
 
 
@@ -19,6 +22,10 @@ public class ValiFi {
 	private static ValiFi ourInstance;
 	private final Context mAppContext;
 	private final ValiFiConfig mParameters;
+
+	// TODO parameter properly
+	public static long delayInterval = DateUtils.SECOND_IN_MILLIS;
+	public static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
 
 	private ValiFi(Context appContext, ValiFiConfig config) {
