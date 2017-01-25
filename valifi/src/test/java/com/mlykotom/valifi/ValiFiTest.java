@@ -10,7 +10,16 @@ import org.junit.Test;
 
 
 public class ValiFiTest {
+	public static final String FIELD_ERROR_MSG = "field is not valid";
 	private ValiFieldBase<String> mField;
+
+
+	/**
+	 * WARNING: installing without context will crash when getting string, only for tests!
+	 */
+	public static void installWithoutContext() {
+		ValiFi.install(null);
+	}
 
 
 	@Before

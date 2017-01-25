@@ -27,5 +27,10 @@ dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
 	compile 'com.android.support:appcompat-v7:25.1.0'
 	compile 'eu.inloop:androidviewmodel:1.2.3'
-	compile 'com.mlykotom:valifi:0.3.1'
+	
+	if(project.file('../local.properties').exists()) {
+		compile project(':valifi')
+	} else {
+		compile 'com.mlykotom:valifi:0.3.1'
+	}
 }
