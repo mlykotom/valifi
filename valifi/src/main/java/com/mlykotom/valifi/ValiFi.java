@@ -7,6 +7,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
+import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -197,7 +198,17 @@ public class ValiFi {
 		}
 
 
+		/**
+		 * Setups error delay (default is {@link #DEFAULT_ERROR_DELAY_MILLIS}).
+		 * When set, it will be used in all fields by default (if some field does not override it)
+		 *
+		 * @param millis how long till error will be shown
+		 * @return this
+		 */
 		public Builder setErrorDelay(long millis) {
+			if(millis < 0) {
+				throw new ValiFiValidatorException("Error delay can't be negative");
+			}
 			mErrorDelay = millis;
 			return this;
 		}
