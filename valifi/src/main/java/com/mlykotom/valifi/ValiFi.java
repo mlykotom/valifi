@@ -5,27 +5,21 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
-import android.text.format.DateUtils;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.regex.Pattern;
 
 
+@SuppressWarnings("unused")
 public class ValiFi {
 	static String TAG = ValiFi.class.getSimpleName();
 	@SuppressLint("StaticFieldLeak")
 	private static ValiFi ourInstance;
 	private final Context mAppContext;
 	private final ValiFiConfig mParameters;
-
-	// TODO parameter properly
-	public static long delayInterval = DateUtils.SECOND_IN_MILLIS;
-	public static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
 
 	private ValiFi(Context appContext, ValiFiConfig config) {
@@ -57,9 +51,6 @@ public class ValiFi {
 	}
 
 
-	// ------ Might be used for ValiFieldText
-
-
 	static int getErrorRes(@Builder.ValiFiErrorResource int field) {
 		return getInstance().mParameters.mErrorResources[field];
 	}
@@ -67,6 +58,11 @@ public class ValiFi {
 
 	static Pattern getPattern(@Builder.ValiFiPattern int field) {
 		return getInstance().mParameters.mPatterns[field];
+	}
+
+
+	static long getErrorDelay() {
+		return getInstance().mParameters.mErrorDelay;
 	}
 
 
@@ -94,11 +90,13 @@ public class ValiFi {
 	public static class ValiFiConfig {
 		@StringRes final int[] mErrorResources;
 		final Pattern mPatterns[];
+		final long mErrorDelay;
 
 
-		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources) {
+		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay) {
 			mPatterns = patterns;
 			mErrorResources = errorResources;
+			mErrorDelay = errorDelay;
 		}
 	}
 
@@ -129,8 +127,12 @@ public class ValiFi {
 		public static final int PATTERN_PASSWORD = 2;
 		public static final int PATTERN_USERNAME = 3;
 		public static final int PATTERN_COUNT = PATTERN_USERNAME + 1;
+		// ----- other
+		private static final long DEFAULT_ERROR_DELAY_MILLIS = 500;
+
 		private Pattern[] mPatterns;
 		private int[] mErrorResources;
+		private long mErrorDelay = DEFAULT_ERROR_DELAY_MILLIS;
 
 
 		@IntDef({
@@ -195,8 +197,14 @@ public class ValiFi {
 		}
 
 
+		public Builder setErrorDelay(long millis) {
+			mErrorDelay = millis;
+			return this;
+		}
+
+
 		public ValiFiConfig build() {
-			return new ValiFiConfig(mPatterns, mErrorResources);
+			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay);
 		}
 
 

@@ -11,10 +11,15 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
 
+import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -30,14 +35,18 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	protected LinkedHashMap<PropertyValidator<ValueType>, String> mPropertyValidators = new LinkedHashMap<>();
 	protected boolean mIsEmptyAllowed = false;
 	@Nullable protected List<ValiFieldBase> mBoundFields;
+	protected long mErrorDelay;
 	boolean mIsChanged = false;
-	private boolean mLastIsError = true;
-	private boolean mIsError = false;
-	private String mError;
+	@Nullable ScheduledFuture<?> mLastTask;
+	volatile long mDueTime = -1;
+	volatile boolean mLastIsError = true;
+	volatile boolean mIsError = false;
+	@Nullable String mError;
+	@Nullable String mLastError;
 	@Nullable private ValiFiForm mParentForm;
-	private long mDueTime;
-	private Runnable mNotifyErrorRunnable = setupNotifyErrorRunnable();
 	protected OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
+	@Nullable private ScheduledExecutorService mScheduler;
+	final Runnable mNotifyErrorRunnable = setupNotifyErrorRunnable();
 
 
 	public interface PropertyValidator<T> {
@@ -52,6 +61,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	public ValiFieldBase() {
+		mErrorDelay = ValiFi.getErrorDelay();
 		addOnPropertyChangedCallback(mCallback);
 	}
 
@@ -138,6 +148,22 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
+	 * Sets how much it will take before error is shown.
+	 * Does not apply in cases when validation changes (e.g invalid -> valid or vice versa)
+	 *
+	 * @param delayMillis positive or zero time in milliseconds
+	 * @return this, validators can be chained
+	 */
+	public ValiFieldBase<ValueType> setErrorDelay(long delayMillis) {
+		if(delayMillis < 0) {
+			throw new ValiFiValidatorException("Error delay can't be negative");
+		}
+		mErrorDelay = delayMillis;
+		return this;
+	}
+
+
+	/**
 	 * @return the containing value of the field
 	 */
 	public ValueType get() {
@@ -175,7 +201,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * @param value to be set, if the same as older, skips
 	 */
 	public void setValue(@Nullable String value) {
-		set((ValueType) value); // TODO convert value (is it possible?)
+		set((ValueType) value); // TODO have not abstract method unimplemented (with exception throwing)
+		// TODO convert value (is it possible?)
 	}
 
 
@@ -183,6 +210,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * Removes property change callback and clears custom validators
 	 */
 	public void destroy() {
+		shutdownScheduler();
 		removeOnPropertyChangedCallback(mCallback);
 		mPropertyValidators.clear();
 		mPropertyValidators = null;
@@ -213,6 +241,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	}
 
 
+	@Nullable
 	@Bindable
 	public String getError() {
 		return mError;
@@ -333,10 +362,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 		if(mParentForm != null) {
 			mParentForm.notifyValidationChanged(this);
 		}
-//		else{
-//			// TODO this could be here instead of few lines above and saves some method calls
-//			notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
-//		}
 	}
 
 
@@ -347,6 +372,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 */
 	protected void notifyValueChanged(boolean isImmediate) {
 		if(isImmediate) {
+			// shortcut to just call the callback
 			mCallback.onPropertyChanged(null, com.mlykotom.valifi.BR.value);
 		} else {
 			notifyPropertyChanged(com.mlykotom.valifi.BR.value);
@@ -354,40 +380,90 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	}
 
 
-	private void notifyValidationChanged() {
+	/**
+	 * Notifies that field's validation flag changed
+	 */
+	protected void notifyValidationChanged() {
 		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
 	}
 
 
-	private void notifyErrorChanged() {
-		mDueTime = System.currentTimeMillis() + ValiFi.delayInterval;
+	/**
+	 * Notifies that error message changed
+	 */
+	protected void notifyErrorChanged() {
+		if(mErrorDelay > 0) {
+			mDueTime = System.currentTimeMillis() + mErrorDelay;
+		}
+
 		mNotifyErrorRunnable.run();
-		mLastIsError = mIsError;
 	}
 
 
+	synchronized ScheduledExecutorService getScheduler() {
+		if(mScheduler == null) {
+			mScheduler = Executors.newSingleThreadScheduledExecutor();
+		}
+
+		return mScheduler;
+	}
+
+
+	synchronized void shutdownScheduler() {
+		if(mScheduler == null) return;
+
+		mScheduler.shutdownNow();
+	}
+
+
+	synchronized void cancelAndSetTask(@Nullable ScheduledFuture<?> task) {
+		if(mLastTask != null) {
+			mLastTask.cancel(true);
+		}
+		mLastTask = task;
+	}
+
+
+	/**
+	 * Runnable for showing errors.
+	 * May be delayed after user stops typing
+	 *
+	 * @return runnable because of thread executor
+	 */
+	@SuppressWarnings("StringEquality")
 	private Runnable setupNotifyErrorRunnable() {
 		return new Runnable() {
 			@Override
 			public void run() {
-//				Log.e(ValiFi.TAG, String.format("%b | %b", mLastIsError, mIsError));
-
-				long remainingDelay = mDueTime - System.currentTimeMillis();
+				// if error delay not set, don't schedule
+				long remainingDelay = mErrorDelay > 0 ? mDueTime - System.currentTimeMillis() : 0;
+				// errors are not the same (checking references, not content)
+				boolean isErrorDifferent = (mLastError != null && mError != null && mLastError != mError);
 				// validation changed from valid -> invalid or vice versa
-				if(remainingDelay <= 0 || (!mLastIsError && mIsError)) {
-					mDueTime = -1;
-//					Log.v(ValiFi.TAG, "notifying about error...");
-					notifyPropertyChanged(com.mlykotom.valifi.BR.error);
+				if(remainingDelay > 0 && mLastIsError == mIsError && !isErrorDifferent) {
+					cancelAndSetTask(getScheduler().schedule(mNotifyErrorRunnable, remainingDelay, TimeUnit.MILLISECONDS));
 				} else {
-//					Log.d(ValiFi.TAG, remainingDelay + " MS remaining");
-					// TODO there are more scheduled tasks than needed
-					ValiFi.scheduler.schedule(mNotifyErrorRunnable, remainingDelay, TimeUnit.MILLISECONDS);
+					mDueTime = -1;
+					notifyPropertyChanged(BR.error);
+					cancelAndSetTask(null);
 				}
+
+				mLastError = mError;
+				mLastIsError = mIsError;
 			}
 		};
 	}
 
 
+	/**
+	 * Core of all validations.
+	 * Called when value changed (from layout or by notifyPropertyChanged)
+	 * 1) notifies bound fields (e.g. when verifying fields)
+	 * 2) checks if value can be empty
+	 * 3) validates all attached validators
+	 *
+	 * @return property changed callback which should be set as field
+	 */
 	private OnPropertyChangedCallback setupOnPropertyChangedCallback() {
 		return new OnPropertyChangedCallback() {
 			@Override
