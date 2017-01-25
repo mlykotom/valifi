@@ -61,8 +61,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	public ValiFieldBase() {
-		mErrorDelay = ValiFi.getErrorDelay();
-		addOnPropertyChangedCallback(mCallback);
+		this(null);
 	}
 
 
@@ -70,11 +69,13 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * @param defaultValue if not null, will mark that field is changed
 	 */
 	public ValiFieldBase(@Nullable ValueType defaultValue) {
-		this();
+		mErrorDelay = ValiFi.getErrorDelay();
 		mValue = defaultValue;
+
 		if(defaultValue != null) {
 			mIsChanged = true;
 		}
+		addOnPropertyChangedCallback(mCallback);
 	}
 
 
@@ -300,8 +301,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldBase<ValueType> addCustomValidator(PropertyValidator<ValueType> validator) {
-		mPropertyValidators.put(validator, null);
-		return this;
+		return addCustomValidator(null, validator);
 	}
 
 
@@ -362,6 +362,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 		if(mParentForm != null) {
 			mParentForm.notifyValidationChanged(this);
 		}
+
+		notifyErrorChanged();
 	}
 
 
@@ -482,7 +484,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 				ValueType actualValue = mValue;
 				if(mIsEmptyAllowed && (actualValue == null || whenThisFieldIsEmpty(actualValue))) {
 					setIsError(false, null);
-					notifyErrorChanged();
 					return;
 				}
 
@@ -491,14 +492,12 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 					// all of setup validators must be valid, otherwise error
 					if(!entry.getKey().isValid(actualValue)) {
 						setIsError(true, entry.getValue());
-						notifyErrorChanged();
 						return;
 					}
 				}
 
 				// set valid
 				setIsError(false, null);
-				notifyErrorChanged();
 			}
 		};
 	}
