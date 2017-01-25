@@ -127,6 +127,7 @@ public class ValiFi {
 		public static final int PATTERN_PHONE = 1;
 		public static final int PATTERN_PASSWORD = 2;
 		public static final int PATTERN_USERNAME = 3;
+		// ------ COUNT OF PARAMETERS
 		public static final int PATTERN_COUNT = PATTERN_USERNAME + 1;
 		// ----- other
 		private static final long DEFAULT_ERROR_DELAY_MILLIS = 500;
