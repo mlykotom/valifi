@@ -1,5 +1,6 @@
 package com.mlykotom.valifi.fields;
 
+import com.mlykotom.valifi.ValiFiTest;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
 import org.junit.After;
@@ -21,6 +22,7 @@ public class ValiFieldTextTest {
 
 	@Before
 	public void prepareField() {
+		ValiFiTest.installWithoutContext();
 		mField = new ValiFieldText();
 	}
 
@@ -88,8 +90,9 @@ public class ValiFieldTextTest {
 		assertThat(mField.getIsValid(), is(false));
 	}
 
+
 	@Test
-	public void checkBoundFieldsValid(){
+	public void checkBoundFieldsValid() {
 		ValiFieldText boundField = new ValiFieldText();
 		mField.addVerifyFieldValidator("fields must be same", boundField);
 

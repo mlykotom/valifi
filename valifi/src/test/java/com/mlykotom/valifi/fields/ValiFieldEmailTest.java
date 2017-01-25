@@ -1,6 +1,6 @@
 package com.mlykotom.valifi.fields;
 
-import com.mlykotom.valifi.ValiFi;
+import com.mlykotom.valifi.ValiFiTest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +17,7 @@ public class ValiFieldEmailTest {
 
 	@Before
 	public void installWithoutContext() {
-		// WARNING: installing without context will crash when getting string, only for tests!
-		ValiFi.install(null);
+		ValiFiTest.installWithoutContext();
 	}
 
 

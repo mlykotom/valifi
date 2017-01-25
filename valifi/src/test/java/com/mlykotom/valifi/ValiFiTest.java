@@ -13,6 +13,14 @@ public class ValiFiTest {
 	private ValiFieldBase<String> mField;
 
 
+	/**
+	 * WARNING: installing without context will crash when getting string, only for tests!
+	 */
+	public static void installWithoutContext() {
+		ValiFi.install(null);
+	}
+
+
 	@Before
 	public void prepareField() {
 		mField = new ValiFieldText();

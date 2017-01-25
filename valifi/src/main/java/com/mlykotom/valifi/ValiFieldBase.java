@@ -444,7 +444,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 					cancelAndSetTask(getScheduler().schedule(mNotifyErrorRunnable, remainingDelay, TimeUnit.MILLISECONDS));
 				} else {
 					mDueTime = -1;
-					notifyPropertyChanged(BR.error);
+					notifyPropertyChanged(com.mlykotom.valifi.BR.error);
 					cancelAndSetTask(null);
 				}
 

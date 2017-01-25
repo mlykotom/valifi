@@ -18,7 +18,7 @@ public class ValiFiFormTest {
 
 	@Before
 	public void prepare() {
-		ValiFi.install(null);
+		ValiFiTest.installWithoutContext();
 		mForm = new ValiFiForm();
 	}
 
