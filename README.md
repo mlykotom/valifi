@@ -13,6 +13,8 @@
 * It's working with data binding and validations are visible immediately when user adds input. 
 * It's highly customizable and simple for use.
 
+## And we are confident enought to be 1.0.0! 
+
 <img src="https://raw.githubusercontent.com/mlykotom/valifi/master/graphics/example-email.gif" width="30%" />
 
 # How to use
@@ -21,7 +23,7 @@
 
 #### 1. Add gradle dependency
 ```groovy
-compile 'com.mlykotom:valifi:0.3.1'
+compile 'com.mlykotom:valifi:1.0.0'
 ```
 #### 2. Setup project with data binding 
 ``` groovy
