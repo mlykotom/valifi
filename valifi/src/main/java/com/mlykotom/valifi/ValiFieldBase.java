@@ -150,7 +150,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 	/**
 	 * Sets how much it will take before error is shown.
-	 * Does not apply in cases when validation changes (e.g invalid -> valid or vice versa)
+	 * Does not apply in cases when validation changes (e.g invalid to valid or vice versa)
 	 *
 	 * @param delayMillis positive or zero time in milliseconds
 	 * @return this, validators can be chained
