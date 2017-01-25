@@ -1,13 +1,12 @@
 package com.mlykotom.valifi.fields;
 
+import com.mlykotom.valifi.ValiFiTest;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertFalse;
@@ -21,6 +20,7 @@ public class ValiFieldTextTest {
 
 	@Before
 	public void prepareField() {
+		ValiFiTest.installWithoutContext();
 		mField = new ValiFieldText();
 	}
 
@@ -36,14 +36,6 @@ public class ValiFieldTextTest {
 		assertThat(mField.getBoundForm(), is(nullValue()));
 
 		// TODO check if we can do something with the field (we should not)
-	}
-
-
-	@Test
-	public void setGetIsCorrect() {
-		mField.set("test_value");
-		assertEquals("test_value", mField.get());
-		assertTrue(mField.getIsValid());
 	}
 
 
@@ -76,17 +68,6 @@ public class ValiFieldTextTest {
 		assertThat(mField.getIsValid(), is(false));
 	}
 
-
-	@Test
-	public void checkBoundFields() {
-		ValiFieldText boundField = new ValiFieldText();
-		mField.addVerifyFieldValidator("fields must be same", boundField);
-
-		boundField.setValue("val_1");
-		mField.setValue("val_2");
-
-		assertThat(mField.getIsValid(), is(false));
-	}
 
 	// ------------------ MIN LENGTH VALIDATOR ------------------ //
 

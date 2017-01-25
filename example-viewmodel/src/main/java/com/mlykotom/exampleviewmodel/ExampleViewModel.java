@@ -13,7 +13,7 @@ import eu.inloop.viewmodel.AbstractViewModel;
 
 
 public class ExampleViewModel extends AbstractViewModel<ExampleView> {
-	public final ValiFieldEmail email = new ValiFieldEmail("this is not email :(");
+	public final ValiFieldEmail email = new ValiFieldEmail();
 	public final ValiFieldUsername username = new ValiFieldUsername();
 	public final ValiFieldPassword password = new ValiFieldPassword();
 	public final ValiFieldPassword password2 = new ValiFieldPassword();

@@ -63,9 +63,9 @@ public class ValiFiForm extends BaseObservable {
 	/**
 	 * Field validation was changed and informs this form about it
 	 *
-	 * @param field which was changed
+	 * @param field which was changed (ignored and handled by observable callback)
 	 */
-	void fieldValidationChanged(ValiFieldBase field) {
+	void notifyValidationChanged(ValiFieldBase field) {
 		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
 	}
 }
