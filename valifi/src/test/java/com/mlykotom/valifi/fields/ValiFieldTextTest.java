@@ -7,8 +7,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertFalse;
@@ -41,14 +39,6 @@ public class ValiFieldTextTest {
 	}
 
 
-	@Test
-	public void setGetIsCorrect() {
-		mField.set("test_value");
-		assertEquals("test_value", mField.get());
-		assertTrue(mField.getIsValid());
-	}
-
-
 	@Test(expected = ValiFiValidatorException.class)
 	public void checkEmptyOrNotEmpty() {
 		mField.setEmptyAllowed(true);
@@ -78,29 +68,6 @@ public class ValiFieldTextTest {
 		assertThat(mField.getIsValid(), is(false));
 	}
 
-
-	@Test
-	public void checkBoundFieldsInvalid() {
-		ValiFieldText boundField = new ValiFieldText();
-		mField.addVerifyFieldValidator("fields must be same", boundField);
-
-		boundField.setValue("val_1");
-		mField.setValue("val_2");
-
-		assertThat(mField.getIsValid(), is(false));
-	}
-
-
-	@Test
-	public void checkBoundFieldsValid() {
-		ValiFieldText boundField = new ValiFieldText();
-		mField.addVerifyFieldValidator("fields must be same", boundField);
-
-		boundField.setValue("val_1");
-		mField.setValue("val_1");
-
-		assertThat(mField.getIsValid(), is(true));
-	}
 
 	// ------------------ MIN LENGTH VALIDATOR ------------------ //
 

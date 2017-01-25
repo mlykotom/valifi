@@ -10,6 +10,7 @@ import org.junit.Test;
 
 
 public class ValiFiTest {
+	public static final String FIELD_ERROR_MSG = "field is not valid";
 	private ValiFieldBase<String> mField;
 
 
