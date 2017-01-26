@@ -80,7 +80,37 @@ Library uses two-way data binding so be careful of adding android:text="__@=__{.
     android:text="Submit" />
 ```
 
-#### That's it! 
+#### 3. Destroy the field
+In order to prevent leaks, field __must__ be destroyed before destroying the screen!
+
+This is easily done by calling:
+```java
+@Override
+public void onDestroy() {
+	email.destroy();
+	super.onDestroy();
+}
+```
+
+Or if you have more than one field:
+```java
+@Override
+public void onDestroy() {
+	ValiFieldBase.destroyAll(email, password);
+	super.onDestroy();
+}
+```
+
+Or if you use form (see [Forms!](https://github.com/mlykotom/valifi#forms)):
+```java
+@Override
+public void onDestroy() {
+	form.destroy();
+	super.onDestroy();
+}
+```
+
+#### And That's it! 
 
 When user types his e-mail, it will automatically validates input and enables/disables submit button.
 
