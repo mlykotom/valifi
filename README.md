@@ -178,7 +178,7 @@ public final ValiFiForm form = new ValiFiForm(email, password);
 
 # Examples
 
-1. MVVM approach (preferred) [here](https://github.com/mlykotom/valifi/tree/master/example-viewmodel)
+1. MVVM approach (__preferred__) [here](https://github.com/mlykotom/valifi/tree/master/example-viewmodel)
 2. Classic fragment approach [here](https://github.com/mlykotom/valifi/tree/master/example)
 
 # License
