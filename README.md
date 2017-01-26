@@ -2,6 +2,10 @@
 
 [![Download](https://api.bintray.com/packages/mlykotom/maven/valifi/images/download.svg)](https://bintray.com/mlykotom/maven/valifi/_latestVersion)
 [![Build Status](https://travis-ci.org/mlykotom/valifi.svg?branch=master)](https://travis-ci.org/mlykotom/valifi)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ValiFi-blue.svg?style=flat)](https://android-arsenal.com/details/1/5153)
+Close
+
+
 
 * Are you tired of creating forms in app and checking all the possible inputs?
 * Would you like to validate things in realtime instead of after submit?
