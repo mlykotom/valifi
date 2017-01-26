@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
+import android.util.Patterns;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
@@ -221,7 +222,7 @@ public class ValiFi {
 
 
 		private void setupPatterns() {
-			mPatterns[PATTERN_EMAIL] = Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+			mPatterns[PATTERN_EMAIL] = Patterns.EMAIL_ADDRESS;
 			mPatterns[PATTERN_PHONE] = Pattern.compile("^\\+420 ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$" + "|" + "^(\\+?1)?[2-9]\\d{2}[2-9](?!11)\\d{6}$");            // phone czech | phone en-US
 			mPatterns[PATTERN_USERNAME] = Pattern.compile(".{4,}");
 			mPatterns[PATTERN_PASSWORD] = Pattern.compile(".{8,}");
