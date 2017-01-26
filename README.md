@@ -13,8 +13,6 @@
 * It's working with data binding and validations are visible immediately when user adds input. 
 * It's highly customizable and simple for use.
 
-## And we are confident enought to be 1.0.0! 
-
 <img src="https://raw.githubusercontent.com/mlykotom/valifi/master/graphics/example-email.gif" width="30%" />
 
 # How to use
