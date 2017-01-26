@@ -35,10 +35,10 @@ public class ValiFieldDate extends ValiFieldBase<Calendar> {
 
 
 	@Override
-	protected String convertValueToString() {
-		if(mValue == null) return null;
-		return DateFormat.getDateInstance().format(mValue.getTime());
+	protected String convertValueToString(@NonNull Calendar value) {
+		return DateFormat.getDateInstance().format(value.getTime());
 	}
+
 
 	// ------------------ OLDER THAN VALIDATOR ------------------ //
 

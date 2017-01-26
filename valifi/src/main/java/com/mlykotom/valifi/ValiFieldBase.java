@@ -130,9 +130,10 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * Any inherited field must be able to convert to String.
 	 * This is so that it's possible to show it in TextView/EditText
 	 *
+	 * @param value actual value to be converted
 	 * @return converted string (e.g. for Date = formatted string)
 	 */
-	protected abstract String convertValueToString();
+	protected abstract String convertValueToString(@NonNull ValueType value);
 
 
 	/**
@@ -192,7 +193,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 */
 	@Bindable
 	public String getValue() {
-		return convertValueToString();
+		if(mValue == null) return null;
+		return convertValueToString(mValue);
 	}
 
 

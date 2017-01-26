@@ -50,8 +50,8 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	@Override
-	protected String convertValueToString() {
-		return mValue;
+	protected String convertValueToString(@NonNull String value) {
+		return value;
 	}
 
 
