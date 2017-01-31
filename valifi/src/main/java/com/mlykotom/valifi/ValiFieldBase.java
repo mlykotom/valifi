@@ -137,6 +137,15 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
+	 * Converts string to this value. This is called from data binding so if any class is convertable, override this
+	 *
+	 * @param value actual value from input
+	 * @return this value of type
+	 */
+	protected abstract ValueType convertStringToValue(@Nullable String value);
+
+
+	/**
 	 * Allows empty field to be valid.
 	 * Useful when some field is not necessary but needs to be in proper format if filled.
 	 *
@@ -204,8 +213,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * @param value to be set, if the same as older, skips
 	 */
 	public void setValue(@Nullable String value) {
-		set((ValueType) value); // TODO have not abstract method unimplemented (with exception throwing)
-		// TODO convert value (is it possible?)
+		set(convertStringToValue(value));
 	}
 
 
