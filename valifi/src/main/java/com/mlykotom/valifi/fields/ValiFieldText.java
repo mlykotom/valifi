@@ -56,6 +56,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	@Override
+	protected String convertStringToValue(@Nullable String value) {
+		return value;
+	}
+
+
+	@Override
 	public ValiFieldText setEmptyAllowed(boolean isEmptyAllowed) {
 		if(mHasNotEmptyValidator) {
 			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
