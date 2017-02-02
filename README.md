@@ -2,6 +2,9 @@
 
 [![Download](https://api.bintray.com/packages/mlykotom/maven/valifi/images/download.svg)](https://bintray.com/mlykotom/maven/valifi/_latestVersion)
 [![Build Status](https://travis-ci.org/mlykotom/valifi.svg?branch=master)](https://travis-ci.org/mlykotom/valifi)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ValiFi-blue.svg?style=flat)](https://android-arsenal.com/details/1/5153)
+
+
 
 * Are you tired of creating forms in app and checking all the possible inputs?
 * Would you like to validate things in realtime instead of after submit?
@@ -13,8 +16,6 @@
 * It's working with data binding and validations are visible immediately when user adds input. 
 * It's highly customizable and simple for use.
 
-## And we are confident enought to be 1.0.0! 
-
 <img src="https://raw.githubusercontent.com/mlykotom/valifi/master/graphics/example-email.gif" width="30%" />
 
 # How to use
@@ -23,7 +24,7 @@
 
 #### 1. Add gradle dependency
 ```groovy
-compile 'com.mlykotom:valifi:1.0.0'
+compile 'com.mlykotom:valifi:1.0.1'
 ```
 #### 2. Setup project with data binding 
 ``` groovy
@@ -82,7 +83,37 @@ Library uses two-way data binding so be careful of adding android:text="__@=__{.
     android:text="Submit" />
 ```
 
-#### That's it! 
+#### 3. Destroy the field
+In order to prevent leaks, field __must__ be destroyed before destroying the screen!
+
+This is easily done by calling:
+```java
+@Override
+public void onDestroy() {
+	email.destroy();
+	super.onDestroy();
+}
+```
+
+Or if you have more than one field:
+```java
+@Override
+public void onDestroy() {
+	ValiFieldBase.destroyAll(email, password);
+	super.onDestroy();
+}
+```
+
+Or if you use form (see [Forms!](https://github.com/mlykotom/valifi#forms)):
+```java
+@Override
+public void onDestroy() {
+	form.destroy();
+	super.onDestroy();
+}
+```
+
+#### And That's it! 
 
 When user types his e-mail, it will automatically validates input and enables/disables submit button.
 
@@ -147,7 +178,7 @@ public final ValiFiForm form = new ValiFiForm(email, password);
 
 # Examples
 
-1. MVVM approach (preferred) [here](https://github.com/mlykotom/valifi/tree/master/example-viewmodel)
+1. MVVM approach (__preferred__) [here](https://github.com/mlykotom/valifi/tree/master/example-viewmodel)
 2. Classic fragment approach [here](https://github.com/mlykotom/valifi/tree/master/example)
 
 # License
