@@ -127,7 +127,7 @@ public class MyApplication extends Application {
     public void onCreate() {
 	ValiFi.install(this, 
 		new ValiFi.Builder()
-			.setErrorDelay(1000)
+			.setErrorDelay(1000) // possibility of .setErrorDelay(ValiFiErrorDelay.NEVER)
 			.setErrorResource(ValiFi.Builder.ERROR_RES_EMAIL, R.string.my_custom_email_error)
 			.setPattern(ValiFi.Builder.PATTERN_EMAIL, Patterns.EMAIL_ADDRESS)
 			.build()
