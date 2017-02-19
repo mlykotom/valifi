@@ -1,6 +1,6 @@
 final VERSION_MAJOR = 1 // max two digits
 final VERSION_MINOR = 0 // max two digits
-final VERSION_PATCH = 1 // max two digits
+final VERSION_PATCH = 2 // max two digits
 final VERSION_BUILD = 0 // max three digits
 
 apply plugin: 'com.android.library'
@@ -68,8 +68,8 @@ android {
 
 dependencies {
 	compile fileTree(include: ['*.jar'], dir: 'libs')
-	compile 'com.android.support:appcompat-v7:25.1.0'
-	compile 'com.android.support:design:25.1.0'
+	compile 'com.android.support:appcompat-v7:25.1.1'
+	compile 'com.android.support:design:25.1.1'
 	testCompile 'junit:junit:4.12'
 }
 

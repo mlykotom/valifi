@@ -131,7 +131,6 @@ public class ValiFi {
 		public static final int PATTERN_COUNT = PATTERN_USERNAME + 1;
 		// ----- other
 		private static final long DEFAULT_ERROR_DELAY_MILLIS = 500;
-
 		private Pattern[] mPatterns;
 		private int[] mErrorResources;
 		private long mErrorDelay = DEFAULT_ERROR_DELAY_MILLIS;
@@ -176,9 +175,8 @@ public class ValiFi {
 		 * You may override any resource when specifying string resource for it
 		 *
 		 * @param field one of error resources in library {@link ValiFiErrorResource}
-		 * @param value string resource used as default.
-		 *              Some errors may require parameters in string)
-		 * @return this
+		 * @param value string resource used as default. Some errors may require PARAMETERS
+		 * @return builder for chaining
 		 */
 		public Builder setErrorResource(@ValiFiErrorResource int field, @StringRes int value) {
 			mErrorResources[field] = value;
@@ -191,7 +189,7 @@ public class ValiFi {
 		 *
 		 * @param field one of patterns in library {@link ValiFiPattern}
 		 * @param value compiled pattern used as default
-		 * @return this
+		 * @return builder for chaining
 		 */
 		public Builder setPattern(@ValiFiPattern int field, Pattern value) {
 			mPatterns[field] = value;
@@ -200,15 +198,30 @@ public class ValiFi {
 
 
 		/**
+		 * Setups error delay for either never or immediate
+		 * When set, it will be used in all fields by default (if some field does not override it)
+		 *
+		 * @param delayType either never or immediate
+		 * @return builder for chaining
+		 * @see #setErrorDelay(long)  if you want to set exact time
+		 */
+		public Builder setErrorDelay(ValiFiErrorDelay delayType) {
+			mErrorDelay = delayType.delayMillis;
+			return this;
+		}
+
+
+		/**
 		 * Setups error delay (default is {@link #DEFAULT_ERROR_DELAY_MILLIS}).
 		 * When set, it will be used in all fields by default (if some field does not override it)
 		 *
-		 * @param millis how long till error will be shown
-		 * @return this
+		 * @param millis how long till error will be shown.
+		 * @return builder for chaining
+		 * @see #setErrorDelay(ValiFiErrorDelay) for immediate or manual mode
 		 */
 		public Builder setErrorDelay(long millis) {
-			if(millis < 0) {
-				throw new ValiFiValidatorException("Error delay can't be negative");
+			if(millis <= 0) {
+				throw new ValiFiValidatorException("Error delay must be positive");
 			}
 			mErrorDelay = millis;
 			return this;
