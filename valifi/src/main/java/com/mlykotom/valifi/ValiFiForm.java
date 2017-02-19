@@ -37,6 +37,15 @@ public class ValiFiForm extends BaseObservable {
 
 
 	/**
+	 * @see #getIsValid()
+	 */
+	@Bindable
+	public boolean isValid() {
+		return getIsValid();
+	}
+
+
+	/**
 	 * Adds field to this form so can be validated with others
 	 *
 	 * @param field to be validated through this form
@@ -57,6 +66,18 @@ public class ValiFiForm extends BaseObservable {
 		}
 
 		mFields.clear();
+	}
+
+
+	/**
+	 * Notifies about error all fields in the form
+	 *
+	 * @see ValiFieldBase#refreshError()
+	 */
+	public void refreshError() {
+		for(ValiFieldBase field : mFields) {
+			field.refreshError();
+		}
 	}
 
 
