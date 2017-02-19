@@ -7,6 +7,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
+import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -126,10 +127,10 @@ public class ValiFi {
 		public static final int PATTERN_PHONE = 1;
 		public static final int PATTERN_PASSWORD = 2;
 		public static final int PATTERN_USERNAME = 3;
+		// ------ COUNT OF PARAMETERS
 		public static final int PATTERN_COUNT = PATTERN_USERNAME + 1;
 		// ----- other
 		private static final long DEFAULT_ERROR_DELAY_MILLIS = 500;
-
 		private Pattern[] mPatterns;
 		private int[] mErrorResources;
 		private long mErrorDelay = DEFAULT_ERROR_DELAY_MILLIS;
@@ -174,9 +175,8 @@ public class ValiFi {
 		 * You may override any resource when specifying string resource for it
 		 *
 		 * @param field one of error resources in library {@link ValiFiErrorResource}
-		 * @param value string resource used as default.
-		 *              Some errors may require parameters in string)
-		 * @return this
+		 * @param value string resource used as default. Some errors may require PARAMETERS
+		 * @return builder for chaining
 		 */
 		public Builder setErrorResource(@ValiFiErrorResource int field, @StringRes int value) {
 			mErrorResources[field] = value;
@@ -189,7 +189,7 @@ public class ValiFi {
 		 *
 		 * @param field one of patterns in library {@link ValiFiPattern}
 		 * @param value compiled pattern used as default
-		 * @return this
+		 * @return builder for chaining
 		 */
 		public Builder setPattern(@ValiFiPattern int field, Pattern value) {
 			mPatterns[field] = value;
@@ -197,7 +197,32 @@ public class ValiFi {
 		}
 
 
+		/**
+		 * Setups error delay for either never or immediate
+		 * When set, it will be used in all fields by default (if some field does not override it)
+		 *
+		 * @param delayType either never or immediate
+		 * @return builder for chaining
+		 * @see #setErrorDelay(long)  if you want to set exact time
+		 */
+		public Builder setErrorDelay(ValiFiErrorDelay delayType) {
+			mErrorDelay = delayType.delayMillis;
+			return this;
+		}
+
+
+		/**
+		 * Setups error delay (default is {@link #DEFAULT_ERROR_DELAY_MILLIS}).
+		 * When set, it will be used in all fields by default (if some field does not override it)
+		 *
+		 * @param millis how long till error will be shown.
+		 * @return builder for chaining
+		 * @see #setErrorDelay(ValiFiErrorDelay) for immediate or manual mode
+		 */
 		public Builder setErrorDelay(long millis) {
+			if(millis <= 0) {
+				throw new ValiFiValidatorException("Error delay must be positive");
+			}
 			mErrorDelay = millis;
 			return this;
 		}
@@ -209,7 +234,8 @@ public class ValiFi {
 
 
 		private void setupPatterns() {
-			mPatterns[PATTERN_EMAIL] = Pattern.compile("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+			// NOTE: same as Patterns.EMAIL_ADDRESS but unit tests return null
+			mPatterns[PATTERN_EMAIL] = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
 			mPatterns[PATTERN_PHONE] = Pattern.compile("^\\+420 ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$" + "|" + "^(\\+?1)?[2-9]\\d{2}[2-9](?!11)\\d{6}$");            // phone czech | phone en-US
 			mPatterns[PATTERN_USERNAME] = Pattern.compile(".{4,}");
 			mPatterns[PATTERN_PASSWORD] = Pattern.compile(".{8,}");

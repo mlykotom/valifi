@@ -1,8 +1,9 @@
-package com.mlykotom.exampleviewmodel;
+package com.mlykotom.exampleviewmodel.auto;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.mlykotom.exampleviewmodel.MyValiFieldCaptcha;
 import com.mlykotom.valifi.ValiFiForm;
 import com.mlykotom.valifi.fields.ValiFieldEmail;
 import com.mlykotom.valifi.fields.ValiFieldPassword;
@@ -12,7 +13,7 @@ import com.mlykotom.valifi.fields.ValiFieldUsername;
 import eu.inloop.viewmodel.AbstractViewModel;
 
 
-public class ExampleViewModel extends AbstractViewModel<ExampleView> {
+public class AutoValidationViewModel extends AbstractViewModel<AutoValidationView> {
 	public final ValiFieldEmail email = new ValiFieldEmail();
 	public final ValiFieldUsername username = new ValiFieldUsername();
 	public final ValiFieldPassword password = new ValiFieldPassword();

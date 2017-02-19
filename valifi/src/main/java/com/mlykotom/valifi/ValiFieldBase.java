@@ -130,9 +130,19 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * Any inherited field must be able to convert to String.
 	 * This is so that it's possible to show it in TextView/EditText
 	 *
+	 * @param value actual value to be converted
 	 * @return converted string (e.g. for Date = formatted string)
 	 */
-	protected abstract String convertValueToString();
+	protected abstract String convertValueToString(@NonNull ValueType value);
+
+
+	/**
+	 * Converts string to this value. This is called from data binding so if any class is convertable, override this
+	 *
+	 * @param value actual value from input
+	 * @return this value of type
+	 */
+	protected abstract ValueType convertStringToValue(@Nullable String value);
 
 
 	/**
@@ -152,14 +162,29 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * Sets how much it will take before error is shown.
 	 * Does not apply in cases when validation changes (e.g invalid to valid or vice versa)
 	 *
-	 * @param delayMillis positive or zero time in milliseconds
+	 * @param delayMillis positive number - time in milliseconds
 	 * @return this, validators can be chained
+	 * @see #setErrorDelay(ValiFiErrorDelay) for immediate or manual mode
 	 */
 	public ValiFieldBase<ValueType> setErrorDelay(long delayMillis) {
-		if(delayMillis < 0) {
-			throw new ValiFiValidatorException("Error delay can't be negative");
+		if(delayMillis <= 0) {
+			throw new ValiFiValidatorException("Error delay must be positive");
 		}
+
 		mErrorDelay = delayMillis;
+		return this;
+	}
+
+
+	/**
+	 * Sets whether validation will be immediate or never
+	 *
+	 * @param delayType either never or immediate
+	 * @return this, validators can be chained
+	 * @see #setErrorDelay(long) for setting exact time
+	 */
+	public ValiFieldBase<ValueType> setErrorDelay(ValiFiErrorDelay delayType) {
+		mErrorDelay = delayType.delayMillis;
 		return this;
 	}
 
@@ -192,7 +217,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 */
 	@Bindable
 	public String getValue() {
-		return convertValueToString();
+		if(mValue == null) return null;
+		return convertValueToString(mValue);
 	}
 
 
@@ -202,8 +228,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * @param value to be set, if the same as older, skips
 	 */
 	public void setValue(@Nullable String value) {
-		set((ValueType) value); // TODO have not abstract method unimplemented (with exception throwing)
-		// TODO convert value (is it possible?)
+		set(convertStringToValue(value));
 	}
 
 
@@ -261,6 +286,15 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
+	 * @see #getIsValid()
+	 */
+	@Bindable
+	public boolean isValid() {
+		return getIsValid();
+	}
+
+
+	/**
 	 * @param errorResource to be shown (got from app's context)
 	 * @param targetField   validates with this field
 	 * @return this, so validators can be chained
@@ -295,28 +329,53 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
-	 * Ability to add custom validators
+	 * Adds validator without error message.
+	 * This means no error will be shown, but field won't be valid
 	 *
-	 * @param validator which has value inside
+	 * @param validator implementation of validation
 	 * @return this, so validators can be chained
+	 * @see #addCustomValidator(String, PropertyValidator)
 	 */
 	public ValiFieldBase<ValueType> addCustomValidator(PropertyValidator<ValueType> validator) {
 		return addCustomValidator(null, validator);
 	}
 
 
+	/**
+	 * Adds custom validator with error message string resource
+	 *
+	 * @param errorResource string resource shown when validator not valid
+	 * @param validator     implementation of validation
+	 * @return this, so validators can be chained
+	 * @see #addCustomValidator(String, PropertyValidator)
+	 */
 	public ValiFieldBase<ValueType> addCustomValidator(@StringRes int errorResource, PropertyValidator<ValueType> validator) {
 		String errorMessage = getAppContext().getString(errorResource);
 		return addCustomValidator(errorMessage, validator);
 	}
 
 
+	/**
+	 * Adds custom validator which will be validated when value property changes.
+	 *
+	 * @param errorMessage to be shown if field does not meet this validation
+	 * @param validator    implementation of validation
+	 * @return this, so validators can be chained
+	 */
 	public ValiFieldBase<ValueType> addCustomValidator(String errorMessage, PropertyValidator<ValueType> validator) {
 		mPropertyValidators.put(validator, errorMessage);
 		if(mIsChanged) {
 			notifyValueChanged(true);
 		}
 		return this;
+	}
+
+
+	/**
+	 * If you want to manually show error for the field
+	 */
+	public void refreshError() {
+		notifyPropertyChanged(com.mlykotom.valifi.BR.error);
 	}
 
 
@@ -363,7 +422,13 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 			mParentForm.notifyValidationChanged(this);
 		}
 
-		notifyErrorChanged();
+		// Notifies that error message changed
+		if(mErrorDelay != ValiFiErrorDelay.NEVER.delayMillis) {
+			if(mErrorDelay > 0) {
+				mDueTime = System.currentTimeMillis() + mErrorDelay;
+			}
+			mNotifyErrorRunnable.run();
+		}
 	}
 
 
@@ -387,18 +452,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 */
 	protected void notifyValidationChanged() {
 		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
-	}
-
-
-	/**
-	 * Notifies that error message changed
-	 */
-	protected void notifyErrorChanged() {
-		if(mErrorDelay > 0) {
-			mDueTime = System.currentTimeMillis() + mErrorDelay;
-		}
-
-		mNotifyErrorRunnable.run();
 	}
 
 
@@ -446,7 +499,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 					cancelAndSetTask(getScheduler().schedule(mNotifyErrorRunnable, remainingDelay, TimeUnit.MILLISECONDS));
 				} else {
 					mDueTime = -1;
-					notifyPropertyChanged(com.mlykotom.valifi.BR.error);
+					refreshError();
 					cancelAndSetTask(null);
 				}
 

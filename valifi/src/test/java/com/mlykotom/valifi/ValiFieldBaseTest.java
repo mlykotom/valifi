@@ -98,7 +98,7 @@ public class ValiFieldBaseTest {
 		field.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
 			@Override
 			public void onPropertyChanged(Observable observable, int i) {
-				if(i != BR.error) return;
+				if(i != com.mlykotom.valifi.BR.error) return;
 
 				testIsOk[0] = true;
 			}
@@ -119,4 +119,19 @@ public class ValiFieldBaseTest {
 		assertThat(field.mDueTime, is(-1L));
 		assertThat(testIsOk[0], is(true));
 	}
+
+
+//	@Test
+//	public void checkNoErrorShown() {
+//		ValiFieldBase<String> field = new ValiFieldText("invalid");
+//		field.setErrorDelay(ValiFi.Builder.NO_ERROR_SHOWING);
+//
+//		// TODO check several delayed times that there is no error
+////		field.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+////			@Override
+////			public void onPropertyChanged(Observable sender, int propertyId) {
+////				if(i !=)
+////			}
+////		});
+//	}
 }

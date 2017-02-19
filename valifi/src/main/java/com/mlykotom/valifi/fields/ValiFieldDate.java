@@ -8,6 +8,7 @@ import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFieldBase;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 
 
@@ -35,10 +36,24 @@ public class ValiFieldDate extends ValiFieldBase<Calendar> {
 
 
 	@Override
-	protected String convertValueToString() {
-		if(mValue == null) return null;
-		return DateFormat.getDateInstance().format(mValue.getTime());
+	protected String convertValueToString(@NonNull Calendar value) {
+		return DateFormat.getDateInstance().format(value.getTime());
 	}
+
+
+	@Override
+	protected Calendar convertStringToValue(@Nullable String value) {
+		Calendar calendar = Calendar.getInstance();
+		try {
+			calendar.setTime(DateFormat.getDateInstance().parse(value));
+		} catch(ParseException e) {
+			// TODO solve
+			e.printStackTrace();
+		}
+
+		return calendar;
+	}
+
 
 	// ------------------ OLDER THAN VALIDATOR ------------------ //
 

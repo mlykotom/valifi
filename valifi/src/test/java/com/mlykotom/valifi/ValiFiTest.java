@@ -24,6 +24,7 @@ public class ValiFiTest {
 
 	@Before
 	public void prepareField() {
+		installWithoutContext();
 		mField = new ValiFieldText();
 	}
 
