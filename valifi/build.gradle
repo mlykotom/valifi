@@ -55,8 +55,8 @@ android {
 		targetCompatibility JavaVersion.VERSION_1_7
 	}
 
-	testOptions{
-		unitTests.all{
+	testOptions {
+		unitTests.all {
 			testLogging {
 				events "passed", "skipped", "failed", "standardOut", "standardError"
 				outputs.upToDateWhen {false}
@@ -82,4 +82,16 @@ if(project.file('../local.properties').exists()) {
 
 	apply from: "./install.gradle"
 	apply from: "./bintray.gradle"
+
+	// Task for updating readme file for new version of library
+	task updateReadmeFile << {
+		def readme = file('../README.md')
+		def version = project.android.defaultConfig.versionName
+		def compilePath = project.ext.publishedGroupId + ":" + project.ext.bintrayName + ":"
+
+		def updatedReadmeText = readme.text.replaceFirst("compile '" + compilePath + "[^']+'", "compile '" + compilePath + version + "'")
+		readme.write(updatedReadmeText)
+	}
+
+	install.dependsOn updateReadmeFile
 }
