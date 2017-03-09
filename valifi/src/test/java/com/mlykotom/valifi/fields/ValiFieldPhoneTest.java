@@ -1,4 +1,7 @@
 package com.mlykotom.valifi.fields;
 
-public class ValiFieldPhoneTest {
+import com.mlykotom.valifi.ValiFieldBaseTest;
+
+
+public class ValiFieldPhoneTest extends ValiFieldBaseTest{
 }
