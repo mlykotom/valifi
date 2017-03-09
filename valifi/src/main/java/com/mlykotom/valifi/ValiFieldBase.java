@@ -238,12 +238,17 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	public void destroy() {
 		shutdownScheduler();
 		removeOnPropertyChangedCallback(mCallback);
-		mPropertyValidators.clear();
-		mPropertyValidators = null;
+
+		if(mPropertyValidators != null) {
+			mPropertyValidators.clear();
+			mPropertyValidators = null;
+		}
+
 		if(mBoundFields != null) {
 			mBoundFields.clear();
 			mBoundFields = null;
 		}
+
 		mParentForm = null;
 		mIsChanged = false;
 		mIsError = false;

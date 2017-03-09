@@ -41,6 +41,29 @@ public class ValiFieldBaseTest {
 		assertThat(field.getIsValid(), is(false));
 	}
 
+	// ---- destroy ---- //
+
+
+	@Test
+	public void checkMoreDestroyCalls() {
+		ValiFieldBase<String> field = new ValiFieldText();
+
+		field.destroy();
+		field.destroy();
+	}
+
+
+	@Test
+	public void checkDestroyingFormAndTheSameField() {
+		ValiFieldBase<String> field = new ValiFieldText();
+		ValiFiForm form = new ValiFiForm(field);
+
+		form.destroy();
+		form.destroy();
+		field.destroy();
+	}
+
+
 	// ---- add custom validators ---- //
 
 
