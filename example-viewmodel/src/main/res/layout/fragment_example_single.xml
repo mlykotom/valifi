@@ -6,11 +6,11 @@
 	<data>
 		<variable
 			name="view"
-			type="com.mlykotom.exampleviewmodel.auto.AutoValidationView" />
+			type="com.mlykotom.exampleviewmodel.single.SingleValidationView" />
 
 		<variable
 			name="viewModel"
-			type="com.mlykotom.exampleviewmodel.auto.AutoValidationViewModel" />
+			type="com.mlykotom.exampleviewmodel.single.SingleValidationViewModel" />
 	</data>
 
 	<ScrollView

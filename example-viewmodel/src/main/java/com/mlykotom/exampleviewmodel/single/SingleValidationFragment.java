@@ -1,4 +1,4 @@
-package com.mlykotom.exampleviewmodel.auto;
+package com.mlykotom.exampleviewmodel.single;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,20 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.mlykotom.exampleviewmodel.databinding.FragmentExampleAutoBinding;
+import com.mlykotom.exampleviewmodel.databinding.FragmentExampleSingleBinding;
 
 import eu.inloop.viewmodel.base.ViewModelBaseFragment;
 
 
-public class AutoValidationFragment extends ViewModelBaseFragment<AutoValidationView, AutoValidationViewModel> implements AutoValidationView {
-	private FragmentExampleAutoBinding mBinding;
+public class SingleValidationFragment extends ViewModelBaseFragment<SingleValidationView, SingleValidationViewModel> implements SingleValidationView {
+	private FragmentExampleSingleBinding mBinding;
 
 
-	public static AutoValidationFragment newInstance() {
+	public static SingleValidationFragment newInstance() {
 
 		Bundle args = new Bundle();
 
-		AutoValidationFragment fragment = new AutoValidationFragment();
+		SingleValidationFragment fragment = new SingleValidationFragment();
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -28,15 +28,15 @@ public class AutoValidationFragment extends ViewModelBaseFragment<AutoValidation
 
 	@Nullable
 	@Override
-	public Class<AutoValidationViewModel> getViewModelClass() {
-		return AutoValidationViewModel.class;
+	public Class<SingleValidationViewModel> getViewModelClass() {
+		return SingleValidationViewModel.class;
 	}
 
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		mBinding = FragmentExampleAutoBinding.inflate(inflater);
+		mBinding = FragmentExampleSingleBinding.inflate(inflater);
 		mBinding.setView(this);
 		mBinding.setViewModel(getViewModel());
 		return mBinding.getRoot();

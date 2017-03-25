@@ -1,4 +1,4 @@
-package com.mlykotom.exampleviewmodel.auto;
+package com.mlykotom.exampleviewmodel.single;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,7 @@ import com.mlykotom.valifi.fields.ValiFieldUsername;
 import eu.inloop.viewmodel.AbstractViewModel;
 
 
-public class AutoValidationViewModel extends AbstractViewModel<AutoValidationView> {
+public class SingleValidationViewModel extends AbstractViewModel<SingleValidationView> {
 	public final ValiFieldUsername username = new ValiFieldUsername();
 	public final MyValiFieldCaptcha captcha = new MyValiFieldCaptcha();
 

@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
-import com.mlykotom.exampleviewmodel.auto.AutoValidationFragment;
+import com.mlykotom.exampleviewmodel.single.SingleValidationFragment;
 import com.mlykotom.exampleviewmodel.form.FormValidationFragment;
 import com.mlykotom.exampleviewmodel.manual.ManualValidationFragment;
 
@@ -63,7 +63,7 @@ public class ExampleViewModelActivity extends ViewModelBaseEmptyActivity {
 			switch(position) {
 				case 0:
 				default:
-					return AutoValidationFragment.newInstance();
+					return SingleValidationFragment.newInstance();
 
 				case 1:
 					return FormValidationFragment.newInstance();
