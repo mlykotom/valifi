@@ -48,7 +48,7 @@ public class MyApplication extends Application {
 ```
 
 ## Use in your code
-
+For more information about customizing visit [Wiki](https://github.com/mlykotom/valifi/wiki).
 
 #### 0. Bind your ViewModel/Fragment/etc to layout (you may already have this)
 You may refer to Android's reference for data binding: https://developer.android.com/topic/libraries/data-binding/index.html
