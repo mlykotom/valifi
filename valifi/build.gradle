@@ -4,6 +4,8 @@ final VERSION_PATCH = 2 // max two digits
 final VERSION_BUILD = 0 // max three digits
 
 apply plugin: 'com.android.library'
+// whether the project is built on dev machine or CI
+def isLocalBuild = project.file('../local.properties').exists()
 
 ext {
 	bintrayRepo = 'maven'
@@ -72,7 +74,7 @@ dependencies {
 	testCompile 'junit:junit:4.12'
 }
 
-if(project.file('../local.properties').exists()) {
+if(isLocalBuild) {
 	afterEvaluate {
 		javadoc.classpath += files(android.libraryVariants.collect {variant ->
 			variant.javaCompile.classpath.files
@@ -82,15 +84,26 @@ if(project.file('../local.properties').exists()) {
 	apply from: "./install.gradle"
 	apply from: "./bintray.gradle"
 
+	def version = project.android.defaultConfig.versionName
+	def compilePath = project.ext.publishedGroupId + ":" + project.ext.bintrayName + ":"
+
 	// Task for updating readme file for new version of library
 	task updateReadmeFile << {
 		def readme = file('../README.md')
-		def version = project.android.defaultConfig.versionName
-		def compilePath = project.ext.publishedGroupId + ":" + project.ext.bintrayName + ":"
 
 		def updatedReadmeText = readme.text.replaceFirst("compile '" + compilePath + "[^']+'", "compile '" + compilePath + version + "'")
 		readme.write(updatedReadmeText)
 	}
 
+	// task for updating example gradle scripts so that it matches the latest version of library
+	task updateExamplesLibraryVersion << {
+		['example-android', 'example-viewmodel'].each {
+			def gradleScript = file("../${it}/build.gradle")
+			def updatedGradleText = gradleScript.text.replaceAll("compile '" + compilePath + "[^']+'", "compile '" + compilePath + version + "'")
+			gradleScript.write(updatedGradleText)
+		}
+	}
+
 	install.dependsOn updateReadmeFile
+	install.dependsOn updateExamplesLibraryVersion
 }

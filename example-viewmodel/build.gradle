@@ -31,6 +31,6 @@ dependencies {
 	if(project.file('../local.properties').exists()) {
 		compile project(':valifi')
 	} else {
-		compile 'com.mlykotom:valifi:1.0.0'
+		compile 'com.mlykotom:valifi:1.0.2'
 	}
 }
