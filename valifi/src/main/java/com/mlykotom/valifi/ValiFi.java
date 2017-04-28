@@ -67,6 +67,11 @@ public class ValiFi {
 	}
 
 
+	static long getAsyncValidationDelay() {
+		return getInstance().mParameters.mAsyncValidationDelay;
+	}
+
+
 	static Context getContext() {
 		if(getInstance().mAppContext == null) {
 			throw new ValiFiException("ValiFi was installed without Context!");
@@ -92,12 +97,14 @@ public class ValiFi {
 		@StringRes final int[] mErrorResources;
 		final Pattern mPatterns[];
 		final long mErrorDelay;
+		final long mAsyncValidationDelay;
 
 
-		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay) {
+		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay, long asyncValidationDelay) {
 			mPatterns = patterns;
 			mErrorResources = errorResources;
 			mErrorDelay = errorDelay;
+			mAsyncValidationDelay = asyncValidationDelay;
 		}
 	}
 
@@ -131,9 +138,11 @@ public class ValiFi {
 		public static final int PATTERN_COUNT = PATTERN_USERNAME + 1;
 		// ----- other
 		private static final long DEFAULT_ERROR_DELAY_MILLIS = 500;
+		private static final long DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS = 300;
 		private Pattern[] mPatterns;
 		private int[] mErrorResources;
 		private long mErrorDelay = DEFAULT_ERROR_DELAY_MILLIS;
+		private long mAsyncValidationDelay = DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS;
 
 
 		@IntDef({
@@ -228,8 +237,26 @@ public class ValiFi {
 		}
 
 
+		/**
+		 * Asynchronous validation for all fields will start after the delay specified here.
+		 * Default value is {@link #DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS}
+		 *
+		 * @param millis can be milliseconds 0+
+		 * @return builder for chaining
+		 * @see ValiFieldBase#setAsyncValidationDelay(long) for overriding for specified field
+		 */
+		public Builder setAsyncValidationDelay(long millis) {
+			if(millis < 0) {
+				throw new ValiFiValidatorException("Asynchronous delay must be positive or immediate");
+			}
+
+			mAsyncValidationDelay = millis;
+			return this;
+		}
+
+
 		public ValiFiConfig build() {
-			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay);
+			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay, mAsyncValidationDelay);
 		}
 
 

@@ -4,6 +4,8 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<data>
+		<import type="android.view.View" />
+
 		<variable
 			name="view"
 			type="com.mlykotom.exampleviewmodel.single.SingleValidationView" />
@@ -13,7 +15,7 @@
 			type="com.mlykotom.exampleviewmodel.single.SingleValidationViewModel" />
 	</data>
 
-	<ScrollView
+	<android.support.v4.widget.NestedScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
@@ -38,6 +40,33 @@
 					android:hint="Username" />
 			</android.support.design.widget.TextInputLayout>
 
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
+
+				<android.support.design.widget.TextInputLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					app:errorEnabled="true"
+					app:error="@{viewModel.async.error}">
+
+					<android.support.design.widget.TextInputEditText
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:inputType="textPersonName"
+						android:text="@={viewModel.async.value}"
+						android:hint='Asynchronous username ("User" is not allowed)' />
+				</android.support.design.widget.TextInputLayout>
+
+				<ProgressBar
+					android:layout_width="20dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:visibility="@{viewModel.async.inProgress ? View.VISIBLE : View.INVISIBLE}" />
+			</LinearLayout>
+
 			<android.support.design.widget.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -54,10 +83,9 @@
 			<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:enabled="@{viewModel.username.isValid &amp;&amp; viewModel.captcha.isValid}"
+				android:enabled="@{viewModel.username.isValid &amp;&amp; viewModel.async.isValid &amp;&amp; viewModel.captcha.isValid}"
 				android:onClick="@{() -> view.onSubmitClicked()}"
 				android:text="Submit" />
-
 		</LinearLayout>
-	</ScrollView>
+	</android.support.v4.widget.NestedScrollView>
 </layout>
