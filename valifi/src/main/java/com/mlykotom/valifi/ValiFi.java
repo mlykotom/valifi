@@ -52,6 +52,18 @@ public class ValiFi {
 	}
 
 
+	/**
+	 * Helper for destroying all specified fields
+	 *
+	 * @param fields to be destroyed
+	 */
+	public static void destroyFields(ValiFieldBase... fields) {
+		for(ValiFieldBase field : fields) {
+			field.destroy();
+		}
+	}
+
+
 	static int getErrorRes(@Builder.ValiFiErrorResource int field) {
 		return getInstance().mParameters.mErrorResources[field];
 	}

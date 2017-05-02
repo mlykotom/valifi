@@ -98,7 +98,7 @@ Or if you have more than one field:
 ```java
 @Override
 public void onDestroy() {
-	ValiFieldBase.destroyAll(email, password);
+	ValiFi.destroyFields(email, password);
 	super.onDestroy();
 }
 ```

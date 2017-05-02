@@ -143,14 +143,13 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
-	 * Helper for clearing all specified validated fields
+	 * Helper for destroying all specified fields
 	 *
-	 * @param fields to be cleansed
+	 * @param fields to be destroyed
+	 * @see    ValiFi#destroyFields(ValiFieldBase[])
 	 */
 	public static void destroyAll(ValiFieldBase... fields) {
-		for(ValiFieldBase field : fields) {
-			field.destroy();
-		}
+		ValiFi.destroyFields(fields);
 	}
 
 
