@@ -158,7 +158,7 @@ public class ValiFi {
 				ERROR_RES_YEARS_OLDER_THAN,
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface ValiFiErrorResource {}
+		public @interface ValiFiErrorResource {}
 
 
 		@IntDef({
@@ -168,7 +168,7 @@ public class ValiFi {
 				PATTERN_USERNAME
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface ValiFiPattern {}
+		public @interface ValiFiPattern {}
 
 
 		public Builder() {

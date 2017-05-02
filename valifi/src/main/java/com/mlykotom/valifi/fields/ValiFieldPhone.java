@@ -1,5 +1,6 @@
 package com.mlykotom.valifi.fields;
 
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import com.mlykotom.valifi.ValiFi;
@@ -11,7 +12,7 @@ public class ValiFieldPhone extends ValiFieldText {
 	}
 
 
-	public ValiFieldPhone(String defaultValue) {
+	public ValiFieldPhone(@Nullable String defaultValue) {
 		super(defaultValue);
 		addPhoneValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_PHONE)));
 	}
@@ -22,13 +23,13 @@ public class ValiFieldPhone extends ValiFieldText {
 	}
 
 
-	public ValiFieldPhone(String defaultValue, @StringRes int errorResource) {
+	public ValiFieldPhone(@Nullable String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
 		addPhoneValidator(getAppContext().getString(errorResource));
 	}
 
 
-	public ValiFieldPhone(String defaultValue, String errorMessage) {
+	public ValiFieldPhone(@Nullable String defaultValue, String errorMessage) {
 		super(defaultValue);
 		addPhoneValidator(errorMessage);
 	}

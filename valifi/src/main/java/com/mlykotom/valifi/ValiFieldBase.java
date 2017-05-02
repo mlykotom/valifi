@@ -383,8 +383,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
-	 * @see #getIsValid()
 	 * @return if property was changed, is not in progress, and is valid
+	 * @see #getIsValid()
 	 */
 	@Bindable
 	public boolean isValid() {
