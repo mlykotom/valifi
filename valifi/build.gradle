@@ -1,6 +1,6 @@
 final VERSION_MAJOR = 1 // max two digits
-final VERSION_MINOR = 0 // max two digits
-final VERSION_PATCH = 2 // max two digits
+final VERSION_MINOR = 1 // max two digits
+final VERSION_PATCH = 0 // max two digits
 final VERSION_BUILD = 0 // max three digits
 
 apply plugin: 'com.android.library'
@@ -33,7 +33,7 @@ ext {
 
 android {
 	compileSdkVersion 25
-	buildToolsVersion '25.0.2'
+	buildToolsVersion '25.0.3'
 
 	defaultConfig {
 		minSdkVersion 9

@@ -374,7 +374,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * - validation is not in progress
 	 * - field was already changed OR was set that can be empty
 	 *
-	 * @return if property was changed and is valid
+	 * @return if property was changed, is not in progress, and is valid
 	 */
 	@Bindable
 	public boolean getIsValid() {
@@ -384,6 +384,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 	/**
 	 * @see #getIsValid()
+	 * @return if property was changed, is not in progress, and is valid
 	 */
 	@Bindable
 	public boolean isValid() {

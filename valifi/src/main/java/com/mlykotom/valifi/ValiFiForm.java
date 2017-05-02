@@ -38,6 +38,7 @@ public class ValiFiForm extends BaseObservable {
 
 	/**
 	 * @see #getIsValid()
+	 * @return if any field is not valid = false
 	 */
 	@Bindable
 	public boolean isValid() {
