@@ -19,8 +19,8 @@ public class ValiFi {
 	static String TAG = ValiFi.class.getSimpleName();
 	@SuppressLint("StaticFieldLeak")
 	private static ValiFi ourInstance;
+	final ValiFiConfig mParameters;
 	private final Context mAppContext;
-	private final ValiFiConfig mParameters;
 
 
 	private ValiFi(Context appContext, ValiFiConfig config) {
@@ -92,7 +92,7 @@ public class ValiFi {
 	}
 
 
-	private static ValiFi getInstance() {
+	static ValiFi getInstance() {
 		if(ourInstance == null) {
 			throw new ValiFiException("ValiFi must be installed in Application.onCreate()!");
 		}
@@ -139,8 +139,9 @@ public class ValiFi {
 		public static final int ERROR_RES_USERNAME = 7;
 		public static final int ERROR_RES_PASSWORD = 8;
 		public static final int ERROR_RES_YEARS_OLDER_THAN = 9;
+		public static final int ERROR_RES_CREDIT_CARD = 10;
 		// ------ COUNT OF PARAMETERS
-		public static final int ERROR_RES_COUNT = ERROR_RES_YEARS_OLDER_THAN + 1;
+		public static final int ERROR_RES_COUNT = ERROR_RES_CREDIT_CARD + 1;
 		// ----- Patterns
 		public static final int PATTERN_EMAIL = 0;
 		public static final int PATTERN_PHONE = 1;
@@ -168,6 +169,7 @@ public class ValiFi {
 				ERROR_RES_USERNAME,
 				ERROR_RES_PASSWORD,
 				ERROR_RES_YEARS_OLDER_THAN,
+				ERROR_RES_CREDIT_CARD
 		})
 		@Retention(RetentionPolicy.SOURCE)
 		public @interface ValiFiErrorResource {}
@@ -292,6 +294,7 @@ public class ValiFi {
 			mErrorResources[ERROR_RES_USERNAME] = R.string.validation_error_username;
 			mErrorResources[ERROR_RES_PASSWORD] = R.string.validation_error_password;
 			mErrorResources[ERROR_RES_YEARS_OLDER_THAN] = R.string.validation_error_older_than_years;
+			mErrorResources[ERROR_RES_CREDIT_CARD] = R.string.validation_error_credit_card;
 		}
 	}
 }

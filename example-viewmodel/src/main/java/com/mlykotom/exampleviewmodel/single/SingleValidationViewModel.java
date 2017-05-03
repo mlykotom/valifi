@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.mlykotom.exampleviewmodel.MyValiFieldCaptcha;
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFieldBase;
+import com.mlykotom.valifi.fields.ValiFieldCreditCard;
 import com.mlykotom.valifi.fields.ValiFieldUsername;
 import com.mlykotom.valifi.fields.number.ValiFieldLong;
 import com.mlykotom.valifi.fields.number.ValiFieldNumber;
@@ -19,9 +19,9 @@ import eu.inloop.viewmodel.AbstractViewModel;
 
 public class SingleValidationViewModel extends AbstractViewModel<SingleValidationView> {
 	public final ValiFieldUsername username = new ValiFieldUsername();
-	public final MyValiFieldCaptcha captcha = new MyValiFieldCaptcha();
 	public final ValiFieldUsername async = new ValiFieldUsername();
 	public final ValiFieldLong numLong = new ValiFieldLong();
+	public final ValiFieldCreditCard creditCard = new ValiFieldCreditCard();
 
 
 	@Override
@@ -34,7 +34,7 @@ public class SingleValidationViewModel extends AbstractViewModel<SingleValidatio
 
 	@Override
 	public void onDestroy() {
-		ValiFi.destroyFields(numLong, username, captcha, async);
+		ValiFi.destroyFields(numLong, username, async, creditCard);
 		super.onDestroy();
 	}
 
