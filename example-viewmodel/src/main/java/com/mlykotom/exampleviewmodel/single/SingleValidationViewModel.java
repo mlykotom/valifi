@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFieldBase;
-import com.mlykotom.valifi.fields.ValiFieldCreditCard;
+import com.mlykotom.valifi.fields.ValiFieldCard;
 import com.mlykotom.valifi.fields.ValiFieldUsername;
 import com.mlykotom.valifi.fields.number.ValiFieldLong;
 import com.mlykotom.valifi.fields.number.ValiFieldNumber;
@@ -21,7 +21,7 @@ public class SingleValidationViewModel extends AbstractViewModel<SingleValidatio
 	public final ValiFieldUsername username = new ValiFieldUsername();
 	public final ValiFieldUsername async = new ValiFieldUsername();
 	public final ValiFieldLong numLong = new ValiFieldLong();
-	public final ValiFieldCreditCard creditCard = new ValiFieldCreditCard();
+	public final ValiFieldCard creditCard = new ValiFieldCard();
 
 
 	@Override

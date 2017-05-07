@@ -1,5 +1,8 @@
 package com.mlykotom.valifi.fields;
 
+import com.mlykotom.valifi.ValiFiTest;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -12,11 +15,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 
 @RunWith(Parameterized.class)
-public class CreditCardsTest {
+public class ValiFieldCardTest {
+	public static final String VALIDATOR_EMPTY_MESSAGE = "Credit card is not valid";
 	private final String inputCard;
+	private ValiFieldCard mField;
 
 
-	public CreditCardsTest(String input) {
+	public ValiFieldCardTest(String input) {
 		this.inputCard = input;
 	}
 
@@ -42,16 +47,29 @@ public class CreditCardsTest {
 	}
 
 
+	@Before
+	public void prepare() {
+		ValiFiTest.installWithoutContext();
+		mField = new ValiFieldCard(0L, VALIDATOR_EMPTY_MESSAGE);
+	}
+
+
 	@Test
 	public void checkLuhnTestForCard() {
-		System.out.println("Card is: " + inputCard);
-		assertThat(ValiFieldCreditCard.isLuhnTestValid(inputCard), is(true));
+		assertThat(ValiFieldCard.isLuhnTestValid(inputCard), is(true));
 	}
 
 
 	@Test
 	public void checkLuhnTestWronString() {
-		assertThat(ValiFieldCreditCard.isLuhnTestValid("424242424242424x"), is(false));
-		assertThat(ValiFieldCreditCard.isLuhnTestValid("assdfg123sf"), is(false));
+		assertThat(ValiFieldCard.isLuhnTestValid("424242424242424x"), is(false));
+		assertThat(ValiFieldCard.isLuhnTestValid("assdfg123sf"), is(false));
+	}
+
+
+	@Test
+	public void checkDefaultCardTypes() {
+		mField.set(inputCard);
+		assertThat(mField.isValid(), is(true));
 	}
 }

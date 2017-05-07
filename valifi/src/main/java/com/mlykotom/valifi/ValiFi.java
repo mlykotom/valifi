@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
@@ -11,6 +13,9 @@ import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 
@@ -64,6 +69,15 @@ public class ValiFi {
 	}
 
 
+	/**
+	 * @return installed known card types (MASTERCARD, VISA and AMERICAN_EXPRESS as default)
+	 */
+	@NonNull
+	public static Set<ValiFiCardType> getCreditCardTypes() {
+		return getInstance().mParameters.mKnownCardTypes;
+	}
+
+
 	static int getErrorRes(@Builder.ValiFiErrorResource int field) {
 		return getInstance().mParameters.mErrorResources[field];
 	}
@@ -110,13 +124,15 @@ public class ValiFi {
 		final Pattern mPatterns[];
 		final long mErrorDelay;
 		final long mAsyncValidationDelay;
+		final Set<ValiFiCardType> mKnownCardTypes;
 
 
-		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay, long asyncValidationDelay) {
+		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay, long asyncValidationDelay, @NonNull Set<ValiFiCardType> knownCardTypes) {
 			mPatterns = patterns;
 			mErrorResources = errorResources;
 			mErrorDelay = errorDelay;
 			mAsyncValidationDelay = asyncValidationDelay;
+			mKnownCardTypes = knownCardTypes;
 		}
 	}
 
@@ -154,6 +170,7 @@ public class ValiFi {
 		private static final long DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS = 300;
 		private Pattern[] mPatterns;
 		private int[] mErrorResources;
+		private Set<ValiFiCardType> mKnownCardTypes;
 		private long mErrorDelay = DEFAULT_ERROR_DELAY_MILLIS;
 		private long mAsyncValidationDelay = DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS;
 
@@ -188,6 +205,7 @@ public class ValiFi {
 		public Builder() {
 			mPatterns = new Pattern[PATTERN_COUNT];
 			mErrorResources = new int[ERROR_RES_COUNT];
+			mKnownCardTypes = ValiFiCardType.getDefaultTypes();
 
 			setupResources();
 			setupPatterns();
@@ -269,8 +287,23 @@ public class ValiFi {
 		}
 
 
+		/**
+		 * Clears known card types and sets new types
+		 *
+		 * @param types to be set (will clear previously set). If @null, only clears the types
+		 * @return builder for chaining
+		 */
+		public Builder setKnownCardTypes(@Nullable ValiFiCardType... types) {
+			mKnownCardTypes = new HashSet<>();
+			if(types != null) {
+				Collections.addAll(mKnownCardTypes, types);
+			}
+			return this;
+		}
+
+
 		public ValiFiConfig build() {
-			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay, mAsyncValidationDelay);
+			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay, mAsyncValidationDelay, mKnownCardTypes);
 		}
 
 
