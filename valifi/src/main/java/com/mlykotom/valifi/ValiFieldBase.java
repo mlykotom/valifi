@@ -32,31 +32,68 @@ import java.util.regex.Pattern;
 @SuppressWarnings("unused")
 public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	protected ValueType mValue;
-	protected LinkedHashMap<PropertyValidator<ValueType>, String> mPropertyValidators = new LinkedHashMap<>();
 	protected boolean mIsEmptyAllowed = false;
 	@Nullable protected List<ValiFieldBase> mBoundFields;
+	// --- maps of validators (to be validated)
+	protected LinkedHashMap<PropertyValidator<ValueType>, String> mPropertyValidators = new LinkedHashMap<>();
+	@Nullable protected LinkedHashMap<AsyncPropertyValidator<ValueType>, String> mAsyncPropertyValidators;
+	// --- delaying times
 	protected long mErrorDelay;
-	boolean mIsChanged = false;
+	protected long mAsyncValidationDelay;
+	// --- future tasks for delayed error + async validators
 	@Nullable ScheduledFuture<?> mLastTask;
+	@Nullable ScheduledFuture<?> mLastValidationFuture;
+	// --- others
+	boolean mIsChanged = false;
+	@Nullable String mError;
+	@Nullable String mLastError;
+	volatile boolean mInProgress = false;
 	volatile long mDueTime = -1;
 	volatile boolean mLastIsError = true;
 	volatile boolean mIsError = false;
-	@Nullable String mError;
-	@Nullable String mLastError;
+	@Nullable Runnable mAsyncValidationRunnable;
 	@Nullable private ValiFiForm mParentForm;
-	protected OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
 	@Nullable private ScheduledExecutorService mScheduler;
+	protected OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
 	final Runnable mNotifyErrorRunnable = setupNotifyErrorRunnable();
 
 
 	public interface PropertyValidator<T> {
 		/**
-		 * Decides whether field will be valid based on return value
+		 * Decides whether field will be valid based on return value.
+		 * Can't be blocking, it's called on UI thread!
 		 *
 		 * @param value field's actual value
 		 * @return validity
 		 */
 		boolean isValid(@Nullable T value);
+	}
+
+
+	/**
+	 * Validator for asynchronous calls (which would take some time to finish e.g. network requests)
+	 *
+	 * @param <T> the same type as this field value's type
+	 */
+	public interface AsyncPropertyValidator<T> {
+		/**
+		 * Decides whether field wil be valid based on return value.
+		 * It's called off the UI thread, therefore can be blocking.
+		 * If custom long-term algorithm is used, it should check {@link Thread#interrupted()} and throw {@link InterruptedException}
+		 * <p>
+		 * Simple example:
+		 * <pre>{@code
+		 * for(int i = 0; i < Integer.MAX_VALUE; i++) {
+		 * 	if(Thread.interrupted()) throw new InterruptedException();
+		 * 	// do something
+		 * }
+		 * }</pre>
+		 *
+		 * @param value field's actual value
+		 * @return validity
+		 * @throws InterruptedException when thrown, means another execution is right after
+		 */
+		boolean isValid(@Nullable T value) throws InterruptedException;
 	}
 
 
@@ -70,6 +107,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 */
 	public ValiFieldBase(@Nullable ValueType defaultValue) {
 		mErrorDelay = ValiFi.getErrorDelay();
+		mAsyncValidationDelay = ValiFi.getAsyncValidationDelay();
+
 		mValue = defaultValue;
 
 		if(defaultValue != null) {
@@ -104,14 +143,13 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
-	 * Helper for clearing all specified validated fields
+	 * Helper for destroying all specified fields
 	 *
-	 * @param fields to be cleansed
+	 * @param fields to be destroyed
+	 * @see ValiFi#destroyFields(ValiFieldBase[])
 	 */
 	public static void destroyAll(ValiFieldBase... fields) {
-		for(ValiFieldBase field : fields) {
-			field.destroy();
-		}
+		ValiFi.destroyFields(fields);
 	}
 
 
@@ -180,11 +218,28 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * Sets whether validation will be immediate or never
 	 *
 	 * @param delayType either never or immediate
-	 * @return this, validators can be chained
+	 * @return this, so validators can be chained
 	 * @see #setErrorDelay(long) for setting exact time
 	 */
 	public ValiFieldBase<ValueType> setErrorDelay(ValiFiErrorDelay delayType) {
 		mErrorDelay = delayType.delayMillis;
+		return this;
+	}
+
+
+	/**
+	 * Overrides default delay for asynchronous validation.
+	 *
+	 * @param millis can be milliseconds 0+
+	 * @return this, so validators can be chained
+	 * @see ValiFi.Builder#setAsyncValidationDelay(long) for default value
+	 */
+	public ValiFieldBase<ValueType> setAsyncValidationDelay(long millis) {
+		if(millis < 0) {
+			throw new ValiFiValidatorException("Asynchronous delay must be positive or immediate");
+		}
+
+		mAsyncValidationDelay = millis;
 		return this;
 	}
 
@@ -233,17 +288,54 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 
 	/**
+	 * Flag for showing whether async validators are in progress.
+	 * It may be used for showing/hiding progress view, etc
+	 *
+	 * @return whether validation in progress
+	 */
+	@Bindable
+	public boolean isInProgress() {
+		return mInProgress;
+	}
+
+
+	/**
+	 * Sets the field that is in validating process (because of async validations)
+	 * Notifies {@link #getIsValid()} which keeps it invalid when in progress.
+	 *
+	 * @param inProgress whether validates or not
+	 */
+	protected synchronized void setInProgress(boolean inProgress) {
+		if(inProgress == mInProgress) return;
+
+		mInProgress = inProgress;
+		notifyPropertyChanged(com.mlykotom.valifi.BR.inProgress);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
+	}
+
+
+	/**
 	 * Removes property change callback and clears custom validators
 	 */
 	public void destroy() {
 		shutdownScheduler();
 		removeOnPropertyChangedCallback(mCallback);
-		mPropertyValidators.clear();
-		mPropertyValidators = null;
+
+		if(mPropertyValidators != null) {
+			mPropertyValidators.clear();
+			mPropertyValidators = null;
+		}
+
+		if(mAsyncPropertyValidators != null) {
+			mAsyncPropertyValidators.clear();
+			mAsyncPropertyValidators = null;
+		}
+
 		if(mBoundFields != null) {
 			mBoundFields.clear();
 			mBoundFields = null;
 		}
+
 		mParentForm = null;
 		mIsChanged = false;
 		mIsError = false;
@@ -276,16 +368,21 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 
 	/**
 	 * Might be used for checking submit buttons because isError might be true when data not changed
+	 * Field is valid when:
+	 * - no error is set
+	 * - validation is not in progress
+	 * - field was already changed OR was set that can be empty
 	 *
-	 * @return if property was changed and is valid
+	 * @return if property was changed, is not in progress, and is valid
 	 */
 	@Bindable
 	public boolean getIsValid() {
-		return !mIsError & (mIsChanged | mIsEmptyAllowed);
+		return !mInProgress & !mIsError & (mIsChanged | mIsEmptyAllowed);
 	}
 
 
 	/**
+	 * @return if property was changed, is not in progress, and is valid
 	 * @see #getIsValid()
 	 */
 	@Bindable
@@ -364,6 +461,54 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 */
 	public ValiFieldBase<ValueType> addCustomValidator(String errorMessage, PropertyValidator<ValueType> validator) {
 		mPropertyValidators.put(validator, errorMessage);
+		if(mIsChanged) {
+			notifyValueChanged(true);
+		}
+		return this;
+	}
+
+
+	/**
+	 * Adds validator without error message which does not block main thread.
+	 * This means no error will be shown, but field won't be valid
+	 *
+	 * @param validator implementation of validation
+	 * @return this, so validators can be chained
+	 * @see #addCustomAsyncValidator(String, AsyncPropertyValidator)
+	 */
+	public ValiFieldBase<ValueType> addCustomAsyncValidator(AsyncPropertyValidator<ValueType> validator) {
+		return addCustomAsyncValidator(null, validator);
+	}
+
+
+	/**
+	 * Adds asynchronous validation which does not block main thread.
+	 *
+	 * @param errorResource string resource shown when validator not valid
+	 * @param validator     implementation of validation
+	 * @return this, so validators can be chained
+	 * @see #addCustomAsyncValidator(String, AsyncPropertyValidator)
+	 */
+	public ValiFieldBase<ValueType> addCustomAsyncValidator(@StringRes int errorResource, AsyncPropertyValidator<ValueType> validator) {
+		String errorMessage = getAppContext().getString(errorResource);
+		return addCustomAsyncValidator(errorMessage, validator);
+	}
+
+
+	/**
+	 * Adds asynchronous validation which does not block main thread.
+	 * Validation is started after delay {@link #setAsyncValidationDelay(long)} and cancels previous async validation
+	 *
+	 * @param errorMessage to be shown if field does not meet this validation
+	 * @param validator    implementation of validation
+	 * @return this, so validators can be chained
+	 */
+	public ValiFieldBase<ValueType> addCustomAsyncValidator(String errorMessage, AsyncPropertyValidator<ValueType> validator) {
+		if(mAsyncPropertyValidators == null) {
+			mAsyncPropertyValidators = new LinkedHashMap<>();
+		}
+
+		mAsyncPropertyValidators.put(validator, errorMessage);
 		if(mIsChanged) {
 			notifyValueChanged(true);
 		}
@@ -455,6 +600,19 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	}
 
 
+	/**
+	 * Notifies bound fields about value change
+	 */
+	void notifyBoundFieldsValueChanged() {
+		if(mBoundFields == null) return;
+
+		for(ValiFieldBase field : mBoundFields) {
+			if(!field.mIsChanged) continue;    // notifies only changed items
+			field.notifyValueChanged(true);
+		}
+	}
+
+
 	synchronized ScheduledExecutorService getScheduler() {
 		if(mScheduler == null) {
 			mScheduler = Executors.newSingleThreadScheduledExecutor();
@@ -476,6 +634,76 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 			mLastTask.cancel(true);
 		}
 		mLastTask = task;
+	}
+
+
+	synchronized void cancelAndSetValidationTask(@Nullable ScheduledFuture<?> task) {
+		if(mLastValidationFuture != null) {
+			mLastValidationFuture.cancel(true);
+		}
+		mLastValidationFuture = task;
+	}
+
+
+	/**
+	 * Checks synchronous validators one by one and sets error to the field if any of them is invalid
+	 *
+	 * @return true if all validators are valid, false if any of them is invalid
+	 */
+	boolean checkBlockingValidators() {
+		for(Map.Entry<PropertyValidator<ValueType>, String> entry : mPropertyValidators.entrySet()) {
+			// all of setup validators must be valid, otherwise error
+			if(!entry.getKey().isValid(mValue)) {
+				setIsError(true, entry.getValue());
+				return false;
+			}
+		}
+
+		// set valid
+		setIsError(false, null);
+		return true;
+	}
+
+
+	/**
+	 * Checks asynchronously all async validators and sets error to the field if any of them is invalid
+	 */
+	void checkAsyncValidatorsIfAny() {
+		if(mAsyncPropertyValidators == null || mAsyncPropertyValidators.isEmpty()) {
+			setInProgress(false);
+			return;
+		}
+
+		if(mAsyncValidationRunnable == null) {
+			mAsyncValidationRunnable = new Runnable() {
+				@Override
+				public void run() {
+					setInProgress(true);
+					// checking all set validators
+					for(Map.Entry<AsyncPropertyValidator<ValueType>, String> entry : mAsyncPropertyValidators.entrySet()) {
+						// all of setup validators must be valid, otherwise error
+						try {
+							if(!entry.getKey().isValid(mValue)) {
+								setIsError(true, entry.getValue());
+								setInProgress(false);
+								return;
+							}
+						} catch(InterruptedException e) {
+							// interruption should be called only when another task will be running
+							// it will keep the progress and won't show any error
+							return;
+						}
+					}
+
+					// set valid
+					setIsError(false, null);
+					setInProgress(false);
+				}
+			};
+		}
+
+		// validate asynchronous validators (if any)
+		cancelAndSetValidationTask(getScheduler().schedule(mAsyncValidationRunnable, mAsyncValidationDelay, TimeUnit.MILLISECONDS));
 	}
 
 
@@ -515,7 +743,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * Called when value changed (from layout or by notifyPropertyChanged)
 	 * 1) notifies bound fields (e.g. when verifying fields)
 	 * 2) checks if value can be empty
-	 * 3) validates all attached validators
+	 * 3) validates all attached blocking validators
+	 * 4) validates attached asynchronous validators
 	 *
 	 * @return property changed callback which should be set as field
 	 */
@@ -525,32 +754,27 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 			public void onPropertyChanged(Observable observable, int brId) {
 				if(brId != com.mlykotom.valifi.BR.value) return;
 
-				// notifying bound fields about change
-				if(mBoundFields != null) {
-					for(ValiFieldBase field : mBoundFields) {
-						if(!field.mIsChanged) continue;    // notifies only changed items
-						field.notifyValueChanged(true);
-					}
-				}
+				// ad 1) notifying bound fields
+				notifyBoundFieldsValueChanged();
 
-				// checking if value can be empty
-				ValueType actualValue = mValue;
-				if(mIsEmptyAllowed && (actualValue == null || whenThisFieldIsEmpty(actualValue))) {
+				// ad 2) checking if value can be empty
+				if(mIsEmptyAllowed && (mValue == null || whenThisFieldIsEmpty(mValue))) {
 					setIsError(false, null);
 					return;
 				}
 
-				// checking all set validators
-				for(Map.Entry<PropertyValidator<ValueType>, String> entry : mPropertyValidators.entrySet()) {
-					// all of setup validators must be valid, otherwise error
-					if(!entry.getKey().isValid(actualValue)) {
-						setIsError(true, entry.getValue());
-						return;
-					}
+				cancelAndSetValidationTask(null);
+				setInProgress(true);
+
+				// ad 3) validating synchronous validators
+				if(!checkBlockingValidators()) {
+					setInProgress(false);
+					cancelAndSetValidationTask(null);
+					return;
 				}
 
-				// set valid
-				setIsError(false, null);
+				// ad 4) validating asynchronous validators
+				checkAsyncValidatorsIfAny();
 			}
 		};
 	}

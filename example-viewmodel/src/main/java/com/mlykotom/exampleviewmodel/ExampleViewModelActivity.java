@@ -9,7 +9,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
-import com.mlykotom.exampleviewmodel.auto.AutoValidationFragment;
+import com.mlykotom.exampleviewmodel.single.SingleValidationFragment;
+import com.mlykotom.exampleviewmodel.form.FormValidationFragment;
 import com.mlykotom.exampleviewmodel.manual.ManualValidationFragment;
 
 import eu.inloop.viewmodel.base.ViewModelBaseEmptyActivity;
@@ -49,6 +50,8 @@ public class ExampleViewModelActivity extends ViewModelBaseEmptyActivity {
 
 
 	private static class PagesAdapter extends FragmentStatePagerAdapter {
+		private static String[] sTitles = new String[]{"Single", "Form", "Manual"};
+
 
 		public PagesAdapter(FragmentManager fm) {
 			super(fm);
@@ -60,9 +63,12 @@ public class ExampleViewModelActivity extends ViewModelBaseEmptyActivity {
 			switch(position) {
 				case 0:
 				default:
-					return AutoValidationFragment.newInstance();
+					return SingleValidationFragment.newInstance();
 
 				case 1:
+					return FormValidationFragment.newInstance();
+
+				case 2:
 					return ManualValidationFragment.newInstance();
 			}
 		}
@@ -70,20 +76,13 @@ public class ExampleViewModelActivity extends ViewModelBaseEmptyActivity {
 
 		@Override
 		public int getCount() {
-			return 2;
+			return sTitles.length;
 		}
 
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			switch(position) {
-				case 0:
-				default:
-					return "Auto";
-
-				case 1:
-					return "Manual";
-			}
+			return sTitles[position];
 		}
 	}
 

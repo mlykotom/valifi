@@ -1,5 +1,6 @@
 package com.mlykotom.valifi.fields;
 
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import com.mlykotom.valifi.ValiFi;
@@ -11,7 +12,7 @@ public class ValiFieldUsername extends ValiFieldText {
 	}
 
 
-	public ValiFieldUsername(String defaultValue) {
+	public ValiFieldUsername(@Nullable String defaultValue) {
 		super(defaultValue);
 		addUsernameValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME)));
 	}
@@ -22,13 +23,13 @@ public class ValiFieldUsername extends ValiFieldText {
 	}
 
 
-	public ValiFieldUsername(String defaultValue, @StringRes int errorResource) {
+	public ValiFieldUsername(@Nullable String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
 		addUsernameValidator(getAppContext().getString(errorResource));
 	}
 
 
-	public ValiFieldUsername(String defaultValue, String errorMessage) {
+	public ValiFieldUsername(@Nullable String defaultValue, String errorMessage) {
 		super(defaultValue);
 		addUsernameValidator(errorMessage);
 	}

@@ -3,6 +3,7 @@ package com.mlykotom.exampleviewmodel.manual;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.mlykotom.exampleviewmodel.MyValiFieldCaptcha;
 import com.mlykotom.valifi.ValiFiErrorDelay;
 import com.mlykotom.valifi.ValiFiForm;
 import com.mlykotom.valifi.fields.ValiFieldEmail;
@@ -12,7 +13,8 @@ import eu.inloop.viewmodel.AbstractViewModel;
 
 public class ManualValidationViewModel extends AbstractViewModel<ManualValidationView> {
 	public final ValiFieldEmail email = new ValiFieldEmail();
-	public final ValiFiForm form = new ValiFiForm(email);
+	public final MyValiFieldCaptcha captcha = new MyValiFieldCaptcha();
+	public final ValiFiForm form = new ValiFiForm(email, captcha);
 
 
 	@Override

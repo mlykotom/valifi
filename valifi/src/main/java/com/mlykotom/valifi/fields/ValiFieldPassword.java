@@ -1,5 +1,6 @@
 package com.mlykotom.valifi.fields;
 
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import com.mlykotom.valifi.ValiFi;
@@ -11,7 +12,7 @@ public class ValiFieldPassword extends ValiFieldText {
 	}
 
 
-	public ValiFieldPassword(String defaultValue) {
+	public ValiFieldPassword(@Nullable String defaultValue) {
 		super(defaultValue);
 		addPasswordValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD)));
 	}
@@ -22,13 +23,13 @@ public class ValiFieldPassword extends ValiFieldText {
 	}
 
 
-	public ValiFieldPassword(String defaultValue, @StringRes int errorResource) {
+	public ValiFieldPassword(@Nullable String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
 		addPasswordValidator(getAppContext().getString(errorResource));
 	}
 
 
-	public ValiFieldPassword(String defaultValue, String errorMessage) {
+	public ValiFieldPassword(@Nullable String defaultValue, String errorMessage) {
 		super(defaultValue);
 		addPasswordValidator(errorMessage);
 	}

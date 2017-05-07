@@ -1,5 +1,6 @@
 package com.mlykotom.valifi.fields;
 
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.util.Patterns;
 
@@ -12,7 +13,7 @@ public class ValiFieldEmail extends ValiFieldText {
 	}
 
 
-	public ValiFieldEmail(String defaultValue) {
+	public ValiFieldEmail(@Nullable String defaultValue) {
 		super(defaultValue);
 		addEmailValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_EMAIL)));
 	}
@@ -23,13 +24,13 @@ public class ValiFieldEmail extends ValiFieldText {
 	}
 
 
-	public ValiFieldEmail(String defaultValue, @StringRes int errorResource) {
+	public ValiFieldEmail(@Nullable String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
 		addEmailValidator(getAppContext().getString(errorResource));
 	}
 
 
-	public ValiFieldEmail(String defaultValue, String errorMessage) {
+	public ValiFieldEmail(@Nullable String defaultValue, String errorMessage) {
 		super(defaultValue);
 		addEmailValidator(errorMessage);
 	}

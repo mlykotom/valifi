@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
 
+def isLocalBuild = project.file('../local.properties').exists()
+
 android {
 	compileSdkVersion 25
-	buildToolsVersion "25.0.2"
+	buildToolsVersion "25.0.3"
 	defaultConfig {
 		applicationId "com.mlykotom.example"
 		minSdkVersion 9
@@ -23,10 +25,13 @@ android {
 }
 
 
-
 dependencies {
 	compile fileTree(dir: 'libs', include: ['*.jar'])
-	compile 'com.android.support:appcompat-v7:25.1.0'
-	compile 'com.android.support:design:25.1.0'
-	compile 'com.mlykotom:valifi:1.0.0'
+	compile 'com.android.support:appcompat-v7:25.3.1'
+	compile 'com.android.support:design:25.3.1'
+	if(isLocalBuild) {
+		compile project(':valifi')
+	} else {
+		compile 'com.mlykotom:valifi:1.1.0'
+	}
 }
