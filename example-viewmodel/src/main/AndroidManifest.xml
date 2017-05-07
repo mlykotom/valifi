@@ -11,7 +11,9 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
 
-		<activity android:name="com.mlykotom.exampleviewmodel.ExampleViewModelActivity">
+		<activity
+			android:name="com.mlykotom.exampleviewmodel.ExampleViewModelActivity"
+			android:windowSoftInputMode="adjustResize">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />

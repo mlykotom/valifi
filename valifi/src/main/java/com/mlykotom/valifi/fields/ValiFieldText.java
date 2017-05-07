@@ -24,7 +24,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
-	public ValiFieldText(String defaultValue) {
+	public ValiFieldText(@Nullable String defaultValue) {
 		super(defaultValue);
 	}
 

@@ -10,4 +10,5 @@
 	<string name="validation_error_range_length">Field must be between %1$d and %2$d characters long</string>
 	<string name="validation_error_exact_length">Field must be exactly %d characters long</string>
 	<string name="validation_error_older_than_years">Must be at least %d years long</string>
+	<string name="validation_error_credit_card">Enter valid credit card number</string>
 </resources>

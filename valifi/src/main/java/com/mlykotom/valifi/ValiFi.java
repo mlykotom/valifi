@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
@@ -11,6 +13,9 @@ import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 
@@ -19,8 +24,8 @@ public class ValiFi {
 	static String TAG = ValiFi.class.getSimpleName();
 	@SuppressLint("StaticFieldLeak")
 	private static ValiFi ourInstance;
+	final ValiFiConfig mParameters;
 	private final Context mAppContext;
-	private final ValiFiConfig mParameters;
 
 
 	private ValiFi(Context appContext, ValiFiConfig config) {
@@ -52,6 +57,27 @@ public class ValiFi {
 	}
 
 
+	/**
+	 * Helper for destroying all specified fields
+	 *
+	 * @param fields to be destroyed
+	 */
+	public static void destroyFields(ValiFieldBase... fields) {
+		for(ValiFieldBase field : fields) {
+			field.destroy();
+		}
+	}
+
+
+	/**
+	 * @return installed known card types (MASTERCARD, VISA and AMERICAN_EXPRESS as default)
+	 */
+	@NonNull
+	public static Set<ValiFiCardType> getCreditCardTypes() {
+		return getInstance().mParameters.mKnownCardTypes;
+	}
+
+
 	static int getErrorRes(@Builder.ValiFiErrorResource int field) {
 		return getInstance().mParameters.mErrorResources[field];
 	}
@@ -67,6 +93,11 @@ public class ValiFi {
 	}
 
 
+	static long getAsyncValidationDelay() {
+		return getInstance().mParameters.mAsyncValidationDelay;
+	}
+
+
 	static Context getContext() {
 		if(getInstance().mAppContext == null) {
 			throw new ValiFiException("ValiFi was installed without Context!");
@@ -75,7 +106,7 @@ public class ValiFi {
 	}
 
 
-	private static ValiFi getInstance() {
+	static ValiFi getInstance() {
 		if(ourInstance == null) {
 			throw new ValiFiException("ValiFi must be installed in Application.onCreate()!");
 		}
@@ -92,12 +123,16 @@ public class ValiFi {
 		@StringRes final int[] mErrorResources;
 		final Pattern mPatterns[];
 		final long mErrorDelay;
+		final long mAsyncValidationDelay;
+		final Set<ValiFiCardType> mKnownCardTypes;
 
 
-		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay) {
+		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay, long asyncValidationDelay, @NonNull Set<ValiFiCardType> knownCardTypes) {
 			mPatterns = patterns;
 			mErrorResources = errorResources;
 			mErrorDelay = errorDelay;
+			mAsyncValidationDelay = asyncValidationDelay;
+			mKnownCardTypes = knownCardTypes;
 		}
 	}
 
@@ -120,8 +155,9 @@ public class ValiFi {
 		public static final int ERROR_RES_USERNAME = 7;
 		public static final int ERROR_RES_PASSWORD = 8;
 		public static final int ERROR_RES_YEARS_OLDER_THAN = 9;
+		public static final int ERROR_RES_CREDIT_CARD = 10;
 		// ------ COUNT OF PARAMETERS
-		public static final int ERROR_RES_COUNT = ERROR_RES_YEARS_OLDER_THAN + 1;
+		public static final int ERROR_RES_COUNT = ERROR_RES_CREDIT_CARD + 1;
 		// ----- Patterns
 		public static final int PATTERN_EMAIL = 0;
 		public static final int PATTERN_PHONE = 1;
@@ -131,9 +167,12 @@ public class ValiFi {
 		public static final int PATTERN_COUNT = PATTERN_USERNAME + 1;
 		// ----- other
 		private static final long DEFAULT_ERROR_DELAY_MILLIS = 500;
+		private static final long DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS = 300;
 		private Pattern[] mPatterns;
 		private int[] mErrorResources;
+		private Set<ValiFiCardType> mKnownCardTypes;
 		private long mErrorDelay = DEFAULT_ERROR_DELAY_MILLIS;
+		private long mAsyncValidationDelay = DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS;
 
 
 		@IntDef({
@@ -147,9 +186,10 @@ public class ValiFi {
 				ERROR_RES_USERNAME,
 				ERROR_RES_PASSWORD,
 				ERROR_RES_YEARS_OLDER_THAN,
+				ERROR_RES_CREDIT_CARD
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface ValiFiErrorResource {}
+		public @interface ValiFiErrorResource {}
 
 
 		@IntDef({
@@ -159,12 +199,13 @@ public class ValiFi {
 				PATTERN_USERNAME
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface ValiFiPattern {}
+		public @interface ValiFiPattern {}
 
 
 		public Builder() {
 			mPatterns = new Pattern[PATTERN_COUNT];
 			mErrorResources = new int[ERROR_RES_COUNT];
+			mKnownCardTypes = ValiFiCardType.getDefaultTypes();
 
 			setupResources();
 			setupPatterns();
@@ -228,8 +269,41 @@ public class ValiFi {
 		}
 
 
+		/**
+		 * Asynchronous validation for all fields will start after the delay specified here.
+		 * Default value is {@link #DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS}
+		 *
+		 * @param millis can be milliseconds 0+
+		 * @return builder for chaining
+		 * @see ValiFieldBase#setAsyncValidationDelay(long) for overriding for specified field
+		 */
+		public Builder setAsyncValidationDelay(long millis) {
+			if(millis < 0) {
+				throw new ValiFiValidatorException("Asynchronous delay must be positive or immediate");
+			}
+
+			mAsyncValidationDelay = millis;
+			return this;
+		}
+
+
+		/**
+		 * Clears known card types and sets new types
+		 *
+		 * @param types to be set (will clear previously set). If @null, only clears the types
+		 * @return builder for chaining
+		 */
+		public Builder setKnownCardTypes(@Nullable ValiFiCardType... types) {
+			mKnownCardTypes = new HashSet<>();
+			if(types != null) {
+				Collections.addAll(mKnownCardTypes, types);
+			}
+			return this;
+		}
+
+
 		public ValiFiConfig build() {
-			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay);
+			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay, mAsyncValidationDelay, mKnownCardTypes);
 		}
 
 
@@ -253,6 +327,7 @@ public class ValiFi {
 			mErrorResources[ERROR_RES_USERNAME] = R.string.validation_error_username;
 			mErrorResources[ERROR_RES_PASSWORD] = R.string.validation_error_password;
 			mErrorResources[ERROR_RES_YEARS_OLDER_THAN] = R.string.validation_error_older_than_years;
+			mErrorResources[ERROR_RES_CREDIT_CARD] = R.string.validation_error_credit_card;
 		}
 	}
 }
