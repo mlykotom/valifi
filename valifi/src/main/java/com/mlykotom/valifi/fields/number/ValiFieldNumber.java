@@ -45,6 +45,29 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 	protected abstract NumberType parse(@Nullable String value) throws NumberFormatException;
 
 
+	/**
+	 * @return Tries to parse value to number, if not possible returns @null
+	 */
+	@Nullable
+	public NumberType getNumber() {
+		try {
+			return parse(get());
+		} catch(NumberFormatException exc) {
+			return null;
+		}
+	}
+
+
+	/**
+	 * Sets the value of the number
+	 *
+	 * @param value which will be set
+	 */
+	public void setNumber(@Nullable NumberType value) {
+		set(getStringOrNull(value));
+	}
+
+
 	public ValiFieldNumber<NumberType> addNumberValidator(@Nullable NumberValidator<NumberType> validator) {
 		return addNumberValidator(null, validator);
 	}
