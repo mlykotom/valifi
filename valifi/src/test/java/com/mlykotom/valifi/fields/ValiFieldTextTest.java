@@ -29,7 +29,7 @@ public class ValiFieldTextTest {
 	public void destroyField() {
 		mField.destroy();
 		// check if field is still valid
-		assertThat(mField.getIsValid(), is(false));
+		assertThat(mField.isValid(), is(false));
 		// check bound values
 //		assertThat(mField.mBoundFields, is(nullValue()));	// TODO we'd like to handle that
 		// check if has form
@@ -57,7 +57,7 @@ public class ValiFieldTextTest {
 	public void checkNotEmptyWhenNull() {
 		mField.addNotEmptyValidator(VALIDATOR_EMPTY_MESSAGE);
 		mField.set(null);
-		assertFalse(mField.getIsValid());
+		assertFalse(mField.isValid());
 	}
 
 
@@ -65,7 +65,7 @@ public class ValiFieldTextTest {
 	public void checkNotEmpty() {
 		mField.addNotEmptyValidator(VALIDATOR_EMPTY_MESSAGE);
 		mField.set("");
-		assertThat(mField.getIsValid(), is(false));
+		assertThat(mField.isValid(), is(false));
 	}
 
 
@@ -76,7 +76,7 @@ public class ValiFieldTextTest {
 	public void checkMinLengthInvalid() {
 		mField.set("123");
 		mField.addMinLengthValidator("must be longer than 4 characters", 4);
-		assertThat(mField.getIsValid(), is(false));
+		assertThat(mField.isValid(), is(false));
 	}
 
 
@@ -84,7 +84,7 @@ public class ValiFieldTextTest {
 	public void checkMinLengthValid() {
 		mField.set("1234");
 		mField.addMinLengthValidator("must be longer than 4 characters", 4);
-		assertThat(mField.getIsValid(), is(true));
+		assertThat(mField.isValid(), is(true));
 	}
 
 	// ------------------ EXACT LENGTH VALIDATOR ------------------ //
@@ -94,7 +94,7 @@ public class ValiFieldTextTest {
 	public void checkExactLength5Invalid() {
 		mField.setValue("1234");
 		mField.addExactLengthValidator("must be exactly 5 characters long", 5);
-		assertThat(mField.getIsValid(), is(false));
+		assertThat(mField.isValid(), is(false));
 	}
 
 
@@ -102,7 +102,7 @@ public class ValiFieldTextTest {
 	public void checkExactLength5Valid() {
 		mField.setValue("12345");
 		mField.addExactLengthValidator("must be exactly 5 characters long", 5);
-		assertThat(mField.getIsValid(), is(true));
+		assertThat(mField.isValid(), is(true));
 	}
 
 
@@ -117,7 +117,7 @@ public class ValiFieldTextTest {
 	public void checkRangeLengthMin4Max6Invalid7() {
 		mField.set("1234567");
 		mField.addRangeLengthValidator("must be between 4 and 6", 4, 6);
-		assertThat(mField.getIsValid(), is(false));
+		assertThat(mField.isValid(), is(false));
 	}
 
 
@@ -125,6 +125,6 @@ public class ValiFieldTextTest {
 	public void checkRangeLengthMin4Max6Valid5() {
 		mField.set("12345");
 		mField.addRangeLengthValidator("must be between 4 and 6", 4, 6);
-		assertThat(mField.getIsValid(), is(true));
+		assertThat(mField.isValid(), is(true));
 	}
 }

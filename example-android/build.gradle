@@ -32,6 +32,6 @@ dependencies {
 	if(isLocalBuild) {
 		compile project(':valifi')
 	} else {
-		compile 'com.mlykotom:valifi:1.1.2'
+		compile 'com.mlykotom:valifi:1.1.3'
 	}
 }

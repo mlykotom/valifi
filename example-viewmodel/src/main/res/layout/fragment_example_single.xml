@@ -97,7 +97,7 @@
 			<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:enabled="@{viewModel.creditCard.isValid &amp;&amp; viewModel.numLong.isValid &amp;&amp; viewModel.username.isValid &amp;&amp; viewModel.async.isValid}"
+				android:enabled="@{viewModel.creditCard.valid &amp;&amp; viewModel.numLong.valid &amp;&amp; viewModel.username.valid &amp;&amp; viewModel.async.valid}"
 				android:onClick="@{() -> view.onSubmitClicked()}"
 				android:text="Submit" />
 		</LinearLayout>

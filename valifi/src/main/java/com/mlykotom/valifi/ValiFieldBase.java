@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * @param <ValueType> of the whole field (for now it's String and beta Calendar)
  */
 @SuppressWarnings("unused")
-public abstract class ValiFieldBase<ValueType> extends BaseObservable implements IValidable {
+public abstract class ValiFieldBase<ValueType> extends BaseObservable implements ValiFiValidable {
 	protected ValueType mValue;
 	protected boolean mIsEmptyAllowed = false;
 	@Nullable protected List<ValiFieldBase> mBoundFields;
@@ -146,9 +146,9 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * Helper for destroying all specified fields
 	 *
 	 * @param fields to be destroyed
-	 * @see ValiFi#destroyFields(ValiFieldBase[])
+	 * @see ValiFi#destroyFields(ValiFiValidable[])
 	 */
-	public static void destroyAll(ValiFieldBase... fields) {
+	public static void destroyAll(ValiFiValidable... fields) {
 		ValiFi.destroyFields(fields);
 	}
 
@@ -183,14 +183,60 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	protected abstract ValueType convertStringToValue(@Nullable String value);
 
 
+
 	/**
+	 * Might be used for checking submit buttons because isError might be true when data not changed
+	 * Field is valid when:
+	 * - no error is set
+	 * - validation is not in progress
+	 * - field was already changed OR was set that can be empty
+	 *
 	 * @return if property was changed, is not in progress, and is valid
-	 * @see #getIsValid()
 	 */
 	@Bindable
 	@Override
 	public boolean isValid() {
-		return getIsValid();
+		return !mInProgress & !mIsError & (mIsChanged | mIsEmptyAllowed);
+	}
+
+	/**
+	 * @return if property was changed, is not in progress, and is valid
+	 * @deprecated will be stripped in next version because of ambiguous naming. Use {{@link #isValid()}} instead.
+	 * @see #isValid()
+	 */
+	@Bindable
+	@Override
+	public boolean getIsValid() {
+		return isValid();
+	}
+
+
+	/**
+	 * Removes property change callback and clears custom validators
+	 */
+	public void destroy() {
+		shutdownScheduler();
+		removeOnPropertyChangedCallback(mCallback);
+
+		if(mPropertyValidators != null) {
+			mPropertyValidators.clear();
+			mPropertyValidators = null;
+		}
+
+		if(mAsyncPropertyValidators != null) {
+			mAsyncPropertyValidators.clear();
+			mAsyncPropertyValidators = null;
+		}
+
+		if(mBoundFields != null) {
+			mBoundFields.clear();
+			mBoundFields = null;
+		}
+
+		mParentForm = null;
+		mIsChanged = false;
+		mIsError = false;
+		mIsEmptyAllowed = false;
 	}
 
 
@@ -312,7 +358,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 
 	/**
 	 * Sets the field that is in validating process (because of async validations)
-	 * Notifies {@link #getIsValid()} which keeps it invalid when in progress.
+	 * Notifies {@link #isValid()} which keeps it invalid when in progress.
 	 *
 	 * @param inProgress whether validates or not
 	 */
@@ -321,36 +367,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 
 		mInProgress = inProgress;
 		notifyPropertyChanged(com.mlykotom.valifi.BR.inProgress);
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
-	}
-
-
-	/**
-	 * Removes property change callback and clears custom validators
-	 */
-	public void destroy() {
-		shutdownScheduler();
-		removeOnPropertyChangedCallback(mCallback);
-
-		if(mPropertyValidators != null) {
-			mPropertyValidators.clear();
-			mPropertyValidators = null;
-		}
-
-		if(mAsyncPropertyValidators != null) {
-			mAsyncPropertyValidators.clear();
-			mAsyncPropertyValidators = null;
-		}
-
-		if(mBoundFields != null) {
-			mBoundFields.clear();
-			mBoundFields = null;
-		}
-
-		mParentForm = null;
-		mIsChanged = false;
-		mIsError = false;
-		mIsEmptyAllowed = false;
+		notifyValidationChanged();
 	}
 
 
@@ -374,21 +391,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	@Bindable
 	public String getError() {
 		return mError;
-	}
-
-
-	/**
-	 * Might be used for checking submit buttons because isError might be true when data not changed
-	 * Field is valid when:
-	 * - no error is set
-	 * - validation is not in progress
-	 * - field was already changed OR was set that can be empty
-	 *
-	 * @return if property was changed, is not in progress, and is valid
-	 */
-	@Bindable
-	public boolean getIsValid() {
-		return !mInProgress & !mIsError & (mIsChanged | mIsEmptyAllowed);
 	}
 
 
@@ -597,7 +599,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * Notifies that field's validation flag changed
 	 */
 	protected void notifyValidationChanged() {
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);	// TODO remove from next version because @deprecated
 	}
 
 

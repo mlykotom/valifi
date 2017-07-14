@@ -24,7 +24,7 @@ public class ValiFieldEmailTest {
 	public void checkConstructWithDefaultValidEmail() {
 		ValiFieldEmail field = new ValiFieldEmail(EMAIL_ADDRESS_VALID, ValiFiTest.FIELD_ERROR_MSG);
 		assertThat(field.get(), is(EMAIL_ADDRESS_VALID));
-		assertThat(field.getIsValid(), is(true));
+		assertThat(field.isValid(), is(true));
 	}
 
 
@@ -33,7 +33,7 @@ public class ValiFieldEmailTest {
 		ValiFieldEmail field = new ValiFieldEmail(null, ValiFiTest.FIELD_ERROR_MSG);
 		field.set(EMAIL_ADDRESS_VALID);
 		assertThat(field.get(), is(EMAIL_ADDRESS_VALID));
-		assertThat(field.getIsValid(), is(true));
+		assertThat(field.isValid(), is(true));
 	}
 
 
@@ -41,7 +41,7 @@ public class ValiFieldEmailTest {
 	public void checkConstructWithDefaultInvalidEmail() {
 		ValiFieldEmail field = new ValiFieldEmail(EMAIL_ADDRESS_INVALID, ValiFiTest.FIELD_ERROR_MSG);
 		assertThat(field.get(), is(EMAIL_ADDRESS_INVALID));
-		assertThat(field.getIsValid(), is(false));
+		assertThat(field.isValid(), is(false));
 		assertThat(field.getError(), is(ValiFiTest.FIELD_ERROR_MSG));
 	}
 
@@ -51,7 +51,7 @@ public class ValiFieldEmailTest {
 		ValiFieldEmail field = new ValiFieldEmail(null, ValiFiTest.FIELD_ERROR_MSG);
 		field.set(EMAIL_ADDRESS_INVALID);
 		assertThat(field.get(), is(EMAIL_ADDRESS_INVALID));
-		assertThat(field.getIsValid(), is(false));
+		assertThat(field.isValid(), is(false));
 		assertThat(field.getError(), is(ValiFiTest.FIELD_ERROR_MSG));
 	}
 }
