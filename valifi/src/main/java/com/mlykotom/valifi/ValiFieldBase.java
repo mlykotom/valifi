@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * @param <ValueType> of the whole field (for now it's String and beta Calendar)
  */
 @SuppressWarnings("unused")
-public abstract class ValiFieldBase<ValueType> extends BaseObservable {
+public abstract class ValiFieldBase<ValueType> extends BaseObservable implements IValidable {
 	protected ValueType mValue;
 	protected boolean mIsEmptyAllowed = false;
 	@Nullable protected List<ValiFieldBase> mBoundFields;
@@ -181,6 +181,17 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	 * @return this value of type
 	 */
 	protected abstract ValueType convertStringToValue(@Nullable String value);
+
+
+	/**
+	 * @return if property was changed, is not in progress, and is valid
+	 * @see #getIsValid()
+	 */
+	@Bindable
+	@Override
+	public boolean isValid() {
+		return getIsValid();
+	}
 
 
 	/**
@@ -378,16 +389,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable {
 	@Bindable
 	public boolean getIsValid() {
 		return !mInProgress & !mIsError & (mIsChanged | mIsEmptyAllowed);
-	}
-
-
-	/**
-	 * @return if property was changed, is not in progress, and is valid
-	 * @see #getIsValid()
-	 */
-	@Bindable
-	public boolean isValid() {
-		return getIsValid();
 	}
 
 
