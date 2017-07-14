@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Bundles more fields together and provides validation for all of them + destroying
  */
-public class ValiFiForm extends BaseObservable implements IValidable {
+public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	private List<ValiFieldBase> mFields = new ArrayList<>();
 
 
@@ -22,25 +22,15 @@ public class ValiFiForm extends BaseObservable implements IValidable {
 
 
 	/**
-	 * @return if any field is not valid = false
-	 * @see #getIsValid()
-	 */
-	@Bindable
-	@Override
-	public boolean isValid() {
-		return getIsValid();
-	}
-
-
-	/**
 	 * Checks whether all bundled fields are valid
 	 *
 	 * @return If any field is not valid = false
 	 */
 	@Bindable
-	public boolean getIsValid() {
+	@Override
+	public boolean isValid() {
 		for(ValiFieldBase field : mFields) {
-			if(!field.getIsValid()) return false;
+			if(!field.isValid()) return false;
 		}
 
 		return true;
@@ -48,13 +38,15 @@ public class ValiFiForm extends BaseObservable implements IValidable {
 
 
 	/**
-	 * Adds field to this form so can be validated with others
+	 * Checks whether all bundled fields are valid
 	 *
-	 * @param field to be validated through this form
+	 * @return If any field is not valid = false
+	 * @see #isValid()
+	 * @deprecated will be stripped in next version because of ambiguous naming. Use {{@link #isValid()}} instead.
 	 */
-	public void addField(ValiFieldBase field) {
-		field.setFormValidation(this);
-		mFields.add(field);
+	@Bindable
+	public boolean getIsValid() {
+		return isValid();
 	}
 
 
@@ -68,6 +60,17 @@ public class ValiFiForm extends BaseObservable implements IValidable {
 		}
 
 		mFields.clear();
+	}
+
+
+	/**
+	 * Adds field to this form so can be validated with others
+	 *
+	 * @param field to be validated through this form
+	 */
+	public void addField(ValiFieldBase field) {
+		field.setFormValidation(this);
+		mFields.add(field);
 	}
 
 

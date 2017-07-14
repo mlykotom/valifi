@@ -62,8 +62,8 @@ public class ValiFi {
 	 *
 	 * @param fields to be destroyed
 	 */
-	public static void destroyFields(ValiFieldBase... fields) {
-		for(ValiFieldBase field : fields) {
+	public static void destroyFields(ValiFiValidable... fields) {
+		for(ValiFiValidable field : fields) {
 			field.destroy();
 		}
 	}
