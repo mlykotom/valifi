@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Bundles more fields together and provides validation for all of them + destroying
  */
-public class ValiFiForm extends BaseObservable {
+public class ValiFiForm extends BaseObservable implements IValidable {
 	private List<ValiFieldBase> mFields = new ArrayList<>();
 
 
@@ -18,6 +18,17 @@ public class ValiFiForm extends BaseObservable {
 		for(ValiFieldBase field : fields) {
 			addField(field);
 		}
+	}
+
+
+	/**
+	 * @return if any field is not valid = false
+	 * @see #getIsValid()
+	 */
+	@Bindable
+	@Override
+	public boolean isValid() {
+		return getIsValid();
 	}
 
 
@@ -33,16 +44,6 @@ public class ValiFiForm extends BaseObservable {
 		}
 
 		return true;
-	}
-
-
-	/**
-	 * @see #getIsValid()
-	 * @return if any field is not valid = false
-	 */
-	@Bindable
-	public boolean isValid() {
-		return getIsValid();
 	}
 
 
