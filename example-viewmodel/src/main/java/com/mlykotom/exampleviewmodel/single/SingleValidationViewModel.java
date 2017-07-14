@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.mlykotom.valifi.ValiFi;
+import com.mlykotom.valifi.ValiFiValidable;
 import com.mlykotom.valifi.ValiFieldBase;
 import com.mlykotom.valifi.fields.ValiFieldCard;
 import com.mlykotom.valifi.fields.ValiFieldUsername;
@@ -23,6 +24,7 @@ public class SingleValidationViewModel extends AbstractViewModel<SingleValidatio
 	public final ValiFieldLong numLong = new ValiFieldLong();
 	public final ValiFieldCard creditCard = new ValiFieldCard();
 
+	public final ValiFiValidable validable = username;
 
 	@Override
 	public void onCreate(@Nullable Bundle arguments, @Nullable Bundle savedInstanceState) {

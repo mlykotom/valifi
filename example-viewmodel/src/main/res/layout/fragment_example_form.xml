@@ -85,7 +85,7 @@
 			<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:enabled="@{viewModel.form.isValid}"
+				android:enabled="@{viewModel.form.valid}"
 				android:onClick="@{() -> view.onSubmitClicked()}"
 				android:text="Submit" />
 
