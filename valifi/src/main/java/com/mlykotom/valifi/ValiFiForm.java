@@ -45,6 +45,7 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 * @deprecated will be stripped in next version because of ambiguous naming. Use {{@link #isValid()}} instead.
 	 */
 	@Bindable
+	@Override
 	public boolean getIsValid() {
 		return isValid();
 	}
@@ -92,6 +93,7 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 * @param field which was changed (ignored and handled by observable callback)
 	 */
 	void notifyValidationChanged(ValiFieldBase field) {
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
+		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);	// TODO remove because of @deprecation
 	}
 }

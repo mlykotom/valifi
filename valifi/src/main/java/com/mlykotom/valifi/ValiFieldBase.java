@@ -358,7 +358,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 
 	/**
 	 * Sets the field that is in validating process (because of async validations)
-	 * Notifies {@link #getIsValid()} which keeps it invalid when in progress.
+	 * Notifies {@link #isValid()} which keeps it invalid when in progress.
 	 *
 	 * @param inProgress whether validates or not
 	 */
