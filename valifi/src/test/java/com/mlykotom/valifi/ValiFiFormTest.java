@@ -38,6 +38,6 @@ public class ValiFiFormTest {
 		ValiFieldEmail field2 = new ValiFieldEmail(ValiFieldEmailTest.EMAIL_ADDRESS_VALID, ValiFiTest.FIELD_ERROR_MSG);
 		mForm.addField(field2);
 
-		assertThat(mForm.getIsValid(), is(true));
+		assertThat(mForm.isValid(), is(true));
 	}
 }

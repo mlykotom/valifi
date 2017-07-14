@@ -25,7 +25,7 @@ public class ValiFieldBaseTest {
 		ValiFieldBase<String> field = new ValiFieldText();
 		field.set("test_value");
 		assertThat("test_value", is(field.get()));
-		assertThat(field.getIsValid(), is(true));
+		assertThat(field.isValid(), is(true));
 	}
 
 
@@ -38,7 +38,7 @@ public class ValiFieldBaseTest {
 		boundField.setValue("val_1");
 		field.setValue("val_2");
 
-		assertThat(field.getIsValid(), is(false));
+		assertThat(field.isValid(), is(false));
 	}
 
 	// ---- destroy ---- //
@@ -77,7 +77,7 @@ public class ValiFieldBaseTest {
 			}
 		});
 
-		assertThat(field.getIsValid(), is(false));
+		assertThat(field.isValid(), is(false));
 	}
 
 
@@ -90,7 +90,7 @@ public class ValiFieldBaseTest {
 		boundField.setValue("val_1");
 		field.setValue("val_1");
 
-		assertThat(field.getIsValid(), is(true));
+		assertThat(field.isValid(), is(true));
 	}
 
 
@@ -134,7 +134,7 @@ public class ValiFieldBaseTest {
 			}
 		});
 
-		assertThat(field.getIsValid(), is(false));
+		assertThat(field.isValid(), is(false));
 
 		Thread.sleep(delay_time + 100);
 
