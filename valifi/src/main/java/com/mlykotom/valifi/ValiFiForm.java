@@ -64,6 +64,14 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	}
 
 
+	@Override
+	public void reset() {
+		for(ValiFieldBase field : mFields) {
+			field.reset();
+		}
+	}
+
+
 	/**
 	 * Adds field to this form so can be validated with others
 	 *
@@ -94,6 +102,6 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 */
 	void notifyValidationChanged(ValiFieldBase field) {
 		notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);	// TODO remove because of @deprecation
+		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);    // TODO remove because of @deprecation
 	}
 }

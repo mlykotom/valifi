@@ -89,6 +89,11 @@
 				android:onClick="@{() -> view.onSubmitClicked()}"
 				android:text="Submit" />
 
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:onClick="@{() -> view.onResetClicked()}"
+				android:text="Reset" />
 		</LinearLayout>
 	</android.support.v4.widget.NestedScrollView>
 </layout>

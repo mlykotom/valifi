@@ -42,6 +42,7 @@ public class ValiFieldDate extends ValiFieldBase<Calendar> {
 
 
 	@Override
+	@Nullable
 	protected Calendar convertStringToValue(@Nullable String value) {
 		Calendar calendar = Calendar.getInstance();
 		try {

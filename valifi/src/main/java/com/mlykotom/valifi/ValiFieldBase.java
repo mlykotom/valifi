@@ -43,7 +43,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	// --- future tasks for delayed error + async validators
 	@Nullable ScheduledFuture<?> mLastTask;
 	@Nullable ScheduledFuture<?> mLastValidationFuture;
-	// --- others
 	boolean mIsChanged = false;
 	@Nullable String mError;
 	@Nullable String mLastError;
@@ -52,6 +51,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	volatile boolean mLastIsError = true;
 	volatile boolean mIsError = false;
 	@Nullable Runnable mAsyncValidationRunnable;
+	// --- others
+	boolean mIsResetting = false;
 	@Nullable private ValiFiForm mParentForm;
 	@Nullable private ScheduledExecutorService mScheduler;
 	protected OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
@@ -180,8 +181,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param value actual value from input
 	 * @return this value of type
 	 */
+	@Nullable
 	protected abstract ValueType convertStringToValue(@Nullable String value);
-
 
 
 	/**
@@ -199,10 +200,11 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		return !mInProgress & !mIsError & (mIsChanged | mIsEmptyAllowed);
 	}
 
+
 	/**
 	 * @return if property was changed, is not in progress, and is valid
-	 * @deprecated will be stripped in next version because of ambiguous naming. Use {{@link #isValid()}} instead.
 	 * @see #isValid()
+	 * @deprecated will be stripped in next version because of ambiguous naming. Use {{@link #isValid()}} instead.
 	 */
 	@Bindable
 	@Override
@@ -237,6 +239,24 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		mIsChanged = false;
 		mIsError = false;
 		mIsEmptyAllowed = false;
+	}
+
+
+	/**
+	 * Clears the state of the field (e.g. after submit of form).
+	 */
+	@Override
+	public void reset() {
+		mIsResetting = true;
+		mIsError = false;
+		mError = null;
+		mInProgress = false;
+		mIsChanged = false;
+
+		setValue("");
+		notifyValidationChanged();
+		refreshError();
+		mIsResetting = false;
 	}
 
 
@@ -566,9 +586,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		mIsError = isError;
 		mError = errorMessage;
 		notifyValidationChanged();
-		if(mParentForm != null) {
-			mParentForm.notifyValidationChanged(this);
-		}
 
 		// Notifies that error message changed
 		if(mErrorDelay != ValiFiErrorDelay.NEVER.delayMillis) {
@@ -599,8 +616,12 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * Notifies that field's validation flag changed
 	 */
 	protected void notifyValidationChanged() {
-		notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);	// TODO remove from next version because @deprecated
+		if(mParentForm != null) {
+			mParentForm.notifyValidationChanged(this);
+		} else {
+			notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
+			notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);    // TODO remove from next version because @deprecated
+		}
 	}
 
 
@@ -756,7 +777,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		return new OnPropertyChangedCallback() {
 			@Override
 			public void onPropertyChanged(Observable observable, int brId) {
-				if(brId != com.mlykotom.valifi.BR.value) return;
+				if(brId != com.mlykotom.valifi.BR.value || mIsResetting) return;
 
 				// ad 1) notifying bound fields
 				notifyBoundFieldsValueChanged();
