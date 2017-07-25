@@ -1,6 +1,6 @@
 final VERSION_MAJOR = 1 // max two digits
 final VERSION_MINOR = 1 // max two digits
-final VERSION_PATCH = 3 // max two digits
+final VERSION_PATCH = 5 // max two digits
 final VERSION_BUILD = 0 // max three digits
 
 apply plugin: 'com.android.library'

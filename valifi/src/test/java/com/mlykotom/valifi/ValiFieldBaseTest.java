@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
@@ -157,4 +159,23 @@ public class ValiFieldBaseTest {
 ////			}
 ////		});
 //	}
+
+
+	@Test
+	public void checkReset() {
+		ValiFieldText field = new ValiFieldText();
+		field.addExactLengthValidator("invalid_length_3", 3);
+		field.setValue("1");
+		assertThat(field.getError(), is(not(nullValue())));
+		assertThat(field.isValid(), is(false));
+
+		field.setValue("123");
+		assertThat(field.getError(), is(nullValue()));
+		assertThat(field.isValid(), is(true));
+
+		field.reset();
+
+		assertThat(field.getError(), is(nullValue()));
+		assertThat(field.isValid(), is(false));
+	}
 }

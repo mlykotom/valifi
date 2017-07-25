@@ -56,6 +56,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	@Override
+	@Nullable
 	protected String convertStringToValue(@Nullable String value) {
 		return value;
 	}

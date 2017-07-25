@@ -52,4 +52,9 @@ public class FormValidationFragment extends ViewModelBaseFragment<FormValidation
 	public void onSubmitClicked() {
 		Toast.makeText(getContext(), "Submit clicked and form is valid!", Toast.LENGTH_LONG).show();
 	}
+
+	@Override
+	public void onResetClicked() {
+		getViewModel().email.reset();
+	}
 }

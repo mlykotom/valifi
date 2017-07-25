@@ -26,4 +26,10 @@ public interface ValiFiValidable extends Observable {
 	 * So that form or field can be destroyed the same way
 	 */
 	void destroy();
+
+	/**
+	 * Clears the state of the field (e.g. after submit of form).
+	 * Sets value to null.
+	 */
+	void reset();
 }
