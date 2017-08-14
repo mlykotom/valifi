@@ -11,6 +11,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.widget.EditText;
 
+import com.mlykotom.valifi.exceptions.ValiFiException;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
 import java.util.ArrayList;
@@ -492,6 +493,17 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 
 
 	/**
+	 * Removes property validator
+	 *
+	 * @param validator which was set before
+	 * @return true, if successfully removed, false otherwise
+	 */
+	public boolean removeValidator(@NonNull PropertyValidator<ValueType> validator) {
+		return mPropertyValidators.remove(validator) != null;
+	}
+
+
+	/**
 	 * Adds validator without error message which does not block main thread.
 	 * This means no error will be shown, but field won't be valid
 	 *
@@ -536,6 +548,21 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 			notifyValueChanged(true);
 		}
 		return this;
+	}
+
+
+	/**
+	 * Removes async validator (if any was set)
+	 *
+	 * @param validator to be removed
+	 * @return true if successfully removed, false otherwise
+	 */
+	public boolean removeAsyncValidator(@NonNull AsyncPropertyValidator<ValueType> validator) {
+		if(mAsyncPropertyValidators == null) {
+			throw new ValiFiException("No async validators were set!");
+		}
+
+		return mAsyncPropertyValidators.remove(validator) != null;
 	}
 
 
