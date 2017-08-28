@@ -62,15 +62,6 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
-	@Override
-	public ValiFieldText setEmptyAllowed(boolean isEmptyAllowed) {
-		if(mHasNotEmptyValidator) {
-			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
-		}
-		super.setEmptyAllowed(isEmptyAllowed);
-		return this;
-	}
-
 	// ------------------ PATTERN VALIDATOR ------------------ //
 
 
@@ -176,12 +167,12 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
-	// ------------------ MAX LENGTH VALIDATOR ------------------ //
-
-
 	public ValiFieldText addExactLengthValidator(String errorMessage, final int exactLength) {
 		return addRangeLengthValidator(errorMessage, exactLength, exactLength);
 	}
+
+
+	// ------------------ MAX LENGTH VALIDATOR ------------------ //
 
 
 	public ValiFieldText addMaxLengthValidator(int maxLength) {
@@ -219,14 +210,19 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 *
 	 * @param errorMessage shown when not valid
 	 * @param minLength    value's length must be greater or equal
-	 * @param maxLength    value's length must be lower or equal
+	 * @param maxLength    value's length must be lower or equal.
+	 *                     May use -1, in this case is not checked (only minLength is)
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldText addRangeLengthValidator(String errorMessage, final int minLength, final int maxLength) {
-		if(minLength > 0) {
+		if(minLength < 0) {
+			throw new ValiFiValidatorException("Minimum length of value is 0 characters");
+		}
+
+		if(minLength <= 1) {//TODO
 			// checking empty or not empty
 			if(mIsEmptyAllowed) {
-				throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
+				throw new ValiFiValidatorException("Field can't be set as empty allowed (nullable) and min length 1 at the same time");
 			}
 			mHasNotEmptyValidator = true;
 		}
