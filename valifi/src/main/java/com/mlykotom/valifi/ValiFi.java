@@ -1,11 +1,11 @@
 package com.mlykotom.valifi;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
@@ -18,6 +18,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import static android.support.annotation.RestrictTo.Scope.TESTS;
+
 
 @SuppressWarnings("unused")
 public class ValiFi {
@@ -28,7 +30,7 @@ public class ValiFi {
 	private final Context mAppContext;
 
 
-	private ValiFi(Context appContext, ValiFiConfig config) {
+	private ValiFi(Context appContext, @NonNull ValiFiConfig config) {
 		mAppContext = appContext;
 		mParameters = config;
 	}
@@ -41,7 +43,7 @@ public class ValiFi {
 	 * @param appContext for requesting resources, etc.
 	 * @param config     overriden parameters, built by {@link Builder}
 	 */
-	public static void install(Context appContext, ValiFiConfig config) {
+	public static void install(@NonNull Context appContext, @NonNull ValiFiConfig config) {
 		ourInstance = new ValiFi(appContext.getApplicationContext(), config);
 	}
 
@@ -52,8 +54,26 @@ public class ValiFi {
 	 *
 	 * @param appContext for requesting resources, etc.
 	 */
-	public static void install(Application appContext) {
-		install(appContext, new Builder().build());
+	public static void install(@NonNull Context appContext) {
+		install(appContext.getApplicationContext(), new Builder().build());
+	}
+
+
+	/**
+	 * Installer for tests without context
+	 */
+	@RestrictTo(TESTS)
+	public static void install() {
+		ourInstance = new ValiFi(null, new Builder().build());
+	}
+
+
+	/**
+	 * Installer for tests without context
+	 */
+	@RestrictTo(TESTS)
+	public static void install(@NonNull ValiFiConfig config) {
+		ourInstance = new ValiFi(null, config);
 	}
 
 

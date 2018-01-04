@@ -21,7 +21,7 @@ public class ValiFiTest {
 	 * WARNING: installing without context will crash when getting string, only for tests!
 	 */
 	public static void installWithoutContext() {
-		ValiFi.install(null);
+		ValiFi.install();
 	}
 
 
@@ -76,5 +76,5 @@ public class ValiFiTest {
 		assertThat(mField.getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME), is(R.string.validation_error_username));
 		assertThat(mField.getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD), is(R.string.validation_error_password));
 		assertThat(mField.getErrorRes(ValiFi.Builder.ERROR_RES_YEARS_OLDER_THAN), is(R.string.validation_error_older_than_years));
-	}	
+	}
 }

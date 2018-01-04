@@ -28,7 +28,7 @@ public class ValiFieldCardInstallationTest {
 
 	@Test
 	public void checkCustomCard() {
-		ValiFi.install(null, new ValiFi.Builder()
+		ValiFi.install(new ValiFi.Builder()
 				.setKnownCardTypes(new ValiFiCardType("Visa Custom", "^4[0-9]{6,}$")) //no default known types
 				.build());
 
@@ -38,7 +38,7 @@ public class ValiFieldCardInstallationTest {
 
 
 	private void prepareNoDefaultTypes() {
-		ValiFi.install(null, new ValiFi.Builder()
+		ValiFi.install(new ValiFi.Builder()
 				.setKnownCardTypes() //no default known types
 				.build());
 	}
