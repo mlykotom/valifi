@@ -16,13 +16,6 @@ public interface ValiFiValidable extends Observable {
 	boolean isValid();
 
 	/**
-	 * @return The same as ${{@link #isValid()}}. Just because previous version had both methods.
-	 * @deprecated will be stripped in next version because of ambiguous naming. Use {{@link #isValid()}} instead.
-	 */
-	@Bindable
-	boolean getIsValid();
-
-	/**
 	 * So that form or field can be destroyed the same way
 	 */
 	void destroy();

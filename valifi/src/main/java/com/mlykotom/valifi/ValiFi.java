@@ -41,8 +41,8 @@ public class ValiFi {
 	 * @param appContext for requesting resources, etc.
 	 * @param config     overriden parameters, built by {@link Builder}
 	 */
-	public static void install(Application appContext, ValiFiConfig config) {
-		ourInstance = new ValiFi(appContext, config);
+	public static void install(Context appContext, ValiFiConfig config) {
+		ourInstance = new ValiFi(appContext.getApplicationContext(), config);
 	}
 
 
