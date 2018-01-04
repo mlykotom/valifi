@@ -38,20 +38,6 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 
 
 	/**
-	 * Checks whether all bundled fields are valid
-	 *
-	 * @return If any field is not valid = false
-	 * @see #isValid()
-	 * @deprecated will be stripped in next version because of ambiguous naming. Use {{@link #isValid()}} instead.
-	 */
-	@Bindable
-	@Override
-	public boolean getIsValid() {
-		return isValid();
-	}
-
-
-	/**
 	 * Clears used resources by this form + clears validated field's resources.
 	 * Should be called after done working with form and fields
 	 */
@@ -102,6 +88,5 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 */
 	void notifyValidationChanged(ValiFieldBase field) {
 		notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
-		notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);    // TODO remove because of @deprecation
 	}
 }

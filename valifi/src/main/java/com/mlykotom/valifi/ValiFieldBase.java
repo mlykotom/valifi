@@ -203,18 +203,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 
 
 	/**
-	 * @return if property was changed, is not in progress, and is valid
-	 * @see #isValid()
-	 * @deprecated will be stripped in next version because of ambiguous naming. Use {{@link #isValid()}} instead.
-	 */
-	@Bindable
-	@Override
-	public boolean getIsValid() {
-		return isValid();
-	}
-
-
-	/**
 	 * Removes property change callback and clears custom validators
 	 */
 	public void destroy() {
@@ -647,7 +635,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 			mParentForm.notifyValidationChanged(this);
 		} else {
 			notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
-			notifyPropertyChanged(com.mlykotom.valifi.BR.isValid);    // TODO remove from next version because @deprecated
 		}
 	}
 

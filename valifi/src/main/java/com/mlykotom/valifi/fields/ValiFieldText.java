@@ -65,7 +65,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	@Override
 	public ValiFieldText setEmptyAllowed(boolean isEmptyAllowed) {
 		if(mHasNotEmptyValidator) {
-			throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
+			throw new ValiFiValidatorException("Can't set empty validation when not empty validation set before (min length, range, etc)");
 		}
 		super.setEmptyAllowed(isEmptyAllowed);
 		return this;
@@ -226,7 +226,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 		if(minLength > 0) {
 			// checking empty or not empty
 			if(mIsEmptyAllowed) {
-				throw new ValiFiValidatorException("Field can't be empty and not empty at the same time");
+				throw new ValiFiValidatorException("Can't set empty validation when not empty validation set before (min length, range, etc)");
 			}
 			mHasNotEmptyValidator = true;
 		}
