@@ -65,7 +65,7 @@ public class ValiFieldDate extends ValiFieldBase<Calendar> {
 
 
 	public ValiFieldDate addOlderThanValidator(@StringRes int errorResource, int calendarField, int amount) {
-		String errorMessage = getAppContext().getString(errorResource, amount);
+		String errorMessage = getString(errorResource, amount);
 		return addOlderThanValidator(errorMessage, calendarField, amount);
 	}
 

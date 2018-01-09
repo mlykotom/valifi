@@ -30,7 +30,11 @@ public class ValiFi {
 	private final Context mAppContext;
 
 
-	private ValiFi(Context appContext, @NonNull ValiFiConfig config) {
+	/**
+	 * @param appContext nullable for tests
+	 * @param config     configuration of valifi (patterns, errors)
+	 */
+	private ValiFi(@Nullable Context appContext, @NonNull ValiFiConfig config) {
 		mAppContext = appContext;
 		mParameters = config;
 	}
@@ -118,6 +122,15 @@ public class ValiFi {
 	}
 
 
+	static ValiFi getInstance() {
+		if(ourInstance == null) {
+			throw new ValiFiException("ValiFi must be installed in Application.onCreate()!");
+		}
+
+		return ourInstance;
+	}
+
+
 	static Context getContext() {
 		if(getInstance().mAppContext == null) {
 			throw new ValiFiException("ValiFi was installed without Context!");
@@ -126,12 +139,13 @@ public class ValiFi {
 	}
 
 
-	static ValiFi getInstance() {
-		if(ourInstance == null) {
-			throw new ValiFiException("ValiFi must be installed in Application.onCreate()!");
+	static String getString(@StringRes int stringRes, Object... formatArgs) {
+		@Nullable Context context = getInstance().mAppContext;
+		if(context == null) {
+			// tests may be initialized without context, so will use placeholder string
+			return "string-" + stringRes;
 		}
-
-		return ourInstance;
+		return context.getString(stringRes, formatArgs);
 	}
 
 

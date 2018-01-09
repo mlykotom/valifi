@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
@@ -32,13 +33,13 @@ public class ValiFiTest {
 	}
 
 
-	@Test(expected = ValiFiException.class)
+	@Test
 	public void checkLibraryInstalled() {
-		mField.getAppContext();
+		assertThat(ValiFi.getInstance(), notNullValue());
 	}
 
 
-	@Test(expected = ValiFiException.class)
+	@Test
 	public void checkLibraryInstalledByAddingValidator() {
 		mField.addCustomValidator(R.string.validation_error_email, new ValiFieldBase.PropertyValidator<String>() {
 			@Override

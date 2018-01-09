@@ -74,7 +74,7 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 
 
 	public ValiFieldNumber<NumberType> addNumberValidator(@StringRes int errorResource, @Nullable NumberValidator<NumberType> validator) {
-		String errorMessage = getAppContext().getString(errorResource);
+		String errorMessage = getString(errorResource);
 		return addNumberValidator(errorMessage, validator);
 	}
 

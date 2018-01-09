@@ -14,7 +14,7 @@ public class ValiFieldPassword extends ValiFieldText {
 
 	public ValiFieldPassword(@Nullable String defaultValue) {
 		super(defaultValue);
-		addPasswordValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD)));
+		addPasswordValidator(getString(getErrorRes(ValiFi.Builder.ERROR_RES_PASSWORD)));
 	}
 
 
@@ -25,7 +25,7 @@ public class ValiFieldPassword extends ValiFieldText {
 
 	public ValiFieldPassword(@Nullable String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
-		addPasswordValidator(getAppContext().getString(errorResource));
+		addPasswordValidator(getString(errorResource));
 	}
 
 

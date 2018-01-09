@@ -81,7 +81,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @see #addPatternValidator(String, Pattern)
 	 */
 	public ValiFieldText addPatternValidator(@StringRes int errorResource, final Pattern pattern) {
-		String errorMessage = getAppContext().getString(errorResource);
+		String errorMessage = getString(errorResource);
 		return addPatternValidator(errorMessage, pattern);
 	}
 
@@ -118,7 +118,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addNotEmptyValidator(@StringRes int errorResource) {
-		String errorMessage = getAppContext().getString(errorResource);
+		String errorMessage = getString(errorResource);
 		return addNotEmptyValidator(errorMessage);
 	}
 
@@ -147,7 +147,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addMinLengthValidator(@StringRes int errorResource, int minLength) {
-		String errorMessage = getAppContext().getString(errorResource, minLength);
+		String errorMessage = getString(errorResource, minLength);
 		return addMinLengthValidator(errorMessage, minLength);
 	}
 
@@ -171,7 +171,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addExactLengthValidator(@StringRes int errorResource, int exactLength) {
-		String errorMessage = getAppContext().getString(errorResource, exactLength);
+		String errorMessage = getString(errorResource, exactLength);
 		return addExactLengthValidator(errorMessage, exactLength);
 	}
 
@@ -190,7 +190,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addMaxLengthValidator(@StringRes int errorResource, int maxLength) {
-		String errorMessage = getAppContext().getString(errorResource, maxLength);
+		String errorMessage = getString(errorResource, maxLength);
 		return addMaxLengthValidator(errorMessage, maxLength);
 	}
 
@@ -209,7 +209,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 
 
 	public ValiFieldText addRangeLengthValidator(@StringRes int errorResource, int minLength, int maxLength) {
-		String errorMessage = getAppContext().getString(errorResource, minLength, maxLength);
+		String errorMessage = getString(errorResource, minLength, maxLength);
 		return addRangeLengthValidator(errorMessage, minLength, maxLength);
 	}
 

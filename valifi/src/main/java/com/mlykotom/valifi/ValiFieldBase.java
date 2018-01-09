@@ -1,6 +1,5 @@
 package com.mlykotom.valifi;
 
-import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
@@ -410,7 +409,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @see #addVerifyFieldValidator(String, ValiFieldBase)
 	 */
 	public ValiFieldBase<ValueType> addVerifyFieldValidator(@StringRes int errorResource, final ValiFieldBase<ValueType> targetField) {
-		String errorMessage = getAppContext().getString(errorResource);
+		String errorMessage = getString(errorResource);
 		return addVerifyFieldValidator(errorMessage, targetField);
 	}
 
@@ -459,7 +458,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @see #addCustomValidator(String, PropertyValidator)
 	 */
 	public ValiFieldBase<ValueType> addCustomValidator(@StringRes int errorResource, PropertyValidator<ValueType> validator) {
-		String errorMessage = getAppContext().getString(errorResource);
+		String errorMessage = getString(errorResource);
 		return addCustomValidator(errorMessage, validator);
 	}
 
@@ -513,7 +512,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @see #addCustomAsyncValidator(String, AsyncPropertyValidator)
 	 */
 	public ValiFieldBase<ValueType> addCustomAsyncValidator(@StringRes int errorResource, AsyncPropertyValidator<ValueType> validator) {
-		String errorMessage = getAppContext().getString(errorResource);
+		String errorMessage = getString(errorResource);
 		return addCustomAsyncValidator(errorMessage, validator);
 	}
 
@@ -585,8 +584,15 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	}
 
 
-	protected Context getAppContext() {
-		return ValiFi.getContext();
+	/**
+	 * Serves for getting strings in fields
+	 *
+	 * @param stringRes  R.string.*
+	 * @param formatArgs the same as in context.getString()
+	 * @return formatted String | in case of tests, returns "string-*"
+	 */
+	protected String getString(@StringRes int stringRes, Object... formatArgs) {
+		return ValiFi.getString(stringRes, formatArgs);
 	}
 
 

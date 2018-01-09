@@ -22,7 +22,7 @@ public class ValiFieldCard extends ValiFieldLong {
 
 	public ValiFieldCard(@Nullable Long defaultValue) {
 		super(defaultValue);
-		addSpecifiedValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_CREDIT_CARD)));
+		addSpecifiedValidator(getString(getErrorRes(ValiFi.Builder.ERROR_RES_CREDIT_CARD)));
 	}
 
 
@@ -33,7 +33,7 @@ public class ValiFieldCard extends ValiFieldLong {
 
 	public ValiFieldCard(@Nullable Long defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
-		addNotEmptyValidator(getAppContext().getString(errorResource));
+		addNotEmptyValidator(getString(errorResource));
 	}
 
 

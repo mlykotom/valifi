@@ -14,7 +14,7 @@ public class ValiFieldUsername extends ValiFieldText {
 
 	public ValiFieldUsername(@Nullable String defaultValue) {
 		super(defaultValue);
-		addUsernameValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME)));
+		addUsernameValidator(getString(getErrorRes(ValiFi.Builder.ERROR_RES_USERNAME)));
 	}
 
 
@@ -25,7 +25,7 @@ public class ValiFieldUsername extends ValiFieldText {
 
 	public ValiFieldUsername(@Nullable String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
-		addUsernameValidator(getAppContext().getString(errorResource));
+		addUsernameValidator(getString(errorResource));
 	}
 
 

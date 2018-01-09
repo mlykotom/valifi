@@ -14,7 +14,7 @@ public class ValiFieldPhone extends ValiFieldText {
 
 	public ValiFieldPhone(@Nullable String defaultValue) {
 		super(defaultValue);
-		addPhoneValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_PHONE)));
+		addPhoneValidator(getString(getErrorRes(ValiFi.Builder.ERROR_RES_PHONE)));
 	}
 
 
@@ -25,7 +25,7 @@ public class ValiFieldPhone extends ValiFieldText {
 
 	public ValiFieldPhone(@Nullable String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
-		addPhoneValidator(getAppContext().getString(errorResource));
+		addPhoneValidator(getString(errorResource));
 	}
 
 

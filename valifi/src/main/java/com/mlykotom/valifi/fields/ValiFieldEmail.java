@@ -15,7 +15,7 @@ public class ValiFieldEmail extends ValiFieldText {
 
 	public ValiFieldEmail(@Nullable String defaultValue) {
 		super(defaultValue);
-		addEmailValidator(getAppContext().getString(getErrorRes(ValiFi.Builder.ERROR_RES_EMAIL)));
+		addEmailValidator(getString(getErrorRes(ValiFi.Builder.ERROR_RES_EMAIL)));
 	}
 
 
@@ -26,7 +26,7 @@ public class ValiFieldEmail extends ValiFieldText {
 
 	public ValiFieldEmail(@Nullable String defaultValue, @StringRes int errorResource) {
 		super(defaultValue);
-		addEmailValidator(getAppContext().getString(errorResource));
+		addEmailValidator(getString(errorResource));
 	}
 
 
