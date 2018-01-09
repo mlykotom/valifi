@@ -1,5 +1,7 @@
 package com.mlykotom.valifi;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -29,12 +31,13 @@ public class ValiFiCardType {
 	 * @param name    just for identification
 	 * @param pattern to be validated (regex, Pattern will be compiled from the string)
 	 */
-	public ValiFiCardType(String name, String pattern) {
+	public ValiFiCardType(String name, @NonNull String pattern) {
 		this.name = name;
 		this.pattern = Pattern.compile(pattern);
 	}
 
 
+	@NonNull
 	public static Set<ValiFiCardType> getDefaultTypes() {
 		HashSet<ValiFiCardType> set = new HashSet<>();
 		set.add(MASTERCARD);

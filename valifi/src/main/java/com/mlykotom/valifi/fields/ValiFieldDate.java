@@ -59,17 +59,20 @@ public class ValiFieldDate extends ValiFieldBase<Calendar> {
 	// ------------------ OLDER THAN VALIDATOR ------------------ //
 
 
+	@NonNull
 	public ValiFieldDate addOlderThanYearsValidator(int amount) {
 		return addOlderThanValidator(getErrorRes(ValiFi.Builder.ERROR_RES_YEARS_OLDER_THAN), Calendar.YEAR, amount);
 	}
 
 
+	@NonNull
 	public ValiFieldDate addOlderThanValidator(@StringRes int errorResource, int calendarField, int amount) {
 		String errorMessage = getString(errorResource, amount);
 		return addOlderThanValidator(errorMessage, calendarField, amount);
 	}
 
 
+	@NonNull
 	public ValiFieldDate addOlderThanValidator(String errorMessage, int calendarField, int amount) {
 		final Calendar wantedDate = Calendar.getInstance();
 		wantedDate.add(calendarField, -amount);

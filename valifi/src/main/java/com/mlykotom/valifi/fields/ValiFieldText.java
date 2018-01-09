@@ -49,6 +49,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
+	@NonNull
 	@Override
 	protected String convertValueToString(@NonNull String value) {
 		return value;
@@ -62,6 +63,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
+	@NonNull
 	@Override
 	public ValiFieldText setEmptyAllowed(boolean isEmptyAllowed) {
 		if(mHasNotEmptyValidator) {
@@ -80,7 +82,8 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @return this, so validators can be chained
 	 * @see #addPatternValidator(String, Pattern)
 	 */
-	public ValiFieldText addPatternValidator(@StringRes int errorResource, final Pattern pattern) {
+	@NonNull
+	public ValiFieldText addPatternValidator(@StringRes int errorResource, @NonNull final Pattern pattern) {
 		String errorMessage = getString(errorResource);
 		return addPatternValidator(errorMessage, pattern);
 	}
@@ -93,7 +96,8 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @param pattern      validates this pattern
 	 * @return this, so validators can be chained
 	 */
-	public ValiFieldText addPatternValidator(String errorMessage, final Pattern pattern) {
+	@NonNull
+	public ValiFieldText addPatternValidator(String errorMessage, @NonNull final Pattern pattern) {
 		addCustomValidator(errorMessage, new PropertyValidator<String>() {
 			@Override
 			public boolean isValid(@Nullable String value) {
@@ -112,11 +116,13 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 *
 	 * @return this, so validators can be chained
 	 */
+	@NonNull
 	public ValiFieldText addNotEmptyValidator() {
 		return addNotEmptyValidator(getErrorRes(ValiFi.Builder.ERROR_RES_NOT_EMPTY));
 	}
 
 
+	@NonNull
 	public ValiFieldText addNotEmptyValidator(@StringRes int errorResource) {
 		String errorMessage = getString(errorResource);
 		return addNotEmptyValidator(errorMessage);
@@ -127,6 +133,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @param errorMessage specifies error message to be shown
 	 * @return this, so validators can be chained
 	 */
+	@NonNull
 	public ValiFieldText addNotEmptyValidator(String errorMessage) {
 		return addMinLengthValidator(errorMessage, 1);
 	}
@@ -141,11 +148,13 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @param minLength must be larger or equal
 	 * @return this, so validators can be chained
 	 */
+	@NonNull
 	public ValiFieldText addMinLengthValidator(int minLength) {
 		return addMinLengthValidator(getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MIN), minLength);
 	}
 
 
+	@NonNull
 	public ValiFieldText addMinLengthValidator(@StringRes int errorResource, int minLength) {
 		String errorMessage = getString(errorResource, minLength);
 		return addMinLengthValidator(errorMessage, minLength);
@@ -157,6 +166,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @param minLength    must be larger or equal
 	 * @return this, so validators can be chained
 	 */
+	@NonNull
 	public ValiFieldText addMinLengthValidator(String errorMessage, final int minLength) {
 		return addRangeLengthValidator(errorMessage, minLength, -1);
 	}
@@ -165,11 +175,13 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	// ------------------ EXACT LENGTH VALIDATOR ------------------ //
 
 
+	@NonNull
 	public ValiFieldText addExactLengthValidator(int exactLength) {
 		return addExactLengthValidator(getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_EXACT), exactLength);
 	}
 
 
+	@NonNull
 	public ValiFieldText addExactLengthValidator(@StringRes int errorResource, int exactLength) {
 		String errorMessage = getString(errorResource, exactLength);
 		return addExactLengthValidator(errorMessage, exactLength);
@@ -179,22 +191,26 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	// ------------------ MAX LENGTH VALIDATOR ------------------ //
 
 
+	@NonNull
 	public ValiFieldText addExactLengthValidator(String errorMessage, final int exactLength) {
 		return addRangeLengthValidator(errorMessage, exactLength, exactLength);
 	}
 
 
+	@NonNull
 	public ValiFieldText addMaxLengthValidator(int maxLength) {
 		return addMaxLengthValidator(getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_MAX), maxLength);
 	}
 
 
+	@NonNull
 	public ValiFieldText addMaxLengthValidator(@StringRes int errorResource, int maxLength) {
 		String errorMessage = getString(errorResource, maxLength);
 		return addMaxLengthValidator(errorMessage, maxLength);
 	}
 
 
+	@NonNull
 	public ValiFieldText addMaxLengthValidator(String errorMessage, final int maxLength) {
 		return addRangeLengthValidator(errorMessage, 0, maxLength);
 	}
@@ -203,11 +219,13 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	// ------------------ RANGE VALIDATOR ------------------ //
 
 
+	@NonNull
 	public ValiFieldText addRangeLengthValidator(int minLength, int maxLength) {
 		return addRangeLengthValidator(getErrorRes(ValiFi.Builder.ERROR_RES_LENGTH_RANGE), minLength, maxLength);
 	}
 
 
+	@NonNull
 	public ValiFieldText addRangeLengthValidator(@StringRes int errorResource, int minLength, int maxLength) {
 		String errorMessage = getString(errorResource, minLength, maxLength);
 		return addRangeLengthValidator(errorMessage, minLength, maxLength);
@@ -222,6 +240,7 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	 * @param maxLength    value's length must be lower or equal
 	 * @return this, so validators can be chained
 	 */
+	@NonNull
 	public ValiFieldText addRangeLengthValidator(String errorMessage, final int minLength, final int maxLength) {
 		if(minLength > 0) {
 			// checking empty or not empty

@@ -2,6 +2,7 @@ package com.mlykotom.valifi;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
  * Bundles more fields together and provides validation for all of them + destroying
  */
 public class ValiFiForm extends BaseObservable implements ValiFiValidable {
-	private List<ValiFieldBase> mFields = new ArrayList<>();
+	@NonNull private List<ValiFieldBase> mFields = new ArrayList<>();
 
 
-	public ValiFiForm(ValiFieldBase... fields) {
+	public ValiFiForm(@NonNull ValiFieldBase... fields) {
 		for(ValiFieldBase field : fields) {
 			addField(field);
 		}
@@ -63,7 +64,7 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 *
 	 * @param field to be validated through this form
 	 */
-	public void addField(ValiFieldBase field) {
+	public void addField(@NonNull ValiFieldBase field) {
 		field.setFormValidation(this);
 		mFields.add(field);
 	}

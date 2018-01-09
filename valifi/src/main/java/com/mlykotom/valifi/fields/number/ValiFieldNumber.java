@@ -30,7 +30,7 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 	 * @return string or null (because .toString() represents null as "null" string)
 	 */
 	@Nullable
-	protected static String getStringOrNull(Object value) {
+	protected static String getStringOrNull(@Nullable Object value) {
 		return value != null ? value.toString() : null;
 	}
 
@@ -68,11 +68,13 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 	}
 
 
+	@NonNull
 	public ValiFieldNumber<NumberType> addNumberValidator(@Nullable NumberValidator<NumberType> validator) {
 		return addNumberValidator(null, validator);
 	}
 
 
+	@NonNull
 	public ValiFieldNumber<NumberType> addNumberValidator(@StringRes int errorResource, @Nullable NumberValidator<NumberType> validator) {
 		String errorMessage = getString(errorResource);
 		return addNumberValidator(errorMessage, validator);
@@ -87,6 +89,7 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 	 * @param validator    implementation of validation (with number)
 	 * @return this, so validators can be chained
 	 */
+	@NonNull
 	public ValiFieldNumber<NumberType> addNumberValidator(String errorMessage, @Nullable final NumberValidator<NumberType> validator) {
 		addCustomValidator(errorMessage, new PropertyValidator<String>() {
 			@Override

@@ -24,10 +24,11 @@ import static android.support.annotation.RestrictTo.Scope.TESTS;
 @SuppressWarnings("unused")
 public class ValiFi {
 	static String TAG = ValiFi.class.getSimpleName();
+	@Nullable
 	@SuppressLint("StaticFieldLeak")
 	private static ValiFi ourInstance;
-	final ValiFiConfig mParameters;
-	private final Context mAppContext;
+	@NonNull final ValiFiConfig mParameters;
+	@Nullable private final Context mAppContext;
 
 
 	/**
@@ -86,7 +87,7 @@ public class ValiFi {
 	 *
 	 * @param fields to be destroyed
 	 */
-	public static void destroyFields(ValiFiValidable... fields) {
+	public static void destroyFields(@NonNull ValiFiValidable... fields) {
 		for(ValiFiValidable field : fields) {
 			field.destroy();
 		}
@@ -122,6 +123,7 @@ public class ValiFi {
 	}
 
 
+	@NonNull
 	static ValiFi getInstance() {
 		if(ourInstance == null) {
 			throw new ValiFiException("ValiFi must be installed in Application.onCreate()!");
@@ -131,6 +133,7 @@ public class ValiFi {
 	}
 
 
+	@Nullable
 	static Context getContext() {
 		if(getInstance().mAppContext == null) {
 			throw new ValiFiException("ValiFi was installed without Context!");
@@ -139,6 +142,7 @@ public class ValiFi {
 	}
 
 
+	@NonNull
 	static String getString(@StringRes int stringRes, Object... formatArgs) {
 		@Nullable Context context = getInstance().mAppContext;
 		if(context == null) {
@@ -158,7 +162,7 @@ public class ValiFi {
 		final Pattern mPatterns[];
 		final long mErrorDelay;
 		final long mAsyncValidationDelay;
-		final Set<ValiFiCardType> mKnownCardTypes;
+		@NonNull final Set<ValiFiCardType> mKnownCardTypes;
 
 
 		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay, long asyncValidationDelay, @NonNull Set<ValiFiCardType> knownCardTypes) {
@@ -253,6 +257,7 @@ public class ValiFi {
 		 * @param value string resource used as default. Some errors may require PARAMETERS
 		 * @return builder for chaining
 		 */
+		@NonNull
 		public Builder setErrorResource(@ValiFiErrorResource int field, @StringRes int value) {
 			mErrorResources[field] = value;
 			return this;
@@ -266,6 +271,7 @@ public class ValiFi {
 		 * @param value compiled pattern used as default
 		 * @return builder for chaining
 		 */
+		@NonNull
 		public Builder setPattern(@ValiFiPattern int field, Pattern value) {
 			mPatterns[field] = value;
 			return this;
@@ -280,7 +286,8 @@ public class ValiFi {
 		 * @return builder for chaining
 		 * @see #setErrorDelay(long)  if you want to set exact time
 		 */
-		public Builder setErrorDelay(ValiFiErrorDelay delayType) {
+		@NonNull
+		public Builder setErrorDelay(@NonNull ValiFiErrorDelay delayType) {
 			mErrorDelay = delayType.delayMillis;
 			return this;
 		}
@@ -294,6 +301,7 @@ public class ValiFi {
 		 * @return builder for chaining
 		 * @see #setErrorDelay(ValiFiErrorDelay) for immediate or manual mode
 		 */
+		@NonNull
 		public Builder setErrorDelay(long millis) {
 			if(millis <= 0) {
 				throw new ValiFiValidatorException("Error delay must be positive");
@@ -311,6 +319,7 @@ public class ValiFi {
 		 * @return builder for chaining
 		 * @see ValiFieldBase#setAsyncValidationDelay(long) for overriding for specified field
 		 */
+		@NonNull
 		public Builder setAsyncValidationDelay(long millis) {
 			if(millis < 0) {
 				throw new ValiFiValidatorException("Asynchronous delay must be positive or immediate");
@@ -327,6 +336,7 @@ public class ValiFi {
 		 * @param types to be set (will clear previously set). If @null, only clears the types
 		 * @return builder for chaining
 		 */
+		@NonNull
 		public Builder setKnownCardTypes(@Nullable ValiFiCardType... types) {
 			mKnownCardTypes = new HashSet<>();
 			if(types != null) {
@@ -336,6 +346,7 @@ public class ValiFi {
 		}
 
 
+		@NonNull
 		public ValiFiConfig build() {
 			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay, mAsyncValidationDelay, mKnownCardTypes);
 		}

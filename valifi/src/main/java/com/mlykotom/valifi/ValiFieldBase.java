@@ -29,13 +29,13 @@ import java.util.regex.Pattern;
  *
  * @param <ValueType> of the whole field (for now it's String and beta Calendar)
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 public abstract class ValiFieldBase<ValueType> extends BaseObservable implements ValiFiValidable {
-	protected ValueType mValue;
+	@Nullable protected ValueType mValue;
 	protected boolean mIsEmptyAllowed = false;
 	@Nullable protected List<ValiFieldBase> mBoundFields;
 	// --- maps of validators (to be validated)
-	protected LinkedHashMap<PropertyValidator<ValueType>, String> mPropertyValidators = new LinkedHashMap<>();
+	@NonNull protected LinkedHashMap<PropertyValidator<ValueType>, String> mPropertyValidators = new LinkedHashMap<>();
 	@Nullable protected LinkedHashMap<AsyncPropertyValidator<ValueType>, String> mAsyncPropertyValidators;
 	// --- delaying times
 	protected long mErrorDelay;
@@ -55,7 +55,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	boolean mIsResetting = false;
 	@Nullable private ValiFiForm mParentForm;
 	@Nullable private ScheduledExecutorService mScheduler;
-	protected OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
+	@NonNull protected OnPropertyChangedCallback mCallback = setupOnPropertyChangedCallback();
 	final Runnable mNotifyErrorRunnable = setupNotifyErrorRunnable();
 
 
@@ -126,7 +126,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param errorMessage error message to show
 	 */
 	@BindingAdapter("error")
-	public static void setError(TextInputLayout view, String errorMessage) {
+	public static void setError(@NonNull TextInputLayout view, @Nullable String errorMessage) {
 		view.setError(errorMessage);
 	}
 
@@ -138,7 +138,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param errorMessage error message to show
 	 */
 	@BindingAdapter("error")
-	public static void setError(EditText view, String errorMessage) {
+	public static void setError(@NonNull EditText view, @Nullable String errorMessage) {
 		view.setError(errorMessage);
 	}
 
@@ -208,10 +208,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		shutdownScheduler();
 		removeOnPropertyChangedCallback(mCallback);
 
-		if(mPropertyValidators != null) {
-			mPropertyValidators.clear();
-			mPropertyValidators = null;
-		}
+		mPropertyValidators.clear();
 
 		if(mAsyncPropertyValidators != null) {
 			mAsyncPropertyValidators.clear();
@@ -255,6 +252,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param isEmptyAllowed if true, field may be empty or null to be valid
 	 * @return this, co validators can be chained
 	 */
+	@NonNull
 	public ValiFieldBase<ValueType> setEmptyAllowed(boolean isEmptyAllowed) {
 		mIsEmptyAllowed = isEmptyAllowed;
 		return this;
@@ -269,6 +267,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @return this, validators can be chained
 	 * @see #setErrorDelay(ValiFiErrorDelay) for immediate or manual mode
 	 */
+	@NonNull
 	public ValiFieldBase<ValueType> setErrorDelay(long delayMillis) {
 		if(delayMillis <= 0) {
 			throw new ValiFiValidatorException("Error delay must be positive");
@@ -286,7 +285,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @return this, so validators can be chained
 	 * @see #setErrorDelay(long) for setting exact time
 	 */
-	public ValiFieldBase<ValueType> setErrorDelay(ValiFiErrorDelay delayType) {
+	@NonNull
+	public ValiFieldBase<ValueType> setErrorDelay(@NonNull ValiFiErrorDelay delayType) {
 		mErrorDelay = delayType.delayMillis;
 		return this;
 	}
@@ -299,6 +299,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @return this, so validators can be chained
 	 * @see ValiFi.Builder#setAsyncValidationDelay(long) for default value
 	 */
+	@NonNull
 	public ValiFieldBase<ValueType> setAsyncValidationDelay(long millis) {
 		if(millis < 0) {
 			throw new ValiFiValidatorException("Asynchronous delay must be positive or immediate");
@@ -312,6 +313,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	/**
 	 * @return the containing value of the field
 	 */
+	@Nullable
 	public ValueType get() {
 		return mValue;
 	}
@@ -335,6 +337,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 *
 	 * @return value in string displayable in TextInputLayout/EditText
 	 */
+	@Nullable
 	@Bindable
 	public String getValue() {
 		if(mValue == null) return null;
@@ -408,7 +411,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @return this, so validators can be chained
 	 * @see #addVerifyFieldValidator(String, ValiFieldBase)
 	 */
-	public ValiFieldBase<ValueType> addVerifyFieldValidator(@StringRes int errorResource, final ValiFieldBase<ValueType> targetField) {
+	@NonNull
+	public ValiFieldBase<ValueType> addVerifyFieldValidator(@StringRes int errorResource, @NonNull final ValiFieldBase<ValueType> targetField) {
 		String errorMessage = getString(errorResource);
 		return addVerifyFieldValidator(errorMessage, targetField);
 	}
@@ -422,7 +426,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param targetField  validates with this field
 	 * @return this, so validators can be chained
 	 */
-	public ValiFieldBase<ValueType> addVerifyFieldValidator(String errorMessage, final ValiFieldBase<ValueType> targetField) {
+	@NonNull
+	public ValiFieldBase<ValueType> addVerifyFieldValidator(@Nullable String errorMessage, @NonNull final ValiFieldBase<ValueType> targetField) {
 		addCustomValidator(errorMessage, new PropertyValidator<ValueType>() {
 			@Override
 			public boolean isValid(@Nullable ValueType value) {
@@ -444,7 +449,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @return this, so validators can be chained
 	 * @see #addCustomValidator(String, PropertyValidator)
 	 */
-	public ValiFieldBase<ValueType> addCustomValidator(PropertyValidator<ValueType> validator) {
+	@NonNull
+	public ValiFieldBase<ValueType> addCustomValidator(@NonNull PropertyValidator<ValueType> validator) {
 		return addCustomValidator(null, validator);
 	}
 
@@ -457,7 +463,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @return this, so validators can be chained
 	 * @see #addCustomValidator(String, PropertyValidator)
 	 */
-	public ValiFieldBase<ValueType> addCustomValidator(@StringRes int errorResource, PropertyValidator<ValueType> validator) {
+	@NonNull
+	public ValiFieldBase<ValueType> addCustomValidator(@StringRes int errorResource, @NonNull PropertyValidator<ValueType> validator) {
 		String errorMessage = getString(errorResource);
 		return addCustomValidator(errorMessage, validator);
 	}
@@ -470,7 +477,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param validator    implementation of validation
 	 * @return this, so validators can be chained
 	 */
-	public ValiFieldBase<ValueType> addCustomValidator(String errorMessage, PropertyValidator<ValueType> validator) {
+	@NonNull
+	public ValiFieldBase<ValueType> addCustomValidator(@Nullable String errorMessage, @NonNull PropertyValidator<ValueType> validator) {
 		mPropertyValidators.put(validator, errorMessage);
 		if(mIsChanged) {
 			notifyValueChanged(true);
@@ -498,7 +506,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @return this, so validators can be chained
 	 * @see #addCustomAsyncValidator(String, AsyncPropertyValidator)
 	 */
-	public ValiFieldBase<ValueType> addCustomAsyncValidator(AsyncPropertyValidator<ValueType> validator) {
+	@NonNull
+	public ValiFieldBase<ValueType> addCustomAsyncValidator(@NonNull AsyncPropertyValidator<ValueType> validator) {
 		return addCustomAsyncValidator(null, validator);
 	}
 
@@ -511,7 +520,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @return this, so validators can be chained
 	 * @see #addCustomAsyncValidator(String, AsyncPropertyValidator)
 	 */
-	public ValiFieldBase<ValueType> addCustomAsyncValidator(@StringRes int errorResource, AsyncPropertyValidator<ValueType> validator) {
+	@NonNull
+	public ValiFieldBase<ValueType> addCustomAsyncValidator(@StringRes int errorResource, @NonNull AsyncPropertyValidator<ValueType> validator) {
 		String errorMessage = getString(errorResource);
 		return addCustomAsyncValidator(errorMessage, validator);
 	}
@@ -525,7 +535,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param validator    implementation of validation
 	 * @return this, so validators can be chained
 	 */
-	public ValiFieldBase<ValueType> addCustomAsyncValidator(String errorMessage, AsyncPropertyValidator<ValueType> validator) {
+	@NonNull
+	public ValiFieldBase<ValueType> addCustomAsyncValidator(@Nullable String errorMessage, @NonNull AsyncPropertyValidator<ValueType> validator) {
 		if(mAsyncPropertyValidators == null) {
 			mAsyncPropertyValidators = new LinkedHashMap<>();
 		}
@@ -591,6 +602,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param formatArgs the same as in context.getString()
 	 * @return formatted String | in case of tests, returns "string-*"
 	 */
+	@NonNull
 	protected String getString(@StringRes int stringRes, Object... formatArgs) {
 		return ValiFi.getString(stringRes, formatArgs);
 	}
@@ -658,6 +670,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	}
 
 
+	@NonNull
 	synchronized ScheduledExecutorService getScheduler() {
 		if(mScheduler == null) {
 			mScheduler = Executors.newSingleThreadScheduledExecutor();

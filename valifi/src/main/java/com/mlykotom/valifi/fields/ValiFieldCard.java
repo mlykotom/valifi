@@ -68,7 +68,7 @@ public class ValiFieldCard extends ValiFieldLong {
 	 * @return true if type found or set is empty
 	 * @see ValiFi.Builder#setKnownCardTypes(ValiFiCardType...) for setting more types
 	 */
-	protected static boolean isCreditCardKnown(String value, @NonNull Set<ValiFiCardType> knownTypes) {
+	protected static boolean isCreditCardKnown(@NonNull String value, @NonNull Set<ValiFiCardType> knownTypes) {
 		// if there is no card installed, just skip and say it's valid
 		if(knownTypes.isEmpty()) return true;
 

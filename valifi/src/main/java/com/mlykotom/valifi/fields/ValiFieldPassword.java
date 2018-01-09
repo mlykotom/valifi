@@ -1,5 +1,6 @@
 package com.mlykotom.valifi.fields;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
@@ -41,6 +42,7 @@ public class ValiFieldPassword extends ValiFieldText {
 	 * @param errorMessage to show when field not valid
 	 * @return this, so validators can be chained
 	 */
+	@NonNull
 	protected ValiFieldPassword addPasswordValidator(String errorMessage) {
 		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PASSWORD));
 		return this;

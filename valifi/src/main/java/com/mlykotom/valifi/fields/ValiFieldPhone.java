@@ -1,5 +1,6 @@
 package com.mlykotom.valifi.fields;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
@@ -41,6 +42,7 @@ public class ValiFieldPhone extends ValiFieldText {
 	 * @param errorMessage specifies error message to be shown
 	 * @return this, so validators can be chained
 	 */
+	@NonNull
 	protected ValiFieldText addPhoneValidator(String errorMessage) {
 		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PHONE));
 		return this;
