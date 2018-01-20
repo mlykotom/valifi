@@ -5,18 +5,17 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ValiFi-blue.svg?style=flat)](https://android-arsenal.com/details/1/5153)
 [![API](https://img.shields.io/badge/API-14%2B-blue.svg?style=flat)](https://android-arsenal.com/api?level=14)
 
-
-* Are you tired of creating forms in app and checking all the possible inputs?
-* Would you like to validate things in realtime instead of after submit?
-* Are you using data binding or would like to try?
-
-### ValiFi is for you!
-
 * __ValiFi__ is android library for validating fields or whole forms. 
-* It's working with data binding and validations are visible immediately when user adds input. 
+* It's working with __data binding__ and validations are visible immediately when user adds input. 
 * It's highly customizable and simple for use.
 
 <img src="https://raw.githubusercontent.com/mlykotom/valifi/master/graphics/example-single.gif" width="30%" />  <img src="https://raw.githubusercontent.com/mlykotom/valifi/master/graphics/example-form.gif" width="30%" />
+
+# Features
+* predefined fields (password, email, username, ..)
+* forms for lots of fields
+* custom and asynchronous validations
+* option for own fields
 
 # How to use
 
@@ -24,15 +23,13 @@
 
 #### 1. Add gradle dependency
 ```groovy
-compile 'com.mlykotom:valifi:1.2.0'
+implementation 'com.mlykotom:valifi:1.2.0'
 ```
 #### 2. Setup project with data binding 
 ``` groovy
 android{
     ...
-    dataBinding {
-		enabled = true
-	}
+    dataBinding.enabled = true
     ...
 }
 ```
@@ -49,10 +46,6 @@ public class MyApplication extends Application {
 
 ## Use in your code
 
-#### 0. Bind your ViewModel/Fragment/etc to layout (you may already have this)
-You may refer to Android's reference for data binding: https://developer.android.com/topic/libraries/data-binding/index.html
-
-(examples uses inloop's library https://github.com/inloop/AndroidViewModel)
 
 #### 1. Create field you want to validate
 ```java
@@ -78,7 +71,7 @@ Library uses two-way data binding so be careful of adding android:text="__@=__{.
 
 <Button
     ...
-    android:enabled="@{viewModel.email.isValid}"
+    android:enabled="@{viewModel.email.valid}"
     android:text="Submit" />
 ```
 
@@ -93,92 +86,14 @@ public void onDestroy() {
 	super.onDestroy();
 }
 ```
-
-Or if you have more than one field:
-```java
-@Override
-public void onDestroy() {
-	ValiFi.destroyFields(email, password);
-	super.onDestroy();
-}
-```
-
-Or if you use form (see [Forms!](https://github.com/mlykotom/valifi#forms)):
-```java
-@Override
-public void onDestroy() {
-	form.destroy();
-	super.onDestroy();
-}
-```
-
-#### And That's it! 
+#### That's it! 
 
 When user types his e-mail, it will automatically validates input and enables/disables submit button.
 
-# Customizations
-There are plenty of options to customizate ValiFi.
+# For customizations information visit [Wiki](https://github.com/mlykotom/valifi/wiki)
 
-### Globally (for whole app)
-```java
-public class MyApplication extends Application {
-    @Override
-    public void onCreate() {
-	ValiFi.install(this, 
-		new ValiFi.Builder()
-			.setErrorDelay(1000) // possibility of .setErrorDelay(ValiFiErrorDelay.NEVER)
-			.setErrorResource(ValiFi.Builder.ERROR_RES_EMAIL, R.string.my_custom_email_error)
-			.setPattern(ValiFi.Builder.PATTERN_EMAIL, Patterns.EMAIL_ADDRESS)
-			.build()
-	);
-    }
-}
-```
 
-### Locally (for specified field)
-
-```java
-public final ValiFieldEmail email = new ValiFieldEmail("default nullable value", "Custom error message");
-```
-
-### Specify your field by adding validators
-```java
-public final ValiFieldText fieldWithDifferentValidations = new ValiFieldText();
-
-fieldWithDifferentValidations
-	.addRangeLengthValidator(3, 10)
-	.setEmptyAllowed(true)
-	.addPatternValidator("pattern not valid", Patterns.IP_ADDRESS)
-	.addCustomValidator("custom not valid", new ValiFieldBase.PropertyValidator<String>() {
-		@Override
-		public boolean isValid(@Nullable String value) {
-			return whenThisIsValid;
-		}
-	});
-
-```
-
-## Forms!
-Want to allow submit after all fields valid?
-
-```java
-public final ValiFieldEmail email = new ValiFieldEmail();
-public final ValiFieldPassword password = new ValiFieldPassword();
-
-public final ValiFiForm form = new ValiFiForm(email, password);
-```
-
-```xml
-<Button
-	...
-	android:enabled="@{viewModel.form.isValid}"
-	...
-	android:text="Submit" />
-```
-
-# For more information about customizing visit [Wiki](https://github.com/mlykotom/valifi/wiki)
-
-# Examples
+# App Examples
 
 1. MVVM approach (__preferred__) [here](https://github.com/mlykotom/valifi/tree/master/example-viewmodel)
 2. Classic fragment approach [here](https://github.com/mlykotom/valifi/tree/master/example)
