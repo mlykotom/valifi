@@ -29,6 +29,11 @@ public class ValiFieldText extends ValiFieldBase<String> {
 	}
 
 
+	public ValiFieldText(@Nullable String defaultValue, boolean markAsChanged) {
+		super(defaultValue, markAsChanged);
+	}
+
+
 	@Override
 	public String toString() {
 		return mValue;
