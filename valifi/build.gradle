@@ -1,6 +1,6 @@
 final VERSION_MAJOR = 1 // max two digits
-final VERSION_MINOR = 2 // max two digits
-final VERSION_PATCH = 0 // max two digits
+final VERSION_MINOR = 3 // max two digits
+final VERSION_PATCH = 4 // max two digits
 final VERSION_BUILD = 0 // max three digits
 
 apply plugin: 'com.android.library'
@@ -33,7 +33,7 @@ ext {
 
 android {
 	compileSdkVersion 27
-	buildToolsVersion '27.0.0'
+	buildToolsVersion '27.0.3'
 
 	defaultConfig {
 		minSdkVersion 14
@@ -70,7 +70,7 @@ android {
 
 dependencies {
 	implementation fileTree(include: ['*.jar'], dir: 'libs')
-	implementation 'com.android.support:design:27.0.2'
+	implementation 'com.android.support:design:27.1.1'
 	testImplementation 'junit:junit:4.12'
 }
 
