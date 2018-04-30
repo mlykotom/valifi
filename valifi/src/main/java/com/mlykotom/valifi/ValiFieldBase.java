@@ -107,12 +107,22 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * @param defaultValue if not null, will mark that field is changed
 	 */
 	public ValiFieldBase(@Nullable ValueType defaultValue) {
+		this(defaultValue, true);
+	}
+
+
+	/**
+	 * @param defaultValue  is set to this field in construction
+	 * @param markAsChanged if default value marks this field as changed
+	 *                      (may be useful when loading data from network, not to trigger validation, because default value will be the same)
+	 */
+	public ValiFieldBase(@Nullable ValueType defaultValue, boolean markAsChanged) {
 		mErrorDelay = ValiFi.getErrorDelay();
 		mAsyncValidationDelay = ValiFi.getAsyncValidationDelay();
 
 		mValue = defaultValue;
 
-		if(defaultValue != null) {
+		if(defaultValue != null && markAsChanged) {
 			mIsChanged = true;
 		}
 		addOnPropertyChangedCallback(mCallback);
