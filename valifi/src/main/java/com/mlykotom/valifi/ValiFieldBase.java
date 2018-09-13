@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings("unused")
 public abstract class ValiFieldBase<ValueType> extends BaseObservable implements ValiFiValidable {
-	protected ValueType mValue;
+	@Nullable protected ValueType mValue;
 	protected boolean mIsEmptyAllowed = false;
 	@Nullable protected List<ValiFieldBase> mBoundFields;
 	// --- maps of validators (to be validated)
@@ -322,6 +322,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	/**
 	 * @return the containing value of the field
 	 */
+	@Nullable
 	public ValueType get() {
 		return mValue;
 	}
@@ -345,6 +346,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 *
 	 * @return value in string displayable in TextInputLayout/EditText
 	 */
+	@Nullable
 	@Bindable
 	public String getValue() {
 		if(mValue == null) return null;

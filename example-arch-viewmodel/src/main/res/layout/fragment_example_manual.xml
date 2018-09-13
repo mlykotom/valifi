@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<data>
+		<variable
+			name="view"
+			type="com.mlykotom.example_arch_viewmodel.manual.ManualValidationView" />
+
+		<variable
+			name="viewModel"
+			type="com.mlykotom.example_arch_viewmodel.manual.ManualValidationViewModel" />
+	</data>
+
+
+	<android.support.v4.widget.NestedScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_marginEnd="8dp"
+			android:gravity="center_horizontal"
+			android:orientation="vertical">
+
+			<android.support.design.widget.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:errorEnabled="true"
+				app:error="@{viewModel.email.error}">
+
+				<android.support.design.widget.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textEmailAddress"
+					android:text="@={viewModel.email.value}"
+					android:hint="E-mail address" />
+			</android.support.design.widget.TextInputLayout>
+
+			<android.support.design.widget.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:errorEnabled="true"
+				app:error="@{viewModel.captcha.error}">
+
+				<android.support.design.widget.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@={viewModel.captcha.value}"
+					android:hint='Captcha (extended validator, must be "captcha")' />
+			</android.support.design.widget.TextInputLayout>
+
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:onClick="@{() -> view.onManualSubmitClicked()}"
+				android:text="Submit" />
+		</LinearLayout>
+	</android.support.v4.widget.NestedScrollView>
+</layout>
