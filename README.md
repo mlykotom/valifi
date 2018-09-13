@@ -96,7 +96,7 @@ When user types his e-mail, it will automatically validates input and enables/di
 
 # App Examples
 
-1. MVVM approach (__preferred__) [here](https://github.com/mlykotom/valifi/tree/master/example-viewmodel)
+1. MVVM approach (__preferred__) [here](https://github.com/mlykotom/valifi/tree/master/example-arch-viewmodel)
 2. Classic fragment approach [here](https://github.com/mlykotom/valifi/tree/master/example-android)
 3. __[deprecated + removed]__ MVVM approach [here](https://github.com/mlykotom/valifi/tree/b540b1fe480fcdec6fdee9816b79e862882d5835/example-viewmodel)
 

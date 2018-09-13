@@ -97,7 +97,7 @@ if(isLocalBuild) {
 
 	// task for updating example gradle scripts so that it matches the latest version of library
 	task updateExamplesLibraryVersion {
-		['example-android', 'example-viewmodel'].each {
+		['example-android', 'example-arch-viewmodel'].each {
 			def gradleScript = file("../${it}/build.gradle")
 			def updatedGradleText = gradleScript.text.replaceAll("compile '" + compilePath + "[^']+'", "compile '" + compilePath + version + "'")
 			gradleScript.write(updatedGradleText)
