@@ -8,6 +8,7 @@
 * __ValiFi__ is android library for validating fields or whole forms. 
 * It's working with __data binding__ and validations are visible immediately when user adds input. 
 * It's highly customizable and simple for use.
+* works with kotlin
 
 <img src="https://raw.githubusercontent.com/mlykotom/valifi/master/graphics/example-single.gif" width="30%" />  <img src="https://raw.githubusercontent.com/mlykotom/valifi/master/graphics/example-form.gif" width="30%" />
 
@@ -97,9 +98,10 @@ When user types his e-mail, it will automatically validates input and enables/di
 
 1. MVVM approach (__preferred__) [here](https://github.com/mlykotom/valifi/tree/master/example-viewmodel)
 2. Classic fragment approach [here](https://github.com/mlykotom/valifi/tree/master/example-android)
+3. __[deprecated + removed]__ MVVM approach [here](https://github.com/mlykotom/valifi/tree/b540b1fe480fcdec6fdee9816b79e862882d5835/example-viewmodel)
 
 # License
-    Copyright 2017 Tomas Mlynaric
+    Copyright 2018 Tomas Mlynaric
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
