@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.mlykotom.exampleviewmodel.databinding.FragmentExampleFormBinding;
+import com.mlykotom.example_arch_viewmodel.databinding.FragmentExampleFormBinding;
 
 
 public class FormValidationFragment extends Fragment implements FormValidationView {

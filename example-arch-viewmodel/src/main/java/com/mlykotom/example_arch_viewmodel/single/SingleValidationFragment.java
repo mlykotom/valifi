@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.mlykotom.exampleviewmodel.databinding.FragmentExampleSingleBinding;
+import com.mlykotom.example_arch_viewmodel.databinding.FragmentExampleSingleBinding;
 
 
 public class SingleValidationFragment extends Fragment implements SingleValidationView {
