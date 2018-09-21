@@ -25,4 +25,9 @@ public interface ValiFiValidable extends Observable {
 	 * Sets value to null.
 	 */
 	void reset();
+
+	/**
+	 * If you want to manually show error for the field
+	 */
+	void validate();
 }
