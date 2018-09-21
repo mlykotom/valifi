@@ -43,7 +43,7 @@ public class ValiFieldEmail extends ValiFieldText {
 	 * @return this, so validators can be chained
 	 */
 	protected ValiFieldText addEmailValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_EMAIL));
+		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_EMAIL));
 		return this;
 	}
 }

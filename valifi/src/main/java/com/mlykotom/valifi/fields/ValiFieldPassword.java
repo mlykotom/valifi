@@ -42,7 +42,7 @@ public class ValiFieldPassword extends ValiFieldText {
 	 * @return this, so validators can be chained
 	 */
 	protected ValiFieldPassword addPasswordValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PASSWORD));
+		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_PASSWORD));
 		return this;
 	}
 }

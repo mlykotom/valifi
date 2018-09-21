@@ -109,8 +109,9 @@ public class ValiFi {
 	}
 
 
-	static Pattern getPattern(@Builder.ValiFiPattern int field) {
-		return getInstance().mParameters.mPatterns[field];
+	@NonNull
+	static ValiFieldBase.PropertyValidator<String> getValidator(@Builder.ValiFiPattern int field) {
+		return getInstance().mParameters.mValidators[field];
 	}
 
 
@@ -157,14 +158,14 @@ public class ValiFi {
 	 */
 	public static class ValiFiConfig {
 		@StringRes final int[] mErrorResources;
-		final Pattern mPatterns[];
+		final ValiFieldBase.PropertyValidator<String> mValidators[];
 		final long mErrorDelay;
 		final long mAsyncValidationDelay;
 		final Set<ValiFiCardType> mKnownCardTypes;
 
 
-		ValiFiConfig(Pattern[] patterns, @StringRes int[] errorResources, long errorDelay, long asyncValidationDelay, @NonNull Set<ValiFiCardType> knownCardTypes) {
-			mPatterns = patterns;
+		ValiFiConfig(ValiFieldBase.PropertyValidator<String>[] validators, @StringRes int[] errorResources, long errorDelay, long asyncValidationDelay, @NonNull Set<ValiFiCardType> knownCardTypes) {
+			mValidators = validators;
 			mErrorResources = errorResources;
 			mErrorDelay = errorDelay;
 			mAsyncValidationDelay = asyncValidationDelay;
@@ -204,7 +205,7 @@ public class ValiFi {
 		// ----- other
 		private static final long DEFAULT_ERROR_DELAY_MILLIS = 500;
 		private static final long DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS = 300;
-		private Pattern[] mPatterns;
+		private ValiFieldBase.PropertyValidator<String>[] mValidators;
 		private int[] mErrorResources;
 		private Set<ValiFiCardType> mKnownCardTypes;
 		private long mErrorDelay = DEFAULT_ERROR_DELAY_MILLIS;
@@ -239,7 +240,8 @@ public class ValiFi {
 
 
 		public Builder() {
-			mPatterns = new Pattern[PATTERN_COUNT];
+			//noinspection unchecked
+			mValidators = new ValiFieldBase.PropertyValidator[PATTERN_COUNT];
 			mErrorResources = new int[ERROR_RES_COUNT];
 			mKnownCardTypes = ValiFiCardType.getDefaultTypes();
 
@@ -262,15 +264,33 @@ public class ValiFi {
 
 
 		/**
-		 * You may override any pattern when specifying pattern for it
+		 * You may override any pattern with specific validator
 		 *
-		 * @param field one of patterns in library {@link ValiFiPattern}
-		 * @param value compiled pattern used as default
+		 * @param field     one of patterns in library {@link ValiFiPattern}
+		 * @param validator Generic validation (global) in your app. If you need to specify custom validation,
+		 *                  check {@link ValiFieldBase#addCustomValidator(ValiFieldBase.PropertyValidator)}
 		 * @return builder for chaining
 		 */
-		public Builder setPattern(@ValiFiPattern int field, Pattern value) {
-			mPatterns[field] = value;
+		public Builder setValidator(@ValiFiPattern int field, ValiFieldBase.PropertyValidator<String> validator) {
+			mValidators[field] = validator;
 			return this;
+		}
+
+
+		/**
+		 * You may override any pattern when specifying pattern for it
+		 *
+		 * @param field   one of patterns in library {@link ValiFiPattern}
+		 * @param pattern compiled pattern used as default
+		 * @return builder for chaining
+		 */
+		public Builder setPattern(@ValiFiPattern int field, final Pattern pattern) {
+			return setValidator(field, new ValiFieldBase.PropertyValidator<String>() {
+				@Override
+				public boolean isValid(@Nullable String value) {
+					return value != null && pattern.matcher(value).matches();
+				}
+			});
 		}
 
 
@@ -339,16 +359,16 @@ public class ValiFi {
 
 
 		public ValiFiConfig build() {
-			return new ValiFiConfig(mPatterns, mErrorResources, mErrorDelay, mAsyncValidationDelay, mKnownCardTypes);
+			return new ValiFiConfig(mValidators, mErrorResources, mErrorDelay, mAsyncValidationDelay, mKnownCardTypes);
 		}
 
 
 		private void setupPatterns() {
 			// NOTE: same as Patterns.EMAIL_ADDRESS but unit tests return null
-			mPatterns[PATTERN_EMAIL] = Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+");
-			mPatterns[PATTERN_PHONE] = Pattern.compile("^\\+420 ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$" + "|" + "^(\\+?1)?[2-9]\\d{2}[2-9](?!11)\\d{6}$");            // phone czech | phone en-US
-			mPatterns[PATTERN_USERNAME] = Pattern.compile(".{4,}");
-			mPatterns[PATTERN_PASSWORD] = Pattern.compile(".{8,}");
+			setPattern(PATTERN_EMAIL, Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"));
+			setPattern(PATTERN_PHONE, Pattern.compile("^\\+420 ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$" + "|" + "^(\\+?1)?[2-9]\\d{2}[2-9](?!11)\\d{6}$"));            // phone czech | phone en-US
+			setPattern(PATTERN_USERNAME, Pattern.compile(".{4,}"));
+			setPattern(PATTERN_PASSWORD, Pattern.compile(".{8,}"));
 		}
 
 
