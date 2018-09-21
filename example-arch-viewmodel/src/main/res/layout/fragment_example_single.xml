@@ -100,6 +100,12 @@
 				android:enabled="@{viewModel.creditCard.valid &amp;&amp; viewModel.numLong.valid &amp;&amp; viewModel.username.valid &amp;&amp; viewModel.async.valid}"
 				android:onClick="@{() -> view.onSubmitClicked()}"
 				android:text="Submit" />
+
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:onClick="@{() -> view.onExternalErrorClick()}"
+				android:text="External error" />
 		</LinearLayout>
 	</android.support.v4.widget.NestedScrollView>
 </layout>

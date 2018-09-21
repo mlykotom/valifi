@@ -49,6 +49,12 @@ public class SingleValidationFragment extends Fragment implements SingleValidati
 	public void onSubmitClicked() {
 		Toast.makeText(getContext(), "Submit clicked and got " + mViewModel.username.getValue(), Toast.LENGTH_LONG).show();
 	}
+
+
+	@Override
+	public void onExternalErrorClick() {
+		mViewModel.username.setError("This is external error");
+	}
 }
 
 
