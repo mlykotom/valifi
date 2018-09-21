@@ -74,6 +74,8 @@ public class ValiFi {
 
 	/**
 	 * Installer for tests without context
+	 *
+	 * @param config overriden parameters, built by {@link Builder}
 	 */
 	@RestrictTo(TESTS)
 	public static void install(@NonNull ValiFiConfig config) {

@@ -413,6 +413,18 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		return mError;
 	}
 
+	/**
+	 * May serve for specifying temporary error from different source.
+	 * This doesn't affect validation of the field, it just shows custom error message.
+	 * The error will be changed for the one from validation when input changes.
+	 *
+	 * @param error temporary error message
+	 */
+	public void setError(@NonNull String error) {
+		mError = error;
+		notifyPropertyChanged(com.mlykotom.valifi.BR.error);
+	}
+
 
 	/**
 	 * @param errorResource to be shown (got from app's context)
