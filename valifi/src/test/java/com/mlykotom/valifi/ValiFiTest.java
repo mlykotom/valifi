@@ -60,7 +60,7 @@ public class ValiFiTest {
 
 	@Test
 	public void checkPatternsMatchLength() {
-		int patternsArrCount = ValiFi.getInstance().mParameters.mPatterns.length;
+		int patternsArrCount = ValiFi.getInstance().mParameters.mValidators.length;
 		assertThat(patternsArrCount, is(ValiFi.Builder.PATTERN_COUNT));
 	}
 
