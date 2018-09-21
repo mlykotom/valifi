@@ -72,6 +72,19 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	/**
 	 * Notifies about error all fields in the form
 	 *
+	 * @see ValiFieldBase#validate()
+	 */
+	@Override
+	public void validate() {
+		for(ValiFieldBase field : mFields) {
+			field.validate();
+		}
+	}
+
+
+	/**
+	 * Notifies about error all fields in the form
+	 *
 	 * @see ValiFieldBase#refreshError()
 	 */
 	public void refreshError() {

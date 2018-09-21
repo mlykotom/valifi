@@ -422,7 +422,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 */
 	public void setError(@NonNull String error) {
 		mError = error;
-		notifyPropertyChanged(com.mlykotom.valifi.BR.error);
+		refreshError();
 	}
 
 
@@ -574,6 +574,16 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		}
 
 		return mAsyncPropertyValidators.remove(validator) != null;
+	}
+
+
+	/**
+	 * If you want to manually show error for the field
+	 */
+	@Override
+	public void validate() {
+		notifyValueChanged(true);
+		refreshError();
 	}
 
 
