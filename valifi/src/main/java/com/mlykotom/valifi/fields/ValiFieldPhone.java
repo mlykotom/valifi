@@ -42,7 +42,7 @@ public class ValiFieldPhone extends ValiFieldText {
 	 * @return this, so validators can be chained
 	 */
 	protected ValiFieldText addPhoneValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_PHONE));
+		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_PHONE));
 		return this;
 	}
 }

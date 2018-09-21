@@ -21,7 +21,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 
 /**
@@ -413,6 +412,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		return mError;
 	}
 
+
 	/**
 	 * May serve for specifying temporary error from different source.
 	 * This doesn't affect validation of the field, it just shows custom error message.
@@ -603,8 +603,8 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	}
 
 
-	protected Pattern getPattern(@ValiFi.Builder.ValiFiPattern int field) {
-		return ValiFi.getPattern(field);
+	protected PropertyValidator<String> getValidator(@ValiFi.Builder.ValiFiPattern int field) {
+		return ValiFi.getValidator(field);
 	}
 
 

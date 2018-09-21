@@ -42,7 +42,7 @@ public class ValiFieldUsername extends ValiFieldText {
 	 * @return this, so validators can be chained
 	 */
 	protected ValiFieldText addUsernameValidator(String errorMessage) {
-		addPatternValidator(errorMessage, getPattern(ValiFi.Builder.PATTERN_USERNAME));
+		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_USERNAME));
 		return this;
 	}
 }
