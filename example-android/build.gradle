@@ -3,12 +3,12 @@ apply plugin: 'com.android.application'
 def isLocalBuild = project.file('../local.properties').exists()
 
 android {
-	compileSdkVersion 27
-	buildToolsVersion '27.0.3'
+	compileSdkVersion 28
+
 	defaultConfig {
 		applicationId "com.mlykotom.example"
 		minSdkVersion 14
-		targetSdkVersion 27
+		targetSdkVersion 28
 		versionCode 1
 		versionName "1.0"
 	}
@@ -27,8 +27,9 @@ android {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'com.android.support:appcompat-v7:27.1.1'
-	implementation 'com.android.support:design:27.1.1'
+	implementation 'com.android.support:appcompat-v7:28.0.0'
+	implementation 'com.android.support:design:28.0.0'
+
 	if(isLocalBuild) {
 		implementation project(':valifi')
 	} else {

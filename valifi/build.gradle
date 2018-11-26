@@ -32,12 +32,11 @@ ext {
 }
 
 android {
-	compileSdkVersion 27
-	buildToolsVersion '27.0.3'
+	compileSdkVersion 28
 
 	defaultConfig {
 		minSdkVersion 14
-		targetSdkVersion 27
+		targetSdkVersion 28
 		versionCode VERSION_MAJOR * 10000000 + VERSION_MINOR * 100000 + VERSION_PATCH * 1000 + VERSION_BUILD
 		versionName "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
 	}
@@ -70,7 +69,7 @@ android {
 
 dependencies {
 	implementation fileTree(include: ['*.jar'], dir: 'libs')
-	implementation 'com.android.support:design:27.1.1'
+	implementation 'com.android.support:design:28.0.0'
 	testImplementation 'junit:junit:4.12'
 }
 
