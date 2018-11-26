@@ -1,6 +1,6 @@
 package com.mlykotom.example_arch_viewmodel;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.mlykotom.valifi.fields.ValiFieldText;
 

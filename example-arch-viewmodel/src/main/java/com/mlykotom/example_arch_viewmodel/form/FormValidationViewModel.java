@@ -1,6 +1,6 @@
 package com.mlykotom.example_arch_viewmodel.form;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.mlykotom.valifi.ValiFiForm;
 import com.mlykotom.valifi.fields.ValiFieldEmail;

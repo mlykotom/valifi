@@ -1,7 +1,7 @@
 package com.mlykotom.valifi.fields;
 
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import android.util.Patterns;
 
 import com.mlykotom.valifi.ValiFi;

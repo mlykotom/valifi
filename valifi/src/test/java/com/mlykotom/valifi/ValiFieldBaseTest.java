@@ -1,7 +1,7 @@
 package com.mlykotom.valifi;
 
-import android.databinding.Observable;
-import android.support.annotation.Nullable;
+import androidx.databinding.Observable;
+import androidx.annotation.Nullable;
 
 import com.mlykotom.valifi.fields.ValiFieldText;
 
