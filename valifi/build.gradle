@@ -91,7 +91,7 @@ if(isLocalBuild) {
 	task updateReadmeFile {
 		def readme = file('../README.md')
 
-		def updatedReadmeText = readme.text.replaceFirst("compile '" + compilePath + "[^']+'", "compile '" + compilePath + version + "'")
+		def updatedReadmeText = readme.text.replaceFirst("implementation '" + compilePath + "[^']+'", "implementation '" + compilePath + version + "'")
 		readme.write(updatedReadmeText)
 	}
 
@@ -99,7 +99,7 @@ if(isLocalBuild) {
 	task updateExamplesLibraryVersion {
 		['example-android', 'example-arch-viewmodel'].each {
 			def gradleScript = file("../${it}/build.gradle")
-			def updatedGradleText = gradleScript.text.replaceAll("compile '" + compilePath + "[^']+'", "compile '" + compilePath + version + "'")
+			def updatedGradleText = gradleScript.text.replaceAll("implementation '" + compilePath + "[^']+'", "implementation '" + compilePath + version + "'")
 			gradleScript.write(updatedGradleText)
 		}
 	}
