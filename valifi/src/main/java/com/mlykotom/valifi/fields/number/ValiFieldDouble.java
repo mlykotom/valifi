@@ -1,6 +1,6 @@
 package com.mlykotom.valifi.fields.number;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 
 public class ValiFieldDouble extends ValiFieldNumber<Double> {

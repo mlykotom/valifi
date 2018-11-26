@@ -1,8 +1,7 @@
 package com.mlykotom.valifi;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
-import com.mlykotom.valifi.exceptions.ValiFiException;
 import com.mlykotom.valifi.fields.ValiFieldText;
 
 import org.junit.Before;

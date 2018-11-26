@@ -1,6 +1,6 @@
 package com.mlykotom.example_arch_viewmodel.manual;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.mlykotom.example_arch_viewmodel.MyValiFieldCaptcha;
 import com.mlykotom.valifi.ValiFiErrorDelay;

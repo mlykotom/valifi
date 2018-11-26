@@ -14,7 +14,7 @@
 	</data>
 
 
-	<android.support.v4.widget.NestedScrollView
+	<androidx.core.widget.NestedScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
@@ -26,32 +26,32 @@
 			android:gravity="center_horizontal"
 			android:orientation="vertical">
 
-			<android.support.design.widget.TextInputLayout
+			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				app:errorEnabled="true"
 				app:error="@{viewModel.email.error}">
 
-				<android.support.design.widget.TextInputEditText
+				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:inputType="textEmailAddress"
 					android:text="@={viewModel.email.value}"
 					android:hint="E-mail address" />
-			</android.support.design.widget.TextInputLayout>
+			</com.google.android.material.textfield.TextInputLayout>
 
-			<android.support.design.widget.TextInputLayout
+			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				app:errorEnabled="true"
 				app:error="@{viewModel.captcha.error}">
 
-				<android.support.design.widget.TextInputEditText
+				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:text="@={viewModel.captcha.value}"
 					android:hint='Captcha (extended validator, must be "captcha")' />
-			</android.support.design.widget.TextInputLayout>
+			</com.google.android.material.textfield.TextInputLayout>
 
 			<Button
 				android:layout_width="wrap_content"
@@ -59,5 +59,5 @@
 				android:onClick="@{() -> view.onManualSubmitClicked()}"
 				android:text="Submit" />
 		</LinearLayout>
-	</android.support.v4.widget.NestedScrollView>
+	</androidx.core.widget.NestedScrollView>
 </layout>

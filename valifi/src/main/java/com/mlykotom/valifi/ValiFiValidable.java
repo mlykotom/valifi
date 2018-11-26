@@ -1,7 +1,7 @@
 package com.mlykotom.valifi;
 
-import android.databinding.Bindable;
-import android.databinding.Observable;
+import androidx.databinding.Bindable;
+import androidx.databinding.Observable;
 
 
 /**
