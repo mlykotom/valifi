@@ -1,15 +1,8 @@
 package com.mlykotom.valifi;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.Observable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import com.google.android.material.textfield.TextInputLayout;
 import android.widget.EditText;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.mlykotom.valifi.exceptions.ValiFiException;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
 
@@ -21,6 +14,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.Observable;
 
 
 /**
@@ -254,6 +255,16 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		notifyValidationChanged();
 		refreshError();
 		mIsResetting = false;
+	}
+
+
+	/**
+	 * If you want to manually show error for the field
+	 */
+	@Override
+	public void validate() {
+		notifyValueChanged(true);
+		refreshError();
 	}
 
 
@@ -574,16 +585,6 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 		}
 
 		return mAsyncPropertyValidators.remove(validator) != null;
-	}
-
-
-	/**
-	 * If you want to manually show error for the field
-	 */
-	@Override
-	public void validate() {
-		notifyValueChanged(true);
-		refreshError();
 	}
 
 

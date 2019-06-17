@@ -1,14 +1,14 @@
 package com.mlykotom.valifi.fields;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFiCardType;
 import com.mlykotom.valifi.fields.number.ValiFieldLong;
 
 import java.util.Set;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 
 public class ValiFieldCard extends ValiFieldLong {

@@ -1,20 +1,19 @@
 package com.mlykotom.exampleandroid;
 
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.mlykotom.exampleandroid.databinding.ActivityExampleBinding;
 import com.mlykotom.valifi.fields.ValiFieldEmail;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 public class ExampleActivity extends AppCompatActivity {
 	public final ValiFieldEmail email = new ValiFieldEmail();
 
 	private ActivityExampleBinding mBinding;
-
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,13 +22,11 @@ public class ExampleActivity extends AppCompatActivity {
 		mBinding.setViewModel(this);
 	}
 
-
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
 		email.setValue(savedInstanceState.getString("EMAIL"));
 	}
-
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -37,13 +34,11 @@ public class ExampleActivity extends AppCompatActivity {
 		outState.putString("EMAIL", email.getValue());
 	}
 
-
 	@Override
 	protected void onDestroy() {
 		email.destroy();
 		super.onDestroy();
 	}
-
 
 	public void onSubmitClicked() {
 		Toast.makeText(this, "Submit clicked and got " + email.getValue(), Toast.LENGTH_LONG).show();

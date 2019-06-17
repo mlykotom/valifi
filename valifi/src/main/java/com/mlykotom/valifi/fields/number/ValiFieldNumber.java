@@ -1,10 +1,10 @@
 package com.mlykotom.valifi.fields.number;
 
+import com.mlykotom.valifi.fields.ValiFieldText;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-
-import com.mlykotom.valifi.fields.ValiFieldText;
 
 
 public abstract class ValiFieldNumber<NumberType extends Number & Comparable<NumberType>> extends ValiFieldText {

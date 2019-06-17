@@ -23,9 +23,9 @@
 			<com.google.android.material.textfield.TextInputEditText
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:hint="E-mail address"
 				android:inputType="textEmailAddress"
-				android:text="@={viewModel.email.value}"
-				android:hint="E-mail address" />
+				android:text="@={viewModel.email.value}" />
 		</com.google.android.material.textfield.TextInputLayout>
 
 		<Button

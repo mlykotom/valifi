@@ -1,10 +1,10 @@
 package com.mlykotom.valifi;
 
-import androidx.databinding.BaseObservable;
-import androidx.databinding.Bindable;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 
 
 /**
@@ -59,17 +59,6 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 
 
 	/**
-	 * Adds field to this form so can be validated with others
-	 *
-	 * @param field to be validated through this form
-	 */
-	public void addField(ValiFieldBase field) {
-		field.setFormValidation(this);
-		mFields.add(field);
-	}
-
-
-	/**
 	 * Notifies about error all fields in the form
 	 *
 	 * @see ValiFieldBase#validate()
@@ -79,6 +68,17 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 		for(ValiFieldBase field : mFields) {
 			field.validate();
 		}
+	}
+
+
+	/**
+	 * Adds field to this form so can be validated with others
+	 *
+	 * @param field to be validated through this form
+	 */
+	public void addField(ValiFieldBase field) {
+		field.setFormValidation(this);
+		mFields.add(field);
 	}
 
 

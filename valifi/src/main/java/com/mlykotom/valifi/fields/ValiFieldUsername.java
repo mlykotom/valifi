@@ -1,9 +1,9 @@
 package com.mlykotom.valifi.fields;
 
+import com.mlykotom.valifi.ValiFi;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-
-import com.mlykotom.valifi.ValiFi;
 
 
 public class ValiFieldUsername extends ValiFieldText {

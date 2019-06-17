@@ -1,10 +1,11 @@
 package com.mlykotom.valifi.fields;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import android.util.Patterns;
 
 import com.mlykotom.valifi.ValiFi;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 
 public class ValiFieldEmail extends ValiFieldText {

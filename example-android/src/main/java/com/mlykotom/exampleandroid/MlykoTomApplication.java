@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.mlykotom.valifi.ValiFi;
 
-
 public class MlykoTomApplication extends Application {
 	@Override
 	public void onCreate() {
