@@ -74,6 +74,12 @@ dependencies {
 }
 
 if (isLocalBuild) {
+	android.libraryVariants.configureEach {variant ->
+		variant.javaCompileProvider.configure {
+			javadoc.classpath += files(it.classpath.files)
+		}
+	}
+
 	apply from: "./install.gradle"
 	apply from: "./bintray.gradle"
 
