@@ -1,12 +1,12 @@
 package com.mlykotom.valifi;
 
-import androidx.databinding.Observable;
-import androidx.annotation.Nullable;
-
 import com.mlykotom.valifi.fields.ValiFieldText;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import androidx.annotation.Nullable;
+import androidx.databinding.Observable;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;

@@ -1,6 +1,6 @@
 final VERSION_MAJOR = 1 // max two digits
 final VERSION_MINOR = 4 // max two digits
-final VERSION_PATCH = 0 // max two digits
+final VERSION_PATCH = 2 // max two digits
 final VERSION_BUILD = 0 // max three digits
 
 apply plugin: 'com.android.library'
@@ -73,11 +73,11 @@ dependencies {
 	testImplementation 'junit:junit:4.12'
 }
 
-if(isLocalBuild) {
-	afterEvaluate {
-		javadoc.classpath += files(android.libraryVariants.collect {variant ->
-			variant.javaCompile.classpath.files
-		})
+if (isLocalBuild) {
+	android.libraryVariants.configureEach {variant ->
+		variant.javaCompileProvider.configure {
+			javadoc.classpath += files(it.classpath.files)
+		}
 	}
 
 	apply from: "./install.gradle"
@@ -87,7 +87,7 @@ if(isLocalBuild) {
 	def compilePath = project.ext.publishedGroupId + ":" + project.ext.bintrayName + ":"
 
 	// Task for updating readme file for new version of library
-	task updateReadmeFile {
+	tasks.register("updateReadmeFile") {
 		def readme = file('../README.md')
 
 		def updatedReadmeText = readme.text.replaceFirst("implementation '" + compilePath + "[^']+'", "implementation '" + compilePath + version + "'")
@@ -95,7 +95,7 @@ if(isLocalBuild) {
 	}
 
 	// task for updating example gradle scripts so that it matches the latest version of library
-	task updateExamplesLibraryVersion {
+	tasks.register("updateExamplesLibraryVersion") {
 		['example-android', 'example-arch-viewmodel'].each {
 			def gradleScript = file("../${it}/build.gradle")
 			def updatedGradleText = gradleScript.text.replaceAll("implementation '" + compilePath + "[^']+'", "implementation '" + compilePath + version + "'")
@@ -103,6 +103,8 @@ if(isLocalBuild) {
 		}
 	}
 
-	install.dependsOn updateReadmeFile
-	install.dependsOn updateExamplesLibraryVersion
+	tasks.named("install").configure {
+		dependsOn tasks.named("updateReadmeFile")
+		dependsOn tasks.named("updateExamplesLibraryVersion")
+	}
 }

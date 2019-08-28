@@ -1,15 +1,15 @@
 package com.mlykotom.valifi.fields;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFieldBase;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 
 /**

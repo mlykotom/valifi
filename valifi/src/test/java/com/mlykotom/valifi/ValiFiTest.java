@@ -1,11 +1,11 @@
 package com.mlykotom.valifi;
 
-import androidx.annotation.Nullable;
-
 import com.mlykotom.valifi.fields.ValiFieldText;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import androidx.annotation.Nullable;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;

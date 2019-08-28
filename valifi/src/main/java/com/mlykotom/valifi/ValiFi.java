@@ -2,11 +2,6 @@ package com.mlykotom.valifi;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RestrictTo;
-import androidx.annotation.StringRes;
 
 import com.mlykotom.valifi.exceptions.ValiFiException;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
@@ -17,6 +12,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.StringRes;
 
 import static androidx.annotation.RestrictTo.Scope.TESTS;
 
