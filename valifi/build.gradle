@@ -73,13 +73,7 @@ dependencies {
 	testImplementation 'junit:junit:4.12'
 }
 
-if(isLocalBuild) {
-	afterEvaluate {
-		javadoc.classpath += files(android.libraryVariants.collect {variant ->
-			variant.javaCompile.classpath.files
-		})
-	}
-
+if (isLocalBuild) {
 	apply from: "./install.gradle"
 	apply from: "./bintray.gradle"
 
@@ -87,7 +81,7 @@ if(isLocalBuild) {
 	def compilePath = project.ext.publishedGroupId + ":" + project.ext.bintrayName + ":"
 
 	// Task for updating readme file for new version of library
-	task updateReadmeFile {
+	tasks.register("updateReadmeFile") {
 		def readme = file('../README.md')
 
 		def updatedReadmeText = readme.text.replaceFirst("implementation '" + compilePath + "[^']+'", "implementation '" + compilePath + version + "'")
@@ -95,7 +89,7 @@ if(isLocalBuild) {
 	}
 
 	// task for updating example gradle scripts so that it matches the latest version of library
-	task updateExamplesLibraryVersion {
+	tasks.register("updateExamplesLibraryVersion") {
 		['example-android', 'example-arch-viewmodel'].each {
 			def gradleScript = file("../${it}/build.gradle")
 			def updatedGradleText = gradleScript.text.replaceAll("implementation '" + compilePath + "[^']+'", "implementation '" + compilePath + version + "'")
@@ -103,6 +97,8 @@ if(isLocalBuild) {
 		}
 	}
 
-	install.dependsOn updateReadmeFile
-	install.dependsOn updateExamplesLibraryVersion
+	tasks.named("install").configure {
+		dependsOn tasks.named("updateReadmeFile")
+		dependsOn tasks.named("updateExamplesLibraryVersion")
+	}
 }
