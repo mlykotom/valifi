@@ -34,15 +34,8 @@ public class ValiFieldPhone extends ValiFieldText {
 		addPhoneValidator(errorMessage);
 	}
 
-
-	/**
-	 * Validates US or Czech phone numbers
-	 *
-	 * @param errorMessage specifies error message to be shown
-	 * @return this, so validators can be chained
-	 */
-	protected ValiFieldText addPhoneValidator(String errorMessage) {
-		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_PHONE));
-		return this;
+	public ValiFieldPhone(@Nullable String defaultValue, String errorMessage, boolean markAsChanged) {
+		super(defaultValue, markAsChanged);
+		addPhoneValidator(errorMessage);
 	}
 }

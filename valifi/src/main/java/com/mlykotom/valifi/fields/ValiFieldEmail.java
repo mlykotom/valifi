@@ -36,15 +36,8 @@ public class ValiFieldEmail extends ValiFieldText {
 		addEmailValidator(errorMessage);
 	}
 
-
-	/**
-	 * Validates email addresses based on Android's {@link Patterns#EMAIL_ADDRESS}
-	 *
-	 * @param errorMessage specifies error message to be shown
-	 * @return this, so validators can be chained
-	 */
-	protected ValiFieldText addEmailValidator(String errorMessage) {
-		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_EMAIL));
-		return this;
+	public ValiFieldEmail(@Nullable String defaultValue, String errorMessage, boolean markAsChanged) {
+		super(defaultValue, markAsChanged);
+		addEmailValidator(errorMessage);
 	}
 }

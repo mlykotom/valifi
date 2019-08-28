@@ -34,15 +34,8 @@ public class ValiFieldPassword extends ValiFieldText {
 		addPasswordValidator(errorMessage);
 	}
 
-
-	/**
-	 * Validates password based on default pattern for password
-	 *
-	 * @param errorMessage to show when field not valid
-	 * @return this, so validators can be chained
-	 */
-	protected ValiFieldPassword addPasswordValidator(String errorMessage) {
-		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_PASSWORD));
-		return this;
+	public ValiFieldPassword(@Nullable String defaultValue, String errorMessage, boolean markAsChanged) {
+		super(defaultValue, markAsChanged);
+		addPasswordValidator(errorMessage);
 	}
 }

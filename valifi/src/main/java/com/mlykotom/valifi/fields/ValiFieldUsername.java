@@ -34,15 +34,8 @@ public class ValiFieldUsername extends ValiFieldText {
 		addUsernameValidator(errorMessage);
 	}
 
-
-	/**
-	 * Validates username based on default pattern for username
-	 *
-	 * @param errorMessage specifies error message to be shown
-	 * @return this, so validators can be chained
-	 */
-	protected ValiFieldText addUsernameValidator(String errorMessage) {
-		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_USERNAME));
-		return this;
+	public ValiFieldUsername(@Nullable String defaultValue, String errorMessage, boolean markAsChanged) {
+		super(defaultValue, markAsChanged);
+		addUsernameValidator(errorMessage);
 	}
 }

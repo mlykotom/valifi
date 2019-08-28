@@ -1,5 +1,7 @@
 package com.mlykotom.valifi.fields;
 
+import android.util.Patterns;
+
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFieldBase;
 import com.mlykotom.valifi.exceptions.ValiFiValidatorException;
@@ -248,6 +250,50 @@ public class ValiFieldText extends ValiFieldBase<String> {
 				}
 			}
 		});
+		return this;
+	}
+
+	/**
+	 * Validates email addresses based on Android's {@link Patterns#EMAIL_ADDRESS}
+	 *
+	 * @param errorMessage specifies error message to be shown
+	 * @return this, so validators can be chained
+	 */
+	public ValiFieldText addEmailValidator(String errorMessage) {
+		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_EMAIL));
+		return this;
+	}
+
+	/**
+	 * Validates password based on default pattern for password
+	 *
+	 * @param errorMessage to show when field not valid
+	 * @return this, so validators can be chained
+	 */
+	public ValiFieldText addPasswordValidator(String errorMessage) {
+		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_PASSWORD));
+		return this;
+	}
+
+	/**
+	 * Validates username based on default pattern for username
+	 *
+	 * @param errorMessage specifies error message to be shown
+	 * @return this, so validators can be chained
+	 */
+	public ValiFieldText addUsernameValidator(String errorMessage) {
+		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_USERNAME));
+		return this;
+	}
+
+	/**
+	 * Validates US or Czech phone numbers
+	 *
+	 * @param errorMessage specifies error message to be shown
+	 * @return this, so validators can be chained
+	 */
+	public ValiFieldText addPhoneValidator(String errorMessage) {
+		addCustomValidator(errorMessage, getValidator(ValiFi.Builder.PATTERN_PHONE));
 		return this;
 	}
 }
