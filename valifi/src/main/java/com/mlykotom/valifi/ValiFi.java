@@ -336,7 +336,7 @@ public class ValiFi {
 
 		private void setupPatterns() {
 			// NOTE: same as Patterns.EMAIL_ADDRESS but unit tests return null
-			setPattern(PATTERN_EMAIL, Pattern.compile("[a-zA-Z0-9\\+\\.\\_\\%\\-+]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"));
+			setPattern(PATTERN_EMAIL, Pattern.compile("[a-zA-Z0-9+._%\\-]{1,256}" + "@" + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" + "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"));
 			setPattern(PATTERN_PHONE, Pattern.compile("^\\+420 ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$" + "|" + "^(\\+?1)?[2-9]\\d{2}[2-9](?!11)\\d{6}$"));            // phone czech | phone en-US
 			setPattern(PATTERN_USERNAME, Pattern.compile(".{4,}"));
 			setPattern(PATTERN_PASSWORD, Pattern.compile(".{8,}"));
