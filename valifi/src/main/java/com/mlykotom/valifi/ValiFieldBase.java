@@ -624,10 +624,9 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 * Notifies that field's validation flag changed
 	 */
 	protected void notifyValidationChanged() {
+		notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
 		if (mParentForm != null) {
 			mParentForm.notifyValidationChanged(this);
-		} else {
-			notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
 		}
 	}
 
