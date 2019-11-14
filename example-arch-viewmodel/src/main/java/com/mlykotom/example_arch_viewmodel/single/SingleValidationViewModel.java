@@ -10,6 +10,7 @@ import com.mlykotom.valifi.fields.number.ValiFieldNumber;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,7 +57,7 @@ public class SingleValidationViewModel extends ViewModel {
 			public boolean isValid(@Nullable String value) throws InterruptedException {
 				Thread.sleep(2000);
 				List<String> registeredUsernames = Arrays.asList("user", "name", "mlyko", "mlykotom", "charlie");
-				return value != null && !registeredUsernames.contains(value.trim().toLowerCase());
+				return value != null && !registeredUsernames.contains(value.trim().toLowerCase(Locale.US));
 			}
 		});
 	}
