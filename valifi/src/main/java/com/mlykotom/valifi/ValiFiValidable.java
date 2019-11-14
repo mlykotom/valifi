@@ -1,5 +1,6 @@
 package com.mlykotom.valifi;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.Bindable;
 import androidx.databinding.Observable;
 
@@ -29,4 +30,16 @@ public interface ValiFiValidable extends Observable {
 	 * If you want to manually show error for the field
 	 */
 	void validate();
+
+	/**
+	 * Parent form of this field/form
+	 *
+	 * @param form to be notified when this validable changes
+	 */
+	void setFormValidation(@Nullable ValiFiForm form);
+
+	/**
+	 * Manually show error on field - set error first + this will notify UI
+	 */
+	void refreshError();
 }

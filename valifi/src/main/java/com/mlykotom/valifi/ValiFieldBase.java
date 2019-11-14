@@ -379,6 +379,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	 *
 	 * @param form which validates all bundled fields
 	 */
+	@Override
 	public void setFormValidation(@Nullable ValiFiForm form) {
 		mParentForm = form;
 	}
@@ -550,6 +551,7 @@ public abstract class ValiFieldBase<ValueType> extends BaseObservable implements
 	/**
 	 * If you want to manually show error for the field
 	 */
+	@Override
 	public void refreshError() {
 		notifyPropertyChanged(com.mlykotom.valifi.BR.error);
 	}

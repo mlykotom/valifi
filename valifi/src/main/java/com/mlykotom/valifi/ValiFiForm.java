@@ -3,6 +3,7 @@ package com.mlykotom.valifi;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
@@ -10,10 +11,11 @@ import androidx.databinding.Bindable;
  * Bundles more fields together and provides validation for all of them + destroying
  */
 public class ValiFiForm extends BaseObservable implements ValiFiValidable {
-	private List<ValiFieldBase> mFields = new ArrayList<>();
+	private List<ValiFiValidable> mFields = new ArrayList<>();
+	@Nullable private ValiFiForm mParentForm;
 
-	public ValiFiForm(ValiFieldBase... fields) {
-		for (ValiFieldBase field : fields) {
+	public ValiFiForm(ValiFiValidable... fields) {
+		for (ValiFiValidable field : fields) {
 			addField(field);
 		}
 	}
@@ -26,7 +28,7 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	@Bindable
 	@Override
 	public boolean isValid() {
-		for (ValiFieldBase field : mFields) {
+		for (ValiFiValidable field : mFields) {
 			if (!field.isValid()) return false;
 		}
 
@@ -38,16 +40,17 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 * Should be called after done working with form and fields
 	 */
 	public void destroy() {
-		for (ValiFieldBase field : mFields) {
+		for (ValiFiValidable field : mFields) {
 			field.destroy();
 		}
 
 		mFields.clear();
+		mParentForm = null;
 	}
 
 	@Override
 	public void reset() {
-		for (ValiFieldBase field : mFields) {
+		for (ValiFiValidable field : mFields) {
 			field.reset();
 		}
 	}
@@ -59,7 +62,7 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 */
 	@Override
 	public void validate() {
-		for (ValiFieldBase field : mFields) {
+		for (ValiFiValidable field : mFields) {
 			field.validate();
 		}
 	}
@@ -69,7 +72,7 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 *
 	 * @param field to be validated through this form
 	 */
-	public void addField(ValiFieldBase field) {
+	public void addField(ValiFiValidable field) {
 		field.setFormValidation(this);
 		mFields.add(field);
 	}
@@ -79,8 +82,9 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 *
 	 * @see ValiFieldBase#refreshError()
 	 */
+	@Override
 	public void refreshError() {
-		for (ValiFieldBase field : mFields) {
+		for (ValiFiValidable field : mFields) {
 			field.refreshError();
 		}
 	}
@@ -90,7 +94,26 @@ public class ValiFiForm extends BaseObservable implements ValiFiValidable {
 	 *
 	 * @param field which was changed (ignored and handled by observable callback)
 	 */
-	void notifyValidationChanged(ValiFieldBase field) {
+	@SuppressWarnings("unused")
+	void notifyValidationChanged(ValiFiValidable field) {
 		notifyPropertyChanged(com.mlykotom.valifi.BR.valid);
+		if (mParentForm != null) {
+			mParentForm.notifyValidationChanged(this);
+		}
+	}
+
+	/**
+	 * Bundles this form to another form
+	 *
+	 * @param form which validates all bundled fields
+	 */
+	@Override
+	public void setFormValidation(@Nullable ValiFiForm form) {
+		mParentForm = form;
+	}
+
+	@Nullable
+	public ValiFiForm getBoundForm() {
+		return mParentForm;
 	}
 }
