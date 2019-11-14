@@ -32,6 +32,6 @@ dependencies {
 	if (isLocalBuild) {
 		implementation project(':valifi')
 	} else {
-		implementation 'com.mlykotom:valifi:1.4.2'
+		implementation 'com.mlykotom:valifi:1.5.0'
 	}
 }

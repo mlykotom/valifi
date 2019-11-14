@@ -1,6 +1,6 @@
 final VERSION_MAJOR = 1 // max two digits
-final VERSION_MINOR = 4 // max two digits
-final VERSION_PATCH = 2 // max two digits
+final VERSION_MINOR = 5 // max two digits
+final VERSION_PATCH = 0 // max two digits
 final VERSION_BUILD = 0 // max three digits
 
 apply plugin: 'com.android.library'
@@ -47,9 +47,7 @@ android {
 		}
 	}
 
-	dataBinding {
-		enabled = true
-	}
+	dataBinding.enabled = true
 
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_1_7
