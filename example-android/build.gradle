@@ -26,12 +26,12 @@ android {
 
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'androidx.appcompat:appcompat:1.0.2'
+	implementation 'androidx.appcompat:appcompat:1.1.0'
 	implementation 'com.google.android.material:material:1.0.0'
 
 	if (isLocalBuild) {
 		implementation project(':valifi')
 	} else {
-		implementation 'com.mlykotom:valifi:1.4.2'
+		implementation 'com.mlykotom:valifi:1.5.0'
 	}
 }

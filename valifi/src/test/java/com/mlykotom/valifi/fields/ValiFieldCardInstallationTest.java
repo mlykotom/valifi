@@ -8,7 +8,6 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-
 public class ValiFieldCardInstallationTest {
 	@Test
 	public void checkCardOnlyLuhn() {
@@ -17,14 +16,12 @@ public class ValiFieldCardInstallationTest {
 		assertThat(field.isValid(), is(true));
 	}
 
-
 	@Test
 	public void checkCardOnlyLuhnFailed() {
 		prepareNoDefaultTypes();
 		ValiFieldCard field = new ValiFieldCard(4265773020733L, ValiFieldCardTest.VALIDATOR_EMPTY_MESSAGE);
 		assertThat(field.isValid(), is(false));
 	}
-
 
 	@Test
 	public void checkCustomCard() {
@@ -35,7 +32,6 @@ public class ValiFieldCardInstallationTest {
 		ValiFieldCard field = new ValiFieldCard(4265773072920733L, ValiFieldCardTest.VALIDATOR_EMPTY_MESSAGE);
 		assertThat(field.isValid(), is(true));
 	}
-
 
 	private void prepareNoDefaultTypes() {
 		ValiFi.install(new ValiFi.Builder()

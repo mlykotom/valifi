@@ -11,11 +11,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-
 public class ValiFiTest {
 	public static final String FIELD_ERROR_MSG = "field is not valid";
 	private ValiFieldBase<String> mField;
-
 
 	/**
 	 * WARNING: installing without context will crash when getting string, only for tests!
@@ -24,19 +22,16 @@ public class ValiFiTest {
 		ValiFi.install();
 	}
 
-
 	@Before
 	public void prepareField() {
 		installWithoutContext();
 		mField = new ValiFieldText();
 	}
 
-
 	@Test
 	public void checkLibraryInstalled() {
 		assertThat(ValiFi.getInstance(), notNullValue());
 	}
-
 
 	@Test
 	public void checkLibraryInstalledByAddingValidator() {
@@ -49,20 +44,17 @@ public class ValiFiTest {
 		});
 	}
 
-
 	@Test
 	public void checkErrorResourcesMatchLength() {
 		int errorResArrCount = ValiFi.getInstance().mParameters.mErrorResources.length;
 		assertThat(errorResArrCount, is(ValiFi.Builder.ERROR_RES_COUNT));
 	}
 
-
 	@Test
 	public void checkPatternsMatchLength() {
 		int patternsArrCount = ValiFi.getInstance().mParameters.mValidators.length;
 		assertThat(patternsArrCount, is(ValiFi.Builder.PATTERN_COUNT));
 	}
-
 
 	@Test
 	public void checkErrorResourcesMathStrings() {

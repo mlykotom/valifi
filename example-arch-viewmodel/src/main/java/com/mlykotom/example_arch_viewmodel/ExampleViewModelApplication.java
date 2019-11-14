@@ -5,7 +5,6 @@ import android.app.Application;
 import com.mlykotom.valifi.ValiFi;
 import com.squareup.leakcanary.LeakCanary;
 
-
 public class ExampleViewModelApplication extends Application {
 	@Override
 	public void onCreate() {

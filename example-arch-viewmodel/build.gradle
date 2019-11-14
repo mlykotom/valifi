@@ -28,18 +28,18 @@ android {
 dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-	implementation 'androidx.appcompat:appcompat:1.0.2'
+	implementation 'androidx.appcompat:appcompat:1.1.0'
 	implementation 'com.google.android.material:material:1.0.0'
 
-	implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+	implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
 
 	debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
 	releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 	testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 
-	if(isLocalBuild) {
+	if (isLocalBuild) {
 		implementation project(':valifi')
 	} else {
-		implementation 'com.mlykotom:valifi:1.4.2'
+		implementation 'com.mlykotom:valifi:1.5.0'
 	}
 }

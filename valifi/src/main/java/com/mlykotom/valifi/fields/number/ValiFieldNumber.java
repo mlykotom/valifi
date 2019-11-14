@@ -6,22 +6,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-
 public abstract class ValiFieldNumber<NumberType extends Number & Comparable<NumberType>> extends ValiFieldText {
 	public interface NumberValidator<T> {
 		boolean isValid(@NonNull T value);
 	}
 
-
 	public ValiFieldNumber() {
 		super();
 	}
 
-
 	public ValiFieldNumber(@Nullable NumberType defaultValue) {
 		super(getStringOrNull(defaultValue));
 	}
-
 
 	/**
 	 * Helper for returning either string version or @null
@@ -34,7 +30,6 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 		return value != null ? value.toString() : null;
 	}
 
-
 	/**
 	 * Parses the number from string. If not possible, throws exception which will be marked as invalid validation
 	 *
@@ -44,7 +39,6 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 	 */
 	protected abstract NumberType parse(@Nullable String value) throws NumberFormatException;
 
-
 	/**
 	 * @return Tries to parse value to number, if not possible returns @null
 	 */
@@ -52,11 +46,10 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 	public NumberType getNumber() {
 		try {
 			return parse(get());
-		} catch(NumberFormatException exc) {
+		} catch (NumberFormatException exc) {
 			return null;
 		}
 	}
-
 
 	/**
 	 * Sets the value of the number
@@ -67,24 +60,21 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 		set(getStringOrNull(value));
 	}
 
-
 	public ValiFieldNumber<NumberType> addNumberValidator(@Nullable NumberValidator<NumberType> validator) {
 		return addNumberValidator(null, validator);
 	}
-
 
 	public ValiFieldNumber<NumberType> addNumberValidator(@StringRes int errorResource, @Nullable NumberValidator<NumberType> validator) {
 		String errorMessage = getString(errorResource);
 		return addNumberValidator(errorMessage, validator);
 	}
 
-
 	/**
 	 * Adds custom validator which first tries to parse number from string and later applies validation
 	 * This is similar as {@link #addCustomValidator(String, PropertyValidator)} but adds parsing to number.
 	 *
 	 * @param errorMessage to be shown if field does not meet this validation
-	 * @param validator    implementation of validation (with number)
+	 * @param validator implementation of validation (with number)
 	 * @return this, so validators can be chained
 	 */
 	public ValiFieldNumber<NumberType> addNumberValidator(String errorMessage, @Nullable final NumberValidator<NumberType> validator) {
@@ -96,7 +86,7 @@ public abstract class ValiFieldNumber<NumberType extends Number & Comparable<Num
 					NumberType numberValue = parse(value);
 					// 2) applies validator
 					return validator == null || validator.isValid(numberValue);
-				} catch(NumberFormatException ignored) {
+				} catch (NumberFormatException ignored) {
 					return false;
 				}
 			}

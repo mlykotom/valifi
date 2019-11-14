@@ -1,9 +1,8 @@
 package com.mlykotom.example_arch_viewmodel;
 
-import androidx.annotation.Nullable;
-
 import com.mlykotom.valifi.fields.ValiFieldText;
 
+import androidx.annotation.Nullable;
 
 /**
  * Custom validator that extends text validator
@@ -14,12 +13,10 @@ public class MyValiFieldCaptcha extends ValiFieldText {
 		addMyValidator();
 	}
 
-
 	public MyValiFieldCaptcha(String defaultValue) {
 		super(defaultValue);
 		addMyValidator();
 	}
-
 
 	private void addMyValidator() {
 		addCustomValidator("Captcha must be correct", new PropertyValidator<String>() {

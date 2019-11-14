@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<data>
@@ -29,28 +28,28 @@
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				app:errorEnabled="true"
-				app:error="@{viewModel.email.error}">
+				app:error="@{viewModel.email.error}"
+				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:hint="E-mail address"
 					android:inputType="textEmailAddress"
-					android:text="@={viewModel.email.value}"
-					android:hint="E-mail address" />
+					android:text="@={viewModel.email.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				app:errorEnabled="true"
-				app:error="@{viewModel.captcha.error}">
+				app:error="@{viewModel.captcha.error}"
+				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="@={viewModel.captcha.value}"
-					android:hint='Captcha (extended validator, must be "captcha")' />
+					android:hint='Captcha (extended validator, must be "captcha")'
+					android:text="@={viewModel.captcha.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<Button

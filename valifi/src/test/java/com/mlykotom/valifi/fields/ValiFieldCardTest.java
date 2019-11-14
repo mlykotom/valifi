@@ -13,18 +13,15 @@ import java.util.Collection;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-
 @RunWith(Parameterized.class)
 public class ValiFieldCardTest {
 	public static final String VALIDATOR_EMPTY_MESSAGE = "Credit card is not valid";
 	private final String inputCard;
 	private ValiFieldCard mField;
 
-
 	public ValiFieldCardTest(String input) {
 		this.inputCard = input;
 	}
-
 
 	@Parameterized.Parameters
 	public static Collection creditCards() {
@@ -46,26 +43,22 @@ public class ValiFieldCardTest {
 		);
 	}
 
-
 	@Before
 	public void prepare() {
 		ValiFiTest.installWithoutContext();
 		mField = new ValiFieldCard(0L, VALIDATOR_EMPTY_MESSAGE);
 	}
 
-
 	@Test
 	public void checkLuhnTestForCard() {
 		assertThat(ValiFieldCard.isLuhnTestValid(inputCard), is(true));
 	}
-
 
 	@Test
 	public void checkLuhnTestWronString() {
 		assertThat(ValiFieldCard.isLuhnTestValid("424242424242424x"), is(false));
 		assertThat(ValiFieldCard.isLuhnTestValid("assdfg123sf"), is(false));
 	}
-
 
 	@Test
 	public void checkDefaultCardTypes() {

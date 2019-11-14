@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<data>
@@ -29,15 +28,15 @@
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				app:errorEnabled="true"
-				app:error="@{viewModel.username.error}">
+				app:error="@{viewModel.username.error}"
+				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:hint="Username"
 					android:inputType="textPersonName"
-					android:text="@={viewModel.username.value}"
-					android:hint="Username" />
+					android:text="@={viewModel.username.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<LinearLayout
@@ -49,15 +48,15 @@
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					app:errorEnabled="true"
-					app:error="@{viewModel.async.error}">
+					app:error="@{viewModel.async.error}"
+					app:errorEnabled="true">
 
 					<com.google.android.material.textfield.TextInputEditText
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
+						android:hint='Asynchronous username ("User" is not allowed)'
 						android:inputType="textPersonName"
-						android:text="@={viewModel.async.value}"
-						android:hint='Asynchronous username ("User" is not allowed)' />
+						android:text="@={viewModel.async.value}" />
 				</com.google.android.material.textfield.TextInputLayout>
 
 				<ProgressBar
@@ -70,28 +69,28 @@
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				app:errorEnabled="true"
-				app:error="@{viewModel.numLong.error}">
+				app:error="@{viewModel.numLong.error}"
+				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="@={viewModel.numLong.value}"
-					android:hint='Number must be greater than 13' />
+					android:hint='Number must be greater than 13'
+					android:text="@={viewModel.numLong.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				app:errorEnabled="true"
-				app:error="@{viewModel.creditCard.error}">
+				app:error="@{viewModel.creditCard.error}"
+				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="@={viewModel.creditCard.value}"
-					android:hint='Type credit card number' />
+					android:hint='Type credit card number'
+					android:text="@={viewModel.creditCard.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<Button
