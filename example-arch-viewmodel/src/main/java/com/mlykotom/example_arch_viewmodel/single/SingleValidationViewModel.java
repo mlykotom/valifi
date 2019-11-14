@@ -1,9 +1,5 @@
 package com.mlykotom.example_arch_viewmodel.single;
 
-import androidx.lifecycle.ViewModel;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.mlykotom.valifi.ValiFi;
 import com.mlykotom.valifi.ValiFiValidable;
 import com.mlykotom.valifi.ValiFieldBase;
@@ -15,6 +11,9 @@ import com.mlykotom.valifi.fields.number.ValiFieldNumber;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModel;
 
 public class SingleValidationViewModel extends ViewModel {
 	public final ValiFieldUsername username = new ValiFieldUsername();
@@ -24,19 +23,16 @@ public class SingleValidationViewModel extends ViewModel {
 
 	public final ValiFiValidable validable = username;
 
-
 	public SingleValidationViewModel() {
 		setupNumberValidator();
 		setupAsyncUsernameValidator();
 	}
-
 
 	@Override
 	protected void onCleared() {
 		ValiFi.destroyFields(numLong, username, async, creditCard);
 		super.onCleared();
 	}
-
 
 	/**
 	 * Example of initialization number validator.
@@ -50,7 +46,6 @@ public class SingleValidationViewModel extends ViewModel {
 			}
 		});
 	}
-
 
 	/**
 	 * Initialization of asynchronous validation of username

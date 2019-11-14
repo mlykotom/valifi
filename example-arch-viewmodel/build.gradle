@@ -37,7 +37,7 @@ dependencies {
 	releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 	testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
 
-	if(isLocalBuild) {
+	if (isLocalBuild) {
 		implementation project(':valifi')
 	} else {
 		implementation 'com.mlykotom:valifi:1.5.0'

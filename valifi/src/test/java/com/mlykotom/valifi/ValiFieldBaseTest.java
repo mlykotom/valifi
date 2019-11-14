@@ -13,14 +13,12 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-
 public class ValiFieldBaseTest {
 
 	@Before
 	public void prepare() {
 		ValiFiTest.installWithoutContext();
 	}
-
 
 	@Test
 	public void setGetIsCorrect() {
@@ -29,7 +27,6 @@ public class ValiFieldBaseTest {
 		assertThat("test_value", is(field.get()));
 		assertThat(field.isValid(), is(true));
 	}
-
 
 	@Test
 	public void checkBoundFieldsInvalid() {
@@ -45,7 +42,6 @@ public class ValiFieldBaseTest {
 
 	// ---- destroy ---- //
 
-
 	@Test
 	public void checkMoreDestroyCalls() {
 		ValiFieldBase<String> field = new ValiFieldText();
@@ -53,7 +49,6 @@ public class ValiFieldBaseTest {
 		field.destroy();
 		field.destroy();
 	}
-
 
 	@Test
 	public void checkDestroyingFormAndTheSameField() {
@@ -65,9 +60,7 @@ public class ValiFieldBaseTest {
 		field.destroy();
 	}
 
-
 	// ---- add custom validators ---- //
-
 
 	@Test
 	public void checkAddCustomValidator1Invalid() {
@@ -82,7 +75,6 @@ public class ValiFieldBaseTest {
 		assertThat(field.isValid(), is(false));
 	}
 
-
 	@Test
 	public void checkBoundFieldsValid() {
 		ValiFieldBase<String> field = new ValiFieldText();
@@ -95,13 +87,11 @@ public class ValiFieldBaseTest {
 		assertThat(field.isValid(), is(true));
 	}
 
-
 	@Test
 	public void checkDefaultErrorDelayInConstructor() {
 		ValiFieldBase<String> field = new ValiFieldText();
 		assertThat(field.mErrorDelay, is(ValiFi.getErrorDelay()));
 	}
-
 
 	@Test
 	public void checkErrorDelaySetByMethod() {
@@ -109,7 +99,6 @@ public class ValiFieldBaseTest {
 		field.setErrorDelay(9999);
 		assertThat(field.mErrorDelay, is(9999L));
 	}
-
 
 	@Test
 	public void checkDelayedError() throws InterruptedException {
@@ -123,7 +112,7 @@ public class ValiFieldBaseTest {
 		field.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
 			@Override
 			public void onPropertyChanged(Observable observable, int i) {
-				if(i != com.mlykotom.valifi.BR.error) return;
+				if (i != com.mlykotom.valifi.BR.error) return;
 
 				testIsOk[0] = true;
 			}
@@ -145,7 +134,6 @@ public class ValiFieldBaseTest {
 		assertThat(testIsOk[0], is(true));
 	}
 
-
 //	@Test
 //	public void checkNoErrorShown() {
 //		ValiFieldBase<String> field = new ValiFieldText("invalid");
@@ -159,7 +147,6 @@ public class ValiFieldBaseTest {
 ////			}
 ////		});
 //	}
-
 
 	@Test
 	public void checkReset() {

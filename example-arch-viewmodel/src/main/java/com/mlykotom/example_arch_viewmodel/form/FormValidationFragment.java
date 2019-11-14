@@ -1,10 +1,6 @@
 package com.mlykotom.example_arch_viewmodel.form;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +8,14 @@ import android.widget.Toast;
 
 import com.mlykotom.example_arch_viewmodel.databinding.FragmentExampleFormBinding;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 public class FormValidationFragment extends Fragment implements FormValidationView {
 	private FragmentExampleFormBinding mBinding;
 	private FormValidationViewModel mViewModel;
-
 
 	public static FormValidationFragment newInstance() {
 		Bundle args = new Bundle();
@@ -25,13 +24,11 @@ public class FormValidationFragment extends Fragment implements FormValidationVi
 		return fragment;
 	}
 
-
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mViewModel = ViewModelProviders.of(this).get(FormValidationViewModel.class);
 	}
-
 
 	@Nullable
 	@Override
@@ -42,12 +39,10 @@ public class FormValidationFragment extends Fragment implements FormValidationVi
 		return mBinding.getRoot();
 	}
 
-
 	@Override
 	public void onSubmitClicked() {
 		Toast.makeText(getContext(), "Submit clicked and form is valid!", Toast.LENGTH_LONG).show();
 	}
-
 
 	@Override
 	public void onResetClicked() {

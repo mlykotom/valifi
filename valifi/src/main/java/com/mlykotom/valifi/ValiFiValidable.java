@@ -3,7 +3,6 @@ package com.mlykotom.valifi;
 import androidx.databinding.Bindable;
 import androidx.databinding.Observable;
 
-
 /**
  * Interface which serves for composite design pattern.
  * This means that form and field may be used just as validable and be validated the same way

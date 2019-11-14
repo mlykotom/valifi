@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-
 /**
  * Class for validating credit card types.
  * See <a href="http://stackoverflow.com/questions/72768/how-do-you-detect-credit-card-type-based-on-number">StackOverflow</a> for patterns used
@@ -22,18 +21,16 @@ public class ValiFiCardType {
 	public final String name;
 	public final Pattern pattern;
 
-
 	/**
 	 * Constructor for more card types which may be validated
 	 *
-	 * @param name    just for identification
+	 * @param name just for identification
 	 * @param pattern to be validated (regex, Pattern will be compiled from the string)
 	 */
 	public ValiFiCardType(String name, String pattern) {
 		this.name = name;
 		this.pattern = Pattern.compile(pattern);
 	}
-
 
 	public static Set<ValiFiCardType> getDefaultTypes() {
 		HashSet<ValiFiCardType> set = new HashSet<>();

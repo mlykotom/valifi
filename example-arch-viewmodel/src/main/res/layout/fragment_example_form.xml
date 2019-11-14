@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<data>
@@ -27,59 +26,59 @@
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				app:errorEnabled="true"
-				app:error="@{viewModel.email.error}">
+				app:error="@{viewModel.email.error}"
+				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:hint="E-mail address"
 					android:inputType="textEmailAddress"
-					android:text="@={viewModel.email.value}"
-					android:hint="E-mail address" />
+					android:text="@={viewModel.email.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				app:error="@{viewModel.password.error}"
 				app:errorEnabled="true"
-				app:passwordToggleEnabled="true"
-				app:error="@{viewModel.password.error}">
+				app:passwordToggleEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:hint="Password"
 					android:inputType="textPassword"
-					android:text="@={viewModel.password.value}"
-					android:hint="Password" />
+					android:text="@={viewModel.password.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				app:error="@{viewModel.password2.error}"
 				app:errorEnabled="true"
-				app:passwordToggleEnabled="true"
-				app:error="@{viewModel.password2.error}">
+				app:passwordToggleEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:hint="Verify password"
 					android:inputType="textPassword"
-					android:text="@={viewModel.password2.value}"
-					android:hint="Verify password" />
+					android:text="@={viewModel.password2.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				app:errorEnabled="true"
-				app:error="@{viewModel.phone.error}">
+				app:error="@{viewModel.phone.error}"
+				app:errorEnabled="true">
 
 				<com.google.android.material.textfield.TextInputEditText
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:hint="Phone (not mandatory)"
 					android:inputType="phone"
-					android:text="@={viewModel.phone.value}"
-					android:hint="Phone (not mandatory)" />
+					android:text="@={viewModel.phone.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<Button

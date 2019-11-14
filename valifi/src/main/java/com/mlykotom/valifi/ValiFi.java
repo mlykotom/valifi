@@ -21,7 +21,6 @@ import androidx.annotation.StringRes;
 
 import static androidx.annotation.RestrictTo.Scope.TESTS;
 
-
 @SuppressWarnings("unused")
 public class ValiFi {
 	static String TAG = ValiFi.class.getSimpleName();
@@ -30,28 +29,25 @@ public class ValiFi {
 	final ValiFiConfig mParameters;
 	private final Context mAppContext;
 
-
 	/**
 	 * @param appContext nullable for tests
-	 * @param config     configuration of valifi (patterns, errors)
+	 * @param config configuration of valifi (patterns, errors)
 	 */
 	private ValiFi(@Nullable Context appContext, @NonNull ValiFiConfig config) {
 		mAppContext = appContext;
 		mParameters = config;
 	}
 
-
 	/**
 	 * Installs validation with specified settings
 	 * This should be called in Application's onCreate
 	 *
 	 * @param appContext for requesting resources, etc.
-	 * @param config     overriden parameters, built by {@link Builder}
+	 * @param config overriden parameters, built by {@link Builder}
 	 */
 	public static void install(@NonNull Context appContext, @NonNull ValiFiConfig config) {
 		ourInstance = new ValiFi(appContext.getApplicationContext(), config);
 	}
-
 
 	/**
 	 * Installs validation with default settings
@@ -63,7 +59,6 @@ public class ValiFi {
 		install(appContext.getApplicationContext(), new Builder().build());
 	}
 
-
 	/**
 	 * Installer for tests without context
 	 */
@@ -71,7 +66,6 @@ public class ValiFi {
 	public static void install() {
 		ourInstance = new ValiFi(null, new Builder().build());
 	}
-
 
 	/**
 	 * Installer for tests without context
@@ -83,18 +77,16 @@ public class ValiFi {
 		ourInstance = new ValiFi(null, config);
 	}
 
-
 	/**
 	 * Helper for destroying all specified fields
 	 *
 	 * @param fields to be destroyed
 	 */
 	public static void destroyFields(ValiFiValidable... fields) {
-		for(ValiFiValidable field : fields) {
+		for (ValiFiValidable field : fields) {
 			field.destroy();
 		}
 	}
-
 
 	/**
 	 * @return installed known card types (MASTERCARD, VISA and AMERICAN_EXPRESS as default)
@@ -104,54 +96,46 @@ public class ValiFi {
 		return getInstance().mParameters.mKnownCardTypes;
 	}
 
-
 	static int getErrorRes(@Builder.ValiFiErrorResource int field) {
 		return getInstance().mParameters.mErrorResources[field];
 	}
-
 
 	@NonNull
 	static ValiFieldBase.PropertyValidator<String> getValidator(@Builder.ValiFiPattern int field) {
 		return getInstance().mParameters.mValidators[field];
 	}
 
-
 	static long getErrorDelay() {
 		return getInstance().mParameters.mErrorDelay;
 	}
-
 
 	static long getAsyncValidationDelay() {
 		return getInstance().mParameters.mAsyncValidationDelay;
 	}
 
-
 	static ValiFi getInstance() {
-		if(ourInstance == null) {
+		if (ourInstance == null) {
 			throw new ValiFiException("ValiFi must be installed in Application.onCreate()!");
 		}
 
 		return ourInstance;
 	}
 
-
 	static Context getContext() {
-		if(getInstance().mAppContext == null) {
+		if (getInstance().mAppContext == null) {
 			throw new ValiFiException("ValiFi was installed without Context!");
 		}
 		return getInstance().mAppContext;
 	}
 
-
 	static String getString(@StringRes int stringRes, Object... formatArgs) {
 		@Nullable Context context = getInstance().mAppContext;
-		if(context == null) {
+		if (context == null) {
 			// tests may be initialized without context, so will use placeholder string
 			return "string-" + stringRes;
 		}
 		return context.getString(stringRes, formatArgs);
 	}
-
 
 	/**
 	 * Configuration for validation library.
@@ -164,7 +148,6 @@ public class ValiFi {
 		final long mAsyncValidationDelay;
 		final Set<ValiFiCardType> mKnownCardTypes;
 
-
 		ValiFiConfig(ValiFieldBase.PropertyValidator<String>[] validators, @StringRes int[] errorResources, long errorDelay, long asyncValidationDelay, @NonNull Set<ValiFiCardType> knownCardTypes) {
 			mValidators = validators;
 			mErrorResources = errorResources;
@@ -173,7 +156,6 @@ public class ValiFi {
 			mKnownCardTypes = knownCardTypes;
 		}
 	}
-
 
 	/**
 	 * Builder for overriding error resources or patterns for default validation
@@ -212,7 +194,6 @@ public class ValiFi {
 		private long mErrorDelay = DEFAULT_ERROR_DELAY_MILLIS;
 		private long mAsyncValidationDelay = DEFAULT_ASYNC_VALIDATION_DELAY_MILLIS;
 
-
 		@IntDef({
 				ERROR_RES_NOT_EMPTY,
 				ERROR_RES_LENGTH_MIN,
@@ -229,7 +210,6 @@ public class ValiFi {
 		@Retention(RetentionPolicy.SOURCE)
 		public @interface ValiFiErrorResource {}
 
-
 		@IntDef({
 				PATTERN_EMAIL,
 				PATTERN_PHONE,
@@ -238,7 +218,6 @@ public class ValiFi {
 		})
 		@Retention(RetentionPolicy.SOURCE)
 		public @interface ValiFiPattern {}
-
 
 		public Builder() {
 			//noinspection unchecked
@@ -249,7 +228,6 @@ public class ValiFi {
 			setupResources();
 			setupPatterns();
 		}
-
 
 		/**
 		 * You may override any resource when specifying string resource for it
@@ -263,13 +241,12 @@ public class ValiFi {
 			return this;
 		}
 
-
 		/**
 		 * You may override any pattern with specific validator
 		 *
-		 * @param field     one of patterns in library {@link ValiFiPattern}
+		 * @param field one of patterns in library {@link ValiFiPattern}
 		 * @param validator Generic validation (global) in your app. If you need to specify custom validation,
-		 *                  check {@link ValiFieldBase#addCustomValidator(ValiFieldBase.PropertyValidator)}
+		 * check {@link ValiFieldBase#addCustomValidator(ValiFieldBase.PropertyValidator)}
 		 * @return builder for chaining
 		 */
 		public Builder setValidator(@ValiFiPattern int field, ValiFieldBase.PropertyValidator<String> validator) {
@@ -277,11 +254,10 @@ public class ValiFi {
 			return this;
 		}
 
-
 		/**
 		 * You may override any pattern when specifying pattern for it
 		 *
-		 * @param field   one of patterns in library {@link ValiFiPattern}
+		 * @param field one of patterns in library {@link ValiFiPattern}
 		 * @param pattern compiled pattern used as default
 		 * @return builder for chaining
 		 */
@@ -293,7 +269,6 @@ public class ValiFi {
 				}
 			});
 		}
-
 
 		/**
 		 * Setups error delay for either never or immediate
@@ -308,7 +283,6 @@ public class ValiFi {
 			return this;
 		}
 
-
 		/**
 		 * Setups error delay (default is {@link #DEFAULT_ERROR_DELAY_MILLIS}).
 		 * When set, it will be used in all fields by default (if some field does not override it)
@@ -318,13 +292,12 @@ public class ValiFi {
 		 * @see #setErrorDelay(ValiFiErrorDelay) for immediate or manual mode
 		 */
 		public Builder setErrorDelay(long millis) {
-			if(millis <= 0) {
+			if (millis <= 0) {
 				throw new ValiFiValidatorException("Error delay must be positive");
 			}
 			mErrorDelay = millis;
 			return this;
 		}
-
 
 		/**
 		 * Asynchronous validation for all fields will start after the delay specified here.
@@ -335,14 +308,13 @@ public class ValiFi {
 		 * @see ValiFieldBase#setAsyncValidationDelay(long) for overriding for specified field
 		 */
 		public Builder setAsyncValidationDelay(long millis) {
-			if(millis < 0) {
+			if (millis < 0) {
 				throw new ValiFiValidatorException("Asynchronous delay must be positive or immediate");
 			}
 
 			mAsyncValidationDelay = millis;
 			return this;
 		}
-
 
 		/**
 		 * Clears known card types and sets new types
@@ -352,17 +324,15 @@ public class ValiFi {
 		 */
 		public Builder setKnownCardTypes(@Nullable ValiFiCardType... types) {
 			mKnownCardTypes = new HashSet<>();
-			if(types != null) {
+			if (types != null) {
 				Collections.addAll(mKnownCardTypes, types);
 			}
 			return this;
 		}
 
-
 		public ValiFiConfig build() {
 			return new ValiFiConfig(mValidators, mErrorResources, mErrorDelay, mAsyncValidationDelay, mKnownCardTypes);
 		}
-
 
 		private void setupPatterns() {
 			// NOTE: same as Patterns.EMAIL_ADDRESS but unit tests return null
@@ -371,7 +341,6 @@ public class ValiFi {
 			setPattern(PATTERN_USERNAME, Pattern.compile(".{4,}"));
 			setPattern(PATTERN_PASSWORD, Pattern.compile(".{8,}"));
 		}
-
 
 		private void setupResources() {
 			mErrorResources[ERROR_RES_NOT_EMPTY] = R.string.validation_error_empty;

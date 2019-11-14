@@ -1,10 +1,6 @@
 package com.mlykotom.example_arch_viewmodel.single;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +8,14 @@ import android.widget.Toast;
 
 import com.mlykotom.example_arch_viewmodel.databinding.FragmentExampleSingleBinding;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 
 public class SingleValidationFragment extends Fragment implements SingleValidationView {
 	private FragmentExampleSingleBinding mBinding;
 	private SingleValidationViewModel mViewModel;
-
 
 	public static SingleValidationFragment newInstance() {
 
@@ -27,13 +26,11 @@ public class SingleValidationFragment extends Fragment implements SingleValidati
 		return fragment;
 	}
 
-
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mViewModel = ViewModelProviders.of(this).get(SingleValidationViewModel.class);
 	}
-
 
 	@Nullable
 	@Override
@@ -44,12 +41,10 @@ public class SingleValidationFragment extends Fragment implements SingleValidati
 		return mBinding.getRoot();
 	}
 
-
 	@Override
 	public void onSubmitClicked() {
 		Toast.makeText(getContext(), "Submit clicked and got " + mViewModel.username.getValue(), Toast.LENGTH_LONG).show();
 	}
-
 
 	@Override
 	public void onExternalErrorClick() {

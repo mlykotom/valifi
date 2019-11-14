@@ -11,10 +11,8 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-
 public class ValiFiFormTest {
 	private ValiFiForm mForm;
-
 
 	@Before
 	public void prepare() {
@@ -22,12 +20,10 @@ public class ValiFiFormTest {
 		mForm = new ValiFiForm();
 	}
 
-
 	@After
 	public void clean() {
 		mForm.destroy();
 	}
-
 
 	@Test
 	public void checkFieldsValid() {
