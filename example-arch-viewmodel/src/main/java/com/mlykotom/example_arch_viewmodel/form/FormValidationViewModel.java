@@ -12,7 +12,9 @@ public class FormValidationViewModel extends ViewModel {
 	public final ValiFieldPassword password = new ValiFieldPassword();
 	public final ValiFieldPassword password2 = new ValiFieldPassword();
 	public final ValiFieldPhone phone = new ValiFieldPhone();
-	public final ValiFiForm form = new ValiFiForm(email, password, password2, phone);
+
+	public final ValiFiForm passwordForm = new ValiFiForm(password, password2);
+	public final ValiFiForm form = new ValiFiForm(email, passwordForm, phone);
 
 	public FormValidationViewModel() {
 		phone.setEmptyAllowed(true);

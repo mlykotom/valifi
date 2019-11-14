@@ -37,6 +37,12 @@
 					android:text="@={viewModel.email.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text='@{"is valid = " + viewModel.email.valid}' />
+
+
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -51,6 +57,12 @@
 					android:inputType="textPassword"
 					android:text="@={viewModel.password.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
+
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text='@{"is valid = " + viewModel.password.valid}' />
 
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
@@ -67,6 +79,16 @@
 					android:text="@={viewModel.password2.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
 
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text='@{"is valid = " + viewModel.password2.valid}' />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text='@{"is password subform valid = " + viewModel.passwordForm.valid}' />
+
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -80,6 +102,11 @@
 					android:inputType="phone"
 					android:text="@={viewModel.phone.value}" />
 			</com.google.android.material.textfield.TextInputLayout>
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text='@{"is valid = " + viewModel.phone.valid}' />
 
 			<Button
 				android:layout_width="wrap_content"
