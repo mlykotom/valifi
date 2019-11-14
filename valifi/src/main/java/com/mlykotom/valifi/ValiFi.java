@@ -143,7 +143,7 @@ public class ValiFi {
 	 */
 	public static class ValiFiConfig {
 		@StringRes final int[] mErrorResources;
-		final ValiFieldBase.PropertyValidator<String> mValidators[];
+		final ValiFieldBase.PropertyValidator<String>[] mValidators;
 		final long mErrorDelay;
 		final long mAsyncValidationDelay;
 		final Set<ValiFiCardType> mKnownCardTypes;
